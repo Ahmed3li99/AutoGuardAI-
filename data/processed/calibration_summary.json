@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-22",
+  "split_file": "datasets\\splits\\toyota_carobd_split.json",
+  "partition_trips": {
+    "train": 77,
+    "calibration": 26,
+    "test": 26
+  },
+  "partition_seconds": {
+    "train": 84842,
+    "calibration": 33749
+  },
+  "signals": [
+    "rpm",
+    "speed_kmh",
+    "coolant_temp_c",
+    "engine_load_pct",
+    "throttle_pct",
+    "manifold_pressure_kpa",
+    "intake_air_temp_c",
+    "battery_voltage"
+  ],
+  "isolation_forest": {
+    "version": "iforest-carobd-v1-2026-10-22",
+    "n_train_rows": 83644,
+    "threshold": {
+      "attention": 0.537503348521051,
+      "warning": 0.6164713058535692,
+      "attention_quantile": 0.995,
+      "warning_quantile": 0.9995,
+      "n_calibration_points": 33365,
+      "calibration_source": "toyota_carobd calibration partition (26 trips)"
+    }
+  },
+  "moment": {
+    "version": "moment-1-small@411e288267+thr-carobd-v1-2026-10-22",
+    "device": "cuda",
+    "threshold": {
+      "attention": 7.732344664650788,
+      "warning": 31.646278484325126,
+      "attention_quantile": 0.995,
+      "warning_quantile": 0.9995,
+      "n_calibration_points": 33739,
+      "calibration_source": "toyota_carobd calibration partition (26 trips)"
+    },
+    "calibration_scoring_seconds": 0.98
+  }
+}

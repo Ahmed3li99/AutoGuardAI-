@@ -1,0 +1,62 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.1.1, pluggy-1.7.0 -- D:\black box\AutoGuardAI\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\black box\AutoGuardAI
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1
+collecting ... collected 51 items
+
+tests/test_ai.py::test_rule_coolant_requires_duration PASSED             [  1%]
+tests/test_ai.py::test_rule_low_voltage_only_with_engine_running PASSED  [  3%]
+tests/test_ai.py::test_rules_configurable PASSED                         [  5%]
+tests/test_ai.py::test_threshold_calibration_and_alert_merging PASSED    [  7%]
+tests/test_ai.py::test_iforest_artifact_loads_and_scores PASSED          [  9%]
+tests/test_ai.py::test_iforest_refuses_tampered_artifact PASSED          [ 11%]
+tests/test_ai.py::test_moment_missing_weights_is_graceful PASSED         [ 13%]
+tests/test_ai.py::test_moment_loads_offline_and_scores_cpu PASSED        [ 15%]
+tests/test_ai.py::test_moment_weights_match_pinned_hash PASSED           [ 17%]
+tests/test_ai.py::test_models_report_missing_signals PASSED              [ 19%]
+tests/test_ai.py::test_ml_only_alerts_never_raise_warning_status PASSED  [ 21%]
+tests/test_ai.py::test_insufficient_data_status PASSED                   [ 23%]
+tests/test_ai.py::test_synthetic_demo_is_labelled_and_deterministic PASSED [ 25%]
+tests/test_db_reports.py::test_migrations_idempotent PASSED              [ 27%]
+tests/test_db_reports.py::test_session_roundtrip_and_cascade_delete PASSED [ 29%]
+tests/test_db_reports.py::test_alert_persistence_and_provenance PASSED   [ 31%]
+tests/test_db_reports.py::test_origin_constraint PASSED                  [ 33%]
+tests/test_db_reports.py::test_delete_all_history PASSED                 [ 35%]
+tests/test_db_reports.py::test_reports_match_persisted_results PASSED    [ 37%]
+tests/test_db_reports.py::test_report_without_analysis_omits_results PASSED [ 39%]
+tests/test_import_mapping.py::test_toyota_trailing_delimiter_alignment PASSED [ 41%]
+tests/test_import_mapping.py::test_dieselobd_inferred_units_and_synthetic_clock PASSED [ 43%]
+tests/test_import_mapping.py::test_csv_semicolon_decimal_comma PASSED    [ 45%]
+tests/test_import_mapping.py::test_json_layouts PASSED                   [ 47%]
+tests/test_import_mapping.py::test_missing_values_stay_missing_not_zero PASSED [ 49%]
+tests/test_import_mapping.py::test_out_of_range_and_non_numeric_counted PASSED [ 50%]
+tests/test_import_mapping.py::test_unsorted_time_is_reported_and_sorted PASSED [ 52%]
+tests/test_import_mapping.py::test_corrupt_files_fail_gracefully[-.csv] PASSED [ 54%]
+tests/test_import_mapping.py::test_corrupt_files_fail_gracefully[not,a\x00binary-.xlsx] PASSED [ 56%]
+tests/test_import_mapping.py::test_corrupt_files_fail_gracefully[{broken-.json] PASSED [ 58%]
+tests/test_import_mapping.py::test_unmappable_file_fails_with_message PASSED [ 60%]
+tests/test_import_mapping.py::test_user_defined_mapping PASSED           [ 62%]
+tests/test_import_mapping.py::test_unit_conversion_rejects_unknown PASSED [ 64%]
+tests/test_import_mapping.py::test_auto_mapping_aliases PASSED           [ 66%]
+tests/test_import_mapping.py::test_reimported_synthetic_export_stays_synthetic PASSED [ 68%]
+tests/test_import_mapping.py::test_read_table_unsupported_extension PASSED [ 70%]
+tests/test_obd_optional.py::test_disabled_by_default PASSED              [ 72%]
+tests/test_obd_optional.py::test_library_missing_is_reported PASSED      [ 74%]
+tests/test_obd_optional.py::test_port_selection_connect_discover_poll_disconnect PASSED [ 76%]
+tests/test_obd_optional.py::test_connect_failure_and_reconnect PASSED    [ 78%]
+tests/test_obd_optional.py::test_only_mode01_whitelist PASSED            [ 80%]
+tests/test_replay_preprocessing.py::test_play_pause_resume_seek_stop PASSED [ 82%]
+tests/test_replay_preprocessing.py::test_finish_and_restart_repeatable PASSED [ 84%]
+tests/test_replay_preprocessing.py::test_uses_recorded_irregular_timing PASSED [ 86%]
+tests/test_replay_preprocessing.py::test_invalid_speed_and_empty_session PASSED [ 88%]
+tests/test_replay_preprocessing.py::test_resample_last_per_second_and_gap_policy PASSED [ 90%]
+tests/test_replay_preprocessing.py::test_acceleration_uses_real_time PASSED [ 92%]
+tests/test_replay_preprocessing.py::test_trip_split_disjoint_deterministic_and_stratified PASSED [ 94%]
+tests/test_ui_smoke.py::test_starts_with_all_pages PASSED                [ 96%]
+tests/test_ui_smoke.py::test_synthetic_session_flows_through_pages PASSED [ 98%]
+tests/test_ui_smoke.py::test_obd_status_is_honest PASSED                 [100%]
+
+============================= 51 passed in 21.52s =============================

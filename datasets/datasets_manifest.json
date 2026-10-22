@@ -1,0 +1,80 @@
+{
+  "generated": "2026-10-22",
+  "generator": "experiments/audit_datasets.py",
+  "datasets": [
+    {
+      "dataset_id": "toyota_carobd",
+      "name": "carOBD (Toyota Etios 2014)",
+      "provider": "GitHub user eron93br (master-thesis dataset)",
+      "citation": "'Detecting Anomalies in the Engine Coolant Sensor Using One-Class Classifiers', IEEE, https://ieeexplore.ieee.org/abstract/document/8891367 (cited by the repo README; author names to be copied from the IEEE record - not verified offline).",
+      "license": "No LICENSE file. README: 'open-source repository, free to everyone' and asks for citation. Redistribution terms are informal - treat bundled sample as 'cite, confirm before public release'.",
+      "ground_truth": "none (no fault or anomaly labels; file name encodes operating mode only)",
+      "decision": "ACCEPT",
+      "uses": [
+        "recorded replay",
+        "unlabelled anomaly detection (train/calibrate/test by trip)",
+        "synthetic-injection stress tests on held-out trips",
+        "bundled demo sample"
+      ],
+      "source_url": "https://github.com/eron93br/carOBD",
+      "obtained": true,
+      "audit_file": "data/processed/audit/toyota_carobd.json",
+      "git_commit": "bf09e1c00f8443212fdbf4b09e8b2a468badd775",
+      "n_files": 129,
+      "total_bytes": 88737058
+    },
+    {
+      "dataset_id": "dieselobd",
+      "name": "DieselOBD",
+      "provider": "Karim Lounis, Hadjer Mekki, Wissam Hadjab",
+      "citation": "K. Lounis, H. Mekki, W. Hadjab. DieselOBD: A Real-World Dataset of OBD-II Parameters and Diagnostic Trouble Codes for Diesel Vehicle Fault Diagnosis. 2025.",
+      "license": "CC BY 4.0 (stated in README; no separate LICENSE file)",
+      "ground_truth": "vehicle-level DTC tags only (constant per vehicle); not per-sample diagnoses",
+      "decision": "RESTRICTED USE",
+      "uses": [
+        "import/mapping test of unit-inferred XLSX",
+        "replay with synthetic playback clock",
+        "optional leave-one-signature-out experiment only - no fault-classifier enabled in app"
+      ],
+      "source_url": "https://github.com/AbouAbdallah-Lounis/OBD-Dataset",
+      "obtained": true,
+      "audit_file": "data/processed/audit/dieselobd.json",
+      "git_commit": "a9c96dc146aeeb62ef75d3b453c238f5379ccff5",
+      "n_files": 10,
+      "total_bytes": 12751084
+    },
+    {
+      "dataset_id": "scania_aps",
+      "name": "APS Failure at Scania Trucks",
+      "provider": "Scania CV AB via UCI ML Repository",
+      "citation": "APS Failure at Scania Trucks. Scania CV AB, donated by T. Lindgren and J. Biteus, 2016. UCI Machine Learning Repository, dataset 421.",
+      "license": "aps_failure_description.txt states GNU GPL v3 (Copyright 2016 Scania CV AB). UCI page license not re-verified.",
+      "ground_truth": "binary per-record APS failure label (anonymized truck features)",
+      "decision": "RESTRICTED USE",
+      "uses": [
+        "standalone truck-APS classification benchmark only - never mixed with car OBD data"
+      ],
+      "source_url": "https://archive.ics.uci.edu/dataset/421/aps+failure+at+scania+trucks",
+      "obtained": true,
+      "audit_file": "data/processed/audit/scania_aps.json",
+      "n_files": 4,
+      "total_bytes": 113235660
+    },
+    {
+      "dataset_id": "kit_obd",
+      "name": "Automotive OBD-II Dataset (KIT)",
+      "provider": "Karlsruhe Institute of Technology (RADAR4KIT)",
+      "citation": "Automotive OBD-II Dataset (2023). KIT. https://doi.org/10.35097/1130",
+      "license": "CC BY 4.0 (landing page)",
+      "ground_truth": "road-condition labels in file names (normal/free/busy) - NOT mechanical faults",
+      "decision": "PENDING (not obtained)",
+      "uses": [
+        "candidate second replay/benchmark source once manually downloaded"
+      ],
+      "source_url": "https://radar.kit.edu/radar/en/dataset/bCtGxdTklQlfQcAq",
+      "obtained": false,
+      "audit_file": "data/processed/audit/kit_obd.json",
+      "doi": "10.35097/1130"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+[project]
+name = "autoguard-ai"
+version = "0.1.0"
+description = "Offline vehicle telemetry, anomaly detection and diagnostics prototype (educational)"
+requires-python = ">=3.11,<3.12"
+
+[tool.pytest.ini_options]
+# Only our tests: never collect scripts that ship inside downloaded datasets (data/raw).
+testpaths = ["tests"]
+norecursedirs = ["data", ".venv", "build", "dist", "models"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["data", "models", "build", "dist"]

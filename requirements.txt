@@ -1,0 +1,19 @@
+# Runtime dependencies - versions verified together on Windows 11 / Python 3.11.9 (2026-10-22).
+# PyTorch: install separately first (see setup.ps1) from the PyTorch index:
+#   CUDA 12.6 build (tested, RTX 4060):  pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cu126
+#   CPU-only alternative (not tested):    pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+# momentfm 0.1.4 pins numpy==1.25.2 / transformers==4.33.3, which conflict with pandas 3.x. It is
+# installed with --no-deps (see setup.ps1). MOMENT outputs were verified identical (max abs diff 6e-7)
+# under transformers 4.33.3 and 5.20.2 - see docs/MODEL_CARD.md.
+numpy==2.4.6
+pandas==3.1.0
+openpyxl==3.1.5
+scikit-learn==1.9.1
+joblib==1.6.0
+PySide6==6.12.0
+pyqtgraph==0.14.0
+reportlab==5.1.0
+matplotlib==3.11.2
+transformers==5.20.2
+huggingface_hub==2.2.0
+safetensors==0.8.0

@@ -1,0 +1,19 @@
+{
+  "mapping_id": "dieselobd_v1",
+  "dataset_id": "dieselobd",
+  "description": "DieselOBD MASTER_TRAIN_X / MASTER_TEST_X. No time column and no vehicle_id column exist in the files, so replay uses a SYNTHETIC playback clock. Units are INFERRED from value ranges (imperial: degF, psi) because the README's metric units contradict the data; see docs/DATASET_AUDIT.md. MAF and VSS units are unresolved and therefore NOT mapped. DTC columns are vehicle-level tags and are not mapped to per-row diagnoses.",
+  "detect_columns": ["LOAD_PCT", "ECT", "MAP", "RPM", "VSS", "FRP", "VPWR", "Mode"],
+  "time": null,
+  "default_playback_interval_s": 1.0,
+  "columns": {
+    "LOAD_PCT": {"to": "engine_load_pct", "unit": "%"},
+    "ECT": {"to": "coolant_temp_c", "unit": "degF", "unit_inferred": true},
+    "MAP": {"to": "manifold_pressure_kpa", "unit": "psi", "unit_inferred": true},
+    "RPM": {"to": "rpm", "unit": "rpm"},
+    "IAT": {"to": "intake_air_temp_c", "unit": "degF", "unit_inferred": true},
+    "FRP": {"to": "fuel_rail_pressure_kpa", "unit": "psi", "unit_inferred": true},
+    "BARO": {"to": "baro_pressure_kpa", "unit": "psi", "unit_inferred": true},
+    "VPWR": {"to": "battery_voltage", "unit": "V"},
+    "AAT": {"to": "ambient_air_temp_c", "unit": "degF", "unit_inferred": true}
+  }
+}

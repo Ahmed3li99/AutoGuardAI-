@@ -1,0 +1,47 @@
+{
+  "version": "moment-1-small@411e288267+thr-carobd-v1-2026-10-22",
+  "hf_revision": "411e288267f82cce86296dbe4d6c8bc533cc162f",
+  "signals": [
+    "rpm",
+    "speed_kmh",
+    "coolant_temp_c",
+    "engine_load_pct",
+    "throttle_pct",
+    "manifold_pressure_kpa",
+    "intake_air_temp_c",
+    "battery_voltage"
+  ],
+  "mean": [
+    1219.4210886721007,
+    23.17714366602574,
+    82.84139997404834,
+    34.921006251011526,
+    19.24995723873167,
+    35.48097861347363,
+    44.924421690868556,
+    13.748193469618863
+  ],
+  "std": [
+    500.2635706395896,
+    22.917252308593387,
+    11.419770455354925,
+    14.562738087469231,
+    3.7388400329805704,
+    14.792700284796844,
+    8.099595018176508,
+    0.2418653363202955
+  ],
+  "scaler_fitted_on": "toyota_carobd train partition",
+  "calibrated_on": "toyota_carobd calibration partition",
+  "calibrated_on_dataset": "toyota_carobd",
+  "seq_len": 512,
+  "stride": 256,
+  "threshold": {
+    "attention": 7.732344664650788,
+    "warning": 31.646278484325126,
+    "attention_quantile": 0.995,
+    "warning_quantile": 0.9995,
+    "n_calibration_points": 33739,
+    "calibration_source": "toyota_carobd calibration partition (26 trips)"
+  }
+}

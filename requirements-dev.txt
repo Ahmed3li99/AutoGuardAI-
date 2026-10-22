@@ -1,0 +1,5 @@
+-r requirements.txt
+pytest==9.1.1
+pymupdf==2.0        # reads generated PDFs in tests
+psutil==7.2.2
+pyinstaller         # packaging; exact version recorded in docs/OFFLINE_TEST.md after build

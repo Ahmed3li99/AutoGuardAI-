@@ -1,0 +1,8 @@
+{
+  "mapping_id": "autoguard_export_v1",
+  "dataset_id": "autoguard_export",
+  "description": "Files exported by AutoGuard AI itself (canonical column names, t_s in seconds). t_s is treated as a recorded relative clock. If a 'data_origin' column says 'synthetic', the imported session stays labeled Synthetic Demo.",
+  "detect_columns": ["t_s"],
+  "time": {"column": "t_s", "basis": "relative_recorded", "unit": "s"},
+  "columns": "canonical"
+}

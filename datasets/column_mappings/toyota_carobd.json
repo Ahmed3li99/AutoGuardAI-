@@ -1,0 +1,23 @@
+{
+  "mapping_id": "toyota_carobd_v1",
+  "dataset_id": "toyota_carobd",
+  "description": "carOBD dataset (Toyota Etios 2014, Carloop logger). Header names have a ' ()' suffix that is stripped before matching. The time column is engine run time since start (PID 0x1F, 1 s resolution) - a recorded RELATIVE clock, no calendar date exists in the source.",
+  "detect_columns": ["ENGINE_RUN_TINE", "ENGINE_RPM", "VEHICLE_SPEED", "COOLANT_TEMPERATURE", "CONTROL_MODULE_VOLTAGE"],
+  "time": {"column": "ENGINE_RUN_TINE", "basis": "relative_recorded", "unit": "s"},
+  "columns": {
+    "ENGINE_RPM": {"to": "rpm", "unit": "rpm"},
+    "VEHICLE_SPEED": {"to": "speed_kmh", "unit": "km/h"},
+    "THROTTLE": {"to": "throttle_pct", "unit": "%"},
+    "ENGINE_LOAD": {"to": "engine_load_pct", "unit": "%"},
+    "COOLANT_TEMPERATURE": {"to": "coolant_temp_c", "unit": "degC"},
+    "LONG_TERM_FUEL_TRIM_BANK_1": {"to": "long_fuel_trim_pct", "unit": "%"},
+    "SHORT_TERM_FUEL_TRIM_BANK_1": {"to": "short_fuel_trim_pct", "unit": "%"},
+    "INTAKE_MANIFOLD_PRESSURE": {"to": "manifold_pressure_kpa", "unit": "kPa"},
+    "FUEL_TANK": {"to": "fuel_level_pct", "unit": "%"},
+    "ABSOLUTE_BAROMETRIC_PRESSURE": {"to": "baro_pressure_kpa", "unit": "kPa"},
+    "INTAKE_AIR_TEMP": {"to": "intake_air_temp_c", "unit": "degC"},
+    "TIMING_ADVANCE": {"to": "timing_advance_deg", "unit": "deg"},
+    "CATALYST_TEMPERATURE_BANK1_SENSOR1": {"to": "catalyst_temp_c", "unit": "degC"},
+    "CONTROL_MODULE_VOLTAGE": {"to": "battery_voltage", "unit": "V"}
+  }
+}

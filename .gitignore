@@ -1,0 +1,13 @@
+.venv/
+.vtf/
+__pycache__/
+*.pyc
+.pytest_cache/
+build/
+dist/
+# Raw third-party datasets: downloaded locally, not redistributed via git
+data/raw/
+# Large third-party weights: provisioned by tools/download_moment.py (hashes in PROVENANCE.json)
+models/moment-1-small/model.safetensors
+models/_eval*/
+*.sqlite3

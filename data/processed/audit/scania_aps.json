@@ -1,0 +1,65 @@
+{
+  "dataset_id": "scania_aps",
+  "obtained": true,
+  "source_url": "https://archive.ics.uci.edu/dataset/421/aps+failure+at+scania+trucks",
+  "inventory": [
+    {
+      "file": "data/raw/scania_aps/aps.zip",
+      "bytes": 56618034,
+      "sha256": "5504d0402f54faaf97ac0ca085a621645763f5cfea2eb29c592b057d43d4db89"
+    },
+    {
+      "file": "data/raw/scania_aps/aps_failure_description.txt",
+      "bytes": 4874,
+      "sha256": "57b1eb3c551a678ffc1c8112e5b34c566dd16457642563f58aeb3ca65beeb820"
+    },
+    {
+      "file": "data/raw/scania_aps/aps_failure_test_set.csv",
+      "bytes": 11943558,
+      "sha256": "2cdf6f7661c7b4c63333c93cdec36a3a82350176b604a2312cf82799fb2712f3"
+    },
+    {
+      "file": "data/raw/scania_aps/aps_failure_training_set.csv",
+      "bytes": 44669194,
+      "sha256": "bb484302e3a3a1c8ef5e1f0129c4dc7cbd58f350867f95b575461ca21ab6b9da"
+    }
+  ],
+  "train": {
+    "preamble_lines": 20,
+    "rows": 60000,
+    "n_features": 170,
+    "class_counts": {
+      "neg": 59000,
+      "pos": 1000
+    },
+    "missing_rate": 0.0833,
+    "feature_name_examples": [
+      "aa_000",
+      "ab_000",
+      "ac_000",
+      "ad_000",
+      "ae_000",
+      "af_000",
+      "ag_000"
+    ]
+  },
+  "test": {
+    "preamble_lines": 20,
+    "rows": 16000,
+    "n_features": 170,
+    "class_counts": {
+      "neg": 15625,
+      "pos": 375
+    },
+    "missing_rate": 0.0841,
+    "feature_name_examples": [
+      "aa_000",
+      "ab_000",
+      "ac_000",
+      "ad_000",
+      "ae_000",
+      "af_000",
+      "ag_000"
+    ]
+  }
+}

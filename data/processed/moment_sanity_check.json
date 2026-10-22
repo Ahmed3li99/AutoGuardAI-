@@ -1,0 +1,34 @@
+{
+  "transformers": "5.20.2",
+  "torch": "2.14.1+cu126",
+  "results": {
+    "moment-1-small": {
+      "synthetic[sine20,sine5,ramp,square]": [
+        1.405,
+        1.428,
+        1.331,
+        1.363
+      ],
+      "carOBD long10 600-1111s ['rpm', 'speed_kmh', 'coolant_temp_c', 'battery_voltage']": [
+        1.42,
+        1.395,
+        1.484,
+        1.418
+      ]
+    },
+    "_eval_moment_base": {
+      "synthetic[sine20,sine5,ramp,square]": [
+        1.075,
+        1.201,
+        1.138,
+        1.124
+      ],
+      "carOBD long10 600-1111s ['rpm', 'speed_kmh', 'coolant_temp_c', 'battery_voltage']": [
+        1.153,
+        1.116,
+        1.198,
+        1.181
+      ]
+    }
+  }
+}

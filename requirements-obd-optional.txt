@@ -1,0 +1,3 @@
+# OPTIONAL future hardware support - NOT required for the current project and NOT tested on a vehicle.
+# Read-only use with an ELM327-type adapter; see docs/FUTURE_OBD_INTEGRATION.md.
+obd==0.7.3

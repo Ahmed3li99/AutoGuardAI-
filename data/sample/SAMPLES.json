@@ -1,0 +1,33 @@
+{
+  "note": "Real recorded data copied from public repositories for offline demo. See ATTRIBUTION.md.",
+  "samples": [
+    {
+      "file": "toyota_carobd_long10.csv",
+      "label": "Toyota Etios \u2013 long trip (recorded, carOBD long10)",
+      "source": "eron93br/carOBD obdiidata/long10.csv (unmodified copy)",
+      "partition": "test",
+      "sha256": "15fe9d116506f6b5f5bd2159d08175c1223e9400490e11309e23291ec6c9855c"
+    },
+    {
+      "file": "toyota_carobd_ufpe7.csv",
+      "label": "Toyota Etios \u2013 campus trip (recorded, carOBD ufpe7)",
+      "source": "eron93br/carOBD obdiidata/ufpe7.csv (unmodified copy)",
+      "partition": "test",
+      "sha256": "a6dd7e0ac5842d12d030c8d27b790319ea4f1c553f60a2940d8b33824bf4af50"
+    },
+    {
+      "file": "toyota_carobd_idle3.csv",
+      "label": "Toyota Etios \u2013 idle, cold start (recorded, carOBD idle3)",
+      "source": "eron93br/carOBD obdiidata/idle3.csv (unmodified copy)",
+      "partition": "test",
+      "sha256": "e8ba234c849bd160b018fadcc11a3c3ed1adc512338348e21436004fdb00b4c7"
+    },
+    {
+      "file": "dieselobd_test_excerpt_3000rows.xlsx",
+      "label": "DieselOBD excerpt \u2013 no time column, inferred units (recorded)",
+      "source": "AbouAbdallah-Lounis/OBD-Dataset MASTER_TEST_X.xlsx, first 3000 rows (modified: truncated)",
+      "partition": "n/a (restricted-use dataset)",
+      "sha256": "2429a1b657ac06806ef3fdbf148e80263487275487f429fbd143b3bd4a5f5030"
+    }
+  ]
+}

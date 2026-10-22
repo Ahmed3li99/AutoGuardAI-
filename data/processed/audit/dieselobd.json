@@ -1,0 +1,474 @@
+{
+  "dataset_id": "dieselobd",
+  "obtained": true,
+  "source_url": "https://github.com/AbouAbdallah-Lounis/OBD-Dataset",
+  "git_commit": "a9c96dc146aeeb62ef75d3b453c238f5379ccff5",
+  "inventory": [
+    {
+      "file": "data/raw/AbouAbdallah-Lounis_OBD-Dataset/drive_freature_test.py",
+      "bytes": 3032,
+      "sha256": "e1ba98792d8e204069b75f299977eb0d5223fde75bffc76687f01d4969ffaeee"
+    },
+    {
+      "file": "data/raw/AbouAbdallah-Lounis_OBD-Dataset/drive_freature_train.py",
+      "bytes": 3032,
+      "sha256": "e2c7f9cc56324851a34c7e2f61e1aea160c6bd04c354f9a2e7594fec1c02aa89"
+    },
+    {
+      "file": "data/raw/AbouAbdallah-Lounis_OBD-Dataset/Extractor_gui.py",
+      "bytes": 5964,
+      "sha256": "c50ea4cca98bfc781980fed089d55f3652f3d065e6cd6be2009372889f85d950"
+    },
+    {
+      "file": "data/raw/AbouAbdallah-Lounis_OBD-Dataset/feature_derivation_test.py",
+      "bytes": 3456,
+      "sha256": "f5ba95e98527ca96f55fc53621eea9293230f9c991752233d44cd205acb16157"
+    },
+    {
+      "file": "data/raw/AbouAbdallah-Lounis_OBD-Dataset/feature_derivation_train.py",
+      "bytes": 3458,
+      "sha256": "0ed047a371c045ca5973c70e8ecf24c4701014201fc2ddc422c425a672c5541d"
+    },
+    {
+      "file": "data/raw/AbouAbdallah-Lounis_OBD-Dataset/FILE.cbf",
+      "bytes": 1194568,
+      "sha256": "a5c18656b541866bb72db7a9a303deb17ced98b653d2f43c2f62050f096e397d"
+    },
+    {
+      "file": "data/raw/AbouAbdallah-Lounis_OBD-Dataset/MASTER_TEST_X.xlsx",
+      "bytes": 2531527,
+      "sha256": "9f4047f5964a450e03fa96de4b4927c09171998713e4222e5285cae3a0c1b1d4"
+    },
+    {
+      "file": "data/raw/AbouAbdallah-Lounis_OBD-Dataset/MASTER_TRAIN_X.xlsx",
+      "bytes": 8995072,
+      "sha256": "4af148292731d3e16429a71fc4edd4de060930e9a0e2476f9389214c8bb9af32"
+    },
+    {
+      "file": "data/raw/AbouAbdallah-Lounis_OBD-Dataset/MODEL.py",
+      "bytes": 4120,
+      "sha256": "82519e7bddf932c3decbb72e64d2faf10b80cec03873c15d14808057ba81dafc"
+    },
+    {
+      "file": "data/raw/AbouAbdallah-Lounis_OBD-Dataset/README.md",
+      "bytes": 6855,
+      "sha256": "dafc0050712e3bb9c90c78cb0958e472318c6c8f4ed09aa38e4b555b65331e9c"
+    }
+  ],
+  "splits": {
+    "train": {
+      "file": "MASTER_TRAIN_X.xlsx",
+      "rows": 118477,
+      "columns": [
+        "LOAD_PCT",
+        "ECT",
+        "MAP",
+        "RPM",
+        "VSS",
+        "IAT",
+        "MAF",
+        "FRP",
+        "BARO",
+        "VPWR",
+        "AAT",
+        "P0000",
+        "P0562",
+        "P0113",
+        "P0102",
+        "P0403",
+        "P0404",
+        "P2562",
+        "P0234",
+        "P2015",
+        "P2009",
+        "P0107",
+        "P0069",
+        "P0089",
+        "P0406",
+        "Mode"
+      ],
+      "pid_columns": [
+        "LOAD_PCT",
+        "ECT",
+        "MAP",
+        "RPM",
+        "VSS",
+        "IAT",
+        "MAF",
+        "FRP",
+        "BARO",
+        "VPWR",
+        "AAT"
+      ],
+      "dtc_columns": [
+        "P0000",
+        "P0562",
+        "P0113",
+        "P0102",
+        "P0403",
+        "P0404",
+        "P2562",
+        "P0234",
+        "P2015",
+        "P2009",
+        "P0107",
+        "P0069",
+        "P0089",
+        "P0406"
+      ],
+      "has_vehicle_id_column": false,
+      "has_time_column": false,
+      "missing_cells": 0,
+      "duplicate_rows": 90657,
+      "mode_counts": {
+        "0": 32384,
+        "1": 48922,
+        "2": 37171
+      },
+      "pid_stats": [
+        {
+          "pid": "LOAD_PCT",
+          "count": 118477.0,
+          "mean": 29.714,
+          "std": 25.144,
+          "min": 0.0,
+          "1%": 0.0,
+          "50%": 23.9,
+          "99%": 99.6,
+          "max": 100.0
+        },
+        {
+          "pid": "ECT",
+          "count": 118477.0,
+          "mean": 174.975,
+          "std": 27.711,
+          "min": 72.0,
+          "1%": 88.0,
+          "50%": 189.0,
+          "99%": 205.0,
+          "max": 241.0
+        },
+        {
+          "pid": "MAP",
+          "count": 118477.0,
+          "mean": 15.344,
+          "std": 5.652,
+          "min": 2.8,
+          "1%": 2.8,
+          "50%": 15.2,
+          "99%": 29.4,
+          "max": 37.0
+        },
+        {
+          "pid": "RPM",
+          "count": 118477.0,
+          "mean": 1407.254,
+          "std": 562.089,
+          "min": 702.0,
+          "1%": 745.0,
+          "50%": 1443.0,
+          "99%": 2804.0,
+          "max": 3174.0
+        },
+        {
+          "pid": "VSS",
+          "count": 118477.0,
+          "mean": 38.133,
+          "std": 36.169,
+          "min": 0.0,
+          "1%": 0.0,
+          "50%": 26.0,
+          "99%": 114.239,
+          "max": 133.547
+        },
+        {
+          "pid": "IAT",
+          "count": 118477.0,
+          "mean": 91.602,
+          "std": 22.325,
+          "min": 46.0,
+          "1%": 52.0,
+          "50%": 88.0,
+          "99%": 140.0,
+          "max": 144.0
+        },
+        {
+          "pid": "MAF",
+          "count": 118477.0,
+          "mean": 0.05,
+          "std": 0.032,
+          "min": 0.01,
+          "1%": 0.01,
+          "50%": 0.04,
+          "99%": 0.15,
+          "max": 0.26
+        },
+        {
+          "pid": "FRP",
+          "count": 118477.0,
+          "mean": 7626.851,
+          "std": 4449.93,
+          "min": 2520.6,
+          "1%": 3250.1,
+          "50%": 6182.6,
+          "99%": 18489.9,
+          "max": 21624.0
+        },
+        {
+          "pid": "BARO",
+          "count": 118477.0,
+          "mean": 14.416,
+          "std": 0.143,
+          "min": 14.1,
+          "1%": 14.2,
+          "50%": 14.4,
+          "99%": 14.6,
+          "max": 14.6
+        },
+        {
+          "pid": "VPWR",
+          "count": 118477.0,
+          "mean": 14.106,
+          "std": 0.503,
+          "min": 12.28,
+          "1%": 12.4,
+          "50%": 14.179,
+          "99%": 14.632,
+          "max": 14.76
+        },
+        {
+          "pid": "AAT",
+          "count": 118477.0,
+          "mean": 77.676,
+          "std": 28.694,
+          "min": 32.0,
+          "1%": 39.0,
+          "50%": 64.0,
+          "99%": 126.0,
+          "max": 127.0
+        }
+      ],
+      "dtc_signature_counts": {
+        "P0000": 29674,
+        "P0403+P0404+P2015+P2009": 28125,
+        "P0113+P0102+P2562": 20098,
+        "P0562": 16159,
+        "P0107+P0069+P0089": 15956,
+        "": 4391,
+        "P0113+P0102+P0234+P0406": 4074
+      }
+    },
+    "test": {
+      "file": "MASTER_TEST_X.xlsx",
+      "rows": 33838,
+      "columns": [
+        "LOAD_PCT",
+        "ECT",
+        "MAP",
+        "RPM",
+        "VSS",
+        "IAT",
+        "MAF",
+        "FRP",
+        "BARO",
+        "VPWR",
+        "AAT",
+        "P0000",
+        "P0562",
+        "P0113",
+        "P0102",
+        "P0403",
+        "P0404",
+        "P2562",
+        "P0234",
+        "P2015",
+        "P2009",
+        "P0107",
+        "P0069",
+        "P0089",
+        "P0406",
+        "Mode"
+      ],
+      "pid_columns": [
+        "LOAD_PCT",
+        "ECT",
+        "MAP",
+        "RPM",
+        "VSS",
+        "IAT",
+        "MAF",
+        "FRP",
+        "BARO",
+        "VPWR",
+        "AAT"
+      ],
+      "dtc_columns": [
+        "P0000",
+        "P0562",
+        "P0113",
+        "P0102",
+        "P0403",
+        "P0404",
+        "P2562",
+        "P0234",
+        "P2015",
+        "P2009",
+        "P0107",
+        "P0069",
+        "P0089",
+        "P0406"
+      ],
+      "has_vehicle_id_column": false,
+      "has_time_column": false,
+      "missing_cells": 0,
+      "duplicate_rows": 26280,
+      "mode_counts": {
+        "0": 12308,
+        "1": 12235,
+        "2": 9295
+      },
+      "pid_stats": [
+        {
+          "pid": "LOAD_PCT",
+          "count": 33838.0,
+          "mean": 30.17,
+          "std": 26.901,
+          "min": 0.0,
+          "1%": 0.0,
+          "50%": 21.2,
+          "99%": 99.6,
+          "max": 100.0
+        },
+        {
+          "pid": "ECT",
+          "count": 33838.0,
+          "mean": 167.609,
+          "std": 31.507,
+          "min": 91.0,
+          "1%": 95.0,
+          "50%": 169.0,
+          "99%": 212.0,
+          "max": 241.0
+        },
+        {
+          "pid": "MAP",
+          "count": 33838.0,
+          "mean": 15.682,
+          "std": 5.692,
+          "min": 2.8,
+          "1%": 2.8,
+          "50%": 14.9,
+          "99%": 29.3,
+          "max": 37.0
+        },
+        {
+          "pid": "RPM",
+          "count": 33838.0,
+          "mean": 1378.831,
+          "std": 593.981,
+          "min": 0.0,
+          "1%": 744.0,
+          "50%": 1368.0,
+          "99%": 2852.0,
+          "max": 3129.0
+        },
+        {
+          "pid": "VSS",
+          "count": 33838.0,
+          "mean": 36.438,
+          "std": 37.428,
+          "min": 0.0,
+          "1%": 0.0,
+          "50%": 27.353,
+          "99%": 114.239,
+          "max": 127.111
+        },
+        {
+          "pid": "IAT",
+          "count": 33838.0,
+          "mean": 90.774,
+          "std": 22.128,
+          "min": 50.0,
+          "1%": 57.0,
+          "50%": 86.0,
+          "99%": 142.0,
+          "max": 144.0
+        },
+        {
+          "pid": "MAF",
+          "count": 33838.0,
+          "mean": 0.051,
+          "std": 0.035,
+          "min": 0.0,
+          "1%": 0.01,
+          "50%": 0.04,
+          "99%": 0.18,
+          "max": 0.26
+        },
+        {
+          "pid": "FRP",
+          "count": 33838.0,
+          "mean": 7416.022,
+          "std": 4748.335,
+          "min": 337.9,
+          "1%": 3241.4,
+          "50%": 4701.9,
+          "99%": 18646.5,
+          "max": 23391.9
+        },
+        {
+          "pid": "BARO",
+          "count": 33838.0,
+          "mean": 14.374,
+          "std": 0.128,
+          "min": 14.1,
+          "1%": 14.2,
+          "50%": 14.4,
+          "99%": 14.6,
+          "max": 14.6
+        },
+        {
+          "pid": "VPWR",
+          "count": 33838.0,
+          "mean": 14.032,
+          "std": 0.695,
+          "min": 12.22,
+          "1%": 12.36,
+          "50%": 14.291,
+          "99%": 14.64,
+          "max": 14.74
+        },
+        {
+          "pid": "AAT",
+          "count": 33838.0,
+          "mean": 72.335,
+          "std": 29.844,
+          "min": 32.0,
+          "1%": 32.0,
+          "50%": 63.0,
+          "99%": 126.0,
+          "max": 127.0
+        }
+      ],
+      "dtc_signature_counts": {
+        "P0000": 11940,
+        "P0403+P0404+P2015+P2009": 6720,
+        "P0113+P0102+P2562": 5026,
+        "P0562": 4044,
+        "P0107+P0069+P0089": 3992,
+        "": 1096,
+        "P0113+P0102+P0234+P0406": 1020
+      }
+    }
+  },
+  "dtc_signatures_shared_by_train_and_test": [
+    "",
+    "P0000",
+    "P0107+P0069+P0089",
+    "P0113+P0102+P0234+P0406",
+    "P0113+P0102+P2562",
+    "P0403+P0404+P2015+P2009",
+    "P0562"
+  ],
+  "n_distinct_dtc_signatures": 7
+}
