@@ -167,7 +167,7 @@ def _signals_chart(session: NormalizedSession, fs, tx: _Text) -> Image | None:
     df = session.data
     fig, axes = plt.subplots(len(sigs), 1, figsize=(10, 1.55 * len(sigs)), sharex=True)
     axes = np.atleast_1d(axes)
-    cols = ["#1C4FD8", "#0F7B55", "#B45309", "#C2283A", "#6D4AE0"]
+    cols = ["#121417", "#1F7A4D", "#A16207", "#B42318", "#6D4AE0"]
     for ax, s, c in zip(axes, sigs, cols):
         ax.plot(df[TIME_COL] / 60.0, df[s], lw=0.8, color=c)
         ax.set_ylabel(tx.mpl(tx.pick(*LABELS[s])) + f"\n[{CANONICAL_FIELDS[s].unit}]", fontsize=7)
@@ -178,7 +178,7 @@ def _signals_chart(session: NormalizedSession, fs, tx: _Text) -> Image | None:
         for f in fs:
             if f.confidence != "low":
                 ax.axvspan(f.t_start_s / 60, (f.t_end_s + 1) / 60, lw=0, alpha=0.18,
-                           color="#C2283A" if f.severity == "warning" else "#B45309")
+                           color="#B42318" if f.severity == "warning" else "#A16207")
     axes[-1].set_xlabel(tx.mpl(tx.pick("الوقت (دقيقة)", "time (min)")), fontsize=8)
     return _fig_to_image(fig)
 
@@ -191,15 +191,15 @@ def _kv_table(rows: list[tuple[str, str]], tx: _Text, widths=(5.2 * cm, PAGE_W -
         vp = tx.para(v, 8.5, False, colors.black, widths[1] - 8)
         data.append([vp, kp] if tx.rtl else [kp, vp])
     t = Table(data, colWidths=list(widths[::-1]) if tx.rtl else list(widths))
-    t.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#D9DEE7")),
+    t.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#E5E1D8")),
                            ("VALIGN", (0, 0), (-1, -1), "TOP"),
-                           ("BACKGROUND", (1 if tx.rtl else 0, 0), (1 if tx.rtl else 0, -1), colors.HexColor("#F4F6FA"))]))
+                           ("BACKGROUND", (1 if tx.rtl else 0, 0), (1 if tx.rtl else 0, -1), colors.HexColor("#F6F4EF"))]))
     return t
 
 
 def _finding_block(f, tx: _Text) -> KeepTogether:
     t = f.text(tx.lang)
-    col = colors.HexColor("#C2283A" if f.severity == "warning" else "#B45309")
+    col = colors.HexColor("#B42318" if f.severity == "warning" else "#A16207")
     head = f"{t['title']}  —  {tx.t('sev_' + f.severity)} · {tx.t('conf_' + f.confidence)} · {mmss(f.t_start_s)}–{mmss(f.t_end_s)}"
     rows = [(tx.t(k), t[k]) for k in ("what", "normal", "meaning", "action", "evidence") if t.get(k)]
     inner = [tx.para(head, 10.5, True, col, PAGE_W - 0.6 * cm, 4), _kv_table(rows, tx, (3.4 * cm, PAGE_W - 4.0 * cm))]
@@ -222,7 +222,7 @@ def build_pdf_report(path: str | Path, session: NormalizedSession, quality: dict
     main = [f for f in fs if f.confidence != "low"]
     # brand header: logo + title (logo on the reading-start side)
     logo = resource_root() / "app" / "assets" / "logo_128.png"
-    title = tx.para(tx.t("title"), 17, True, colors.HexColor("#0B1626"), PAGE_W - 2.2 * cm, space=0)
+    title = tx.para(tx.t("title"), 17, True, colors.HexColor("#121417"), PAGE_W - 2.2 * cm, space=0)
     if logo.exists():
         mark = Image(str(logo), width=1.5 * cm, height=1.5 * cm)
         cells = [[title, mark]] if tx.rtl else [[mark, title]]
@@ -230,29 +230,29 @@ def build_pdf_report(path: str | Path, session: NormalizedSession, quality: dict
         head = Table(cells, colWidths=widths)
         head.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("LEFTPADDING", (0, 0), (-1, -1), 0),
                                   ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-                                  ("LINEBELOW", (0, 0), (-1, 0), 2, colors.HexColor("#22D3EE"))]))
+                                  ("LINEBELOW", (0, 0), (-1, 0), 2, colors.HexColor("#FF6A13"))]))
         story = [head, Spacer(1, 6)]
     else:
         story = [title]
     if m.origin == DataOrigin.SYNTHETIC:
         story.append(tx.para(tx.t("synthetic"), 11, True, colors.HexColor("#6D4AE0")))
     story.append(tx.para(tx.t("generated", d=dt.datetime.now().strftime("%Y-%m-%d %H:%M"), v=APP_VERSION),
-                         8, False, colors.HexColor("#5B6779")))
+                         8, False, colors.HexColor("#5E6168")))
     story.append(Spacer(1, 8))
 
     v = verdict(fs, result, session)
-    vc = {"ok": "#0F7B55", "attention": "#B45309", "warning": "#C2283A", "none": "#5B6779"}[v["level"]]
+    vc = {"ok": "#1F7A4D", "attention": "#A16207", "warning": "#B42318", "none": "#5E6168"}[v["level"]]
     vbox = Table([[[tx.para(tx.pick(v["ar"], v["en"]), 14, True, colors.HexColor(vc), PAGE_W - 1 * cm),
                     tx.para(tx.pick(v["ar_sub"], v["en_sub"]), 9.5, False, colors.black, PAGE_W - 1 * cm),
-                    tx.para(display_name(m.source_name, tx.lang), 8.5, False, colors.HexColor("#5B6779"),
+                    tx.para(display_name(m.source_name, tx.lang), 8.5, False, colors.HexColor("#5E6168"),
                             PAGE_W - 1 * cm)]]], colWidths=[PAGE_W])
     vbox.setStyle(TableStyle([("BOX", (0, 0), (-1, -1), 1, colors.HexColor(vc)),
-                              ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#FAFBFD")),
+                              ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#FAF9F6")),
                               ("LEFTPADDING", (0, 0), (-1, -1), 10), ("RIGHTPADDING", (0, 0), (-1, -1), 10),
                               ("TOPPADDING", (0, 0), (-1, -1), 8), ("BOTTOMPADDING", (0, 0), (-1, -1), 8)]))
     story += [vbox, Spacer(1, 6)]
     story.append(tx.para(tx.pick("النتيجة دي موثوقة لأي درجة؟", "How reliable is this result?"), 11, True, space=3))
-    story.append(_kv_table([(("✓ " if c["ok"] else "! ") + tx.pick(c["ar"], c["en"]),
+    story.append(_kv_table([(("√ " if c["ok"] else "! ") + tx.pick(c["ar"], c["en"]),   # √ exists in the Windows PDF fonts, ✓ does not
                              tx.pick(c["value_ar"], c["value_en"])) for c in coverage(result, session, quality)], tx))
     story.append(Spacer(1, 10))
 
@@ -269,7 +269,7 @@ def build_pdf_report(path: str | Path, session: NormalizedSession, quality: dict
         story.append(_finding_block(f, tx))
     low = len(fs) - len(main)
     if low:
-        story.append(tx.para(tx.t("low", n=low), 8.5, False, colors.HexColor("#5B6779")))
+        story.append(tx.para(tx.t("low", n=low), 8.5, False, colors.HexColor("#5E6168")))
 
     chart = _signals_chart(session, fs, tx)
     if chart:

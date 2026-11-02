@@ -32,6 +32,8 @@ def main() -> int:
     from database.repositories import Repository
 
     app = QApplication([])
+    from app.theme import load_fonts
+    load_fonts()
     app.setStyleSheet(QSS)
     from app.icons import app_icon
     app.setWindowIcon(app_icon())

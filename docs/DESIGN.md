@@ -1,42 +1,44 @@
-# AutoGuard AI — Brand & UI design
+# AutoGuard AI — "Black Box" identity
 
-Figma file (brand, foundations, components, screens):
-https://www.figma.com/design/RiA73c3OYNiGvJP1H7QUH2
+The app is the car's own **black box**: it records a trip and understands it. The identity comes from a
+flight recorder: an orange casing with reflective bands, graphite metal, and a screen with a live trace.
+The concept board (three directions; B was chosen) is at
+https://claude.ai/artifact/PwBt2RpwnR6zAWCwJuk5JT.
 
-The app (`app/theme.py`) and the Figma variables (`AutoGuard / Color`, `AutoGuard / Size`) use the
-same values. Change a colour in both places.
+The earlier Figma file (navy identity, https://www.figma.com/design/RiA73c3OYNiGvJP1H7QUH2) is
+**superseded** by this identity.
 
 ## Logo
-`app/assets/logo.svg` is the master. It shows a guard shield (protection) around an instrument gauge
-(the car). A live signal trace (its telemetry) crosses it and ends in a cyan reading point (the AI
-reading it).
-`python tools/make_brand_assets.py` renders `logo_16…512.png` and the multi-size `app.ico`. The EXE
-icon, the window/taskbar icon, the in-app header and the PDF report header all use these files.
+- `app/assets/logo.svg` is the master: an orange casing with two clipped reflective bands, and a
+  graphite screen with a white trace ending in the orange REC point.
+- `app/assets/logo_small.svg` is for 16–32 px: no bands, bigger screen, bolder trace. The thin
+  details blur at icon size.
+- `python tools/make_brand_assets.py` renders `logo_16…512.png` and the multi-size `app.ico`.
+- The logo is used for the EXE icon, the window/taskbar icon, the header, the home panel and the PDF
+  report header.
 
-## Colour
+## Colour (`app/theme.py`)
 | token | value | use |
 |---|---|---|
-| brand/navy | #0B1626 | header, brand surfaces |
-| brand/accent | #22D3EE | accent only: active tab, "AI" tag, logo point |
-| action/primary | #1C4FD8 | the one main action per area |
-| text/primary · text/muted | #0F1B2D · #5B6779 | text |
-| bg/app · bg/card · border/default | #F3F5F9 · #FFFFFF · #E3E8EF | surfaces |
-| status/ok · attention · warning | #0F7B55 · #B45309 · #C2283A | results; deep, calm tones |
-| status/demo | #6D4AE0 | anything synthetic (demo / injected faults) |
+| INK (graphite) | #121417 | header, brand panel, **primary buttons** |
+| ACCENT (recorder orange) | #FF6A13 | the one brand accent: active tab, REC tag, logo, progress, focus |
+| ACCENT_TEXT | #B8470B | orange **text** and links (passes 4.5:1 on paper; #FF6A13 does not) |
+| BG (paper) · CARD · BORDER | #F6F4EF · #FFFFFF · #E5E1D8 | content surfaces |
+| TEXT · MUTED | #121417 · #5E6168 | text |
+| OK · ATTENTION · WARNING | #1F7A4D · #A16207 · #B42318 | results; deep, calm tones |
+| SYNTHETIC | #6D4AE0 | anything synthetic (demo / injected faults) |
+
+## Type (bundled, `app/assets/fonts/`, SIL Open Font License)
+- **IBM Plex Sans Arabic:** all UI text. It has both Arabic and Latin, so one face serves both
+  languages.
+- **Archivo ExtraBold:** the `AUTOGUARD` wordmark.
+- **IBM Plex Mono:** the `• REC · AI` tag. It has no ● glyph, so the tag uses •.
+- If the font files are missing, the stylesheet falls back to Segoe UI.
 
 ## Rules
-- **One primary button per area.** Other actions are secondary (outlined).
-- **No emoji in the UI.** They render differently on each Windows version. Use the line icons in
-  `app/icons.py`: 24 px grid, 1.8 px round stroke, drawn for this project.
-- Status colour goes on soft backgrounds or a side bar, never as a full red frame.
-- Arabic is the default and the layout is right-to-left. Every screen must also work in English
-  (left-to-right).
-- Type: Segoe UI in the app. Figma uses Inter and Noto Sans Arabic as stand-ins, because Segoe UI is
-  not available there.
-
-## Figma file notes
-- It is built on the Starter plan, so it has 3 pages: *Brand & Foundations*, *Components* (Button,
-  Status pill, Finding card, bound to the variables) and *Screens* (Home and Results, in Arabic).
-- Known leftover: on the *Screens* page, in the Results header, the inactive tab labels "التقرير" and
-  "الرحلة" render dark instead of `text/on-navy-muted`. The MCP call limit of the Starter plan was
-  reached before this was fixed. Fix in Figma: select both labels → Fill → `text/on-navy-muted`.
+- **Orange is precious:** one accent per area. Actions are graphite, not a second bright colour.
+- **Orange text** always uses ACCENT_TEXT. Never use #FF6A13 for small text.
+- **No emoji in the UI.** Use the line icons in `app/icons.py`: 24 px grid, 1.8 px round stroke.
+- **No letter-spacing on Arabic text:** it breaks the joining between letters.
+- Arabic is the default and the layout is right-to-left. Every screen must also work in English.
+- In PDFs, use √ (not ✓) for checks: the Windows fonts have no ✓ glyph.

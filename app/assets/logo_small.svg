@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="32" height="32">
+  <!-- Small-size version of logo.svg (16-32 px): no reflective bands, bigger screen, bolder trace. -->
+  <rect x="4" y="8" width="112" height="104" rx="24" fill="#FF6A13"/>
+  <rect x="16" y="32" width="88" height="56" rx="11" fill="#121417"/>
+  <polyline points="28,62 48,62 59,42 70,62 92,62" fill="none" stroke="#FFFFFF"
+            stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

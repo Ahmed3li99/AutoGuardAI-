@@ -50,8 +50,9 @@ def write_ico(path: Path, pngs: dict[int, bytes]) -> None:
 def main() -> int:
     from PySide6.QtGui import QGuiApplication
     _app = QGuiApplication.instance() or QGuiApplication(sys.argv[:1])
-    svg = ASSETS / "logo.svg"
-    pngs = {s: render(svg, s) for s in SIZES}
+    svg, small = ASSETS / "logo.svg", ASSETS / "logo_small.svg"
+    # tiny sizes use the simplified mark: the reflective bands and thin trace blur below ~40 px
+    pngs = {s: render(small if s <= 32 and small.exists() else svg, s) for s in SIZES}
     for s, data in pngs.items():
         (ASSETS / f"logo_{s}.png").write_bytes(data)
     write_ico(ASSETS / "app.ico", {s: pngs[s] for s in ICO_SIZES})

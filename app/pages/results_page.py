@@ -23,7 +23,7 @@ def titled(icon_name: str, text: str) -> QHBoxLayout:
     """Section heading with a small icon tile."""
     row = QHBoxLayout()
     row.setSpacing(10)
-    row.addWidget(icons.tile(icon_name, theme.PRIMARY, theme.PRIMARY_SOFT, 32, 9))
+    row.addWidget(icons.tile(icon_name, theme.ACCENT_TEXT, theme.ACCENT_SOFT, 32, 8))
     row.addWidget(h2(text), 1)
     return row
 

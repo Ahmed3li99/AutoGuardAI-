@@ -119,13 +119,12 @@ class HomePage(QWidget):
         return c
 
     def _hero(self) -> QWidget:
-        """Navy brand banner with the logo: what the app is, in one line."""
+        """Black-box brand panel: graphite casing, orange band, REC tag, a quiet signal trace."""
         hero = QWidget()
         hero.setObjectName("hero")
         hero.setAttribute(Qt.WA_StyledBackground, True)
         hero.setStyleSheet(
-            "QWidget#hero { border-radius: 16px; background: qlineargradient(x1:0, y1:0, x2:1, y2:1, "
-            f"stop:0 {theme.NAVY}, stop:0.65 #132B57, stop:1 #1C4FD8); }}"
+            f"QWidget#hero {{ border-radius: 12px; background: {theme.INK}; border-top: 4px solid {theme.ACCENT}; }}"
             "QWidget#hero QLabel { background: transparent; }")
         row = QHBoxLayout(hero)
         row.setContentsMargins(30, 24, 30, 24)
@@ -135,16 +134,29 @@ class HomePage(QWidget):
         row.addWidget(mark)
         col = QVBoxLayout()
         col.setSpacing(6)
-        eyebrow = QLabel(pick("فحص بيانات العربية بالذكاء الاصطناعي — على جهازك", "AI vehicle-data check — on your PC"))
-        eyebrow.setStyleSheet(f"color:{theme.ACCENT}; font-size:9.5pt; font-weight:700; letter-spacing:0.5px;")
+        eyebrow = QLabel(pick("الصندوق الأسود لعربيتك — بيسجّل، بيفهم، بيشرح",
+                                             "Your car's black box — records, understands, explains"))
+        eyebrow.setStyleSheet(f"color:{theme.ACCENT}; font-size:10pt; font-weight:600;")   # no letter-spacing: it breaks Arabic joining
         title = QLabel(tr("start_title"))
         title.setStyleSheet("color:white; font-size:22pt; font-weight:700;")
         sub = QLabel(tr("tagline"))
         sub.setWordWrap(True)
         sub.setStyleSheet(f"color:{theme.ON_NAVY}; font-size:11pt;")
-        for w in (eyebrow, title, sub):
+        tag_row = QHBoxLayout()
+        tag_row.setSpacing(10)
+        rec = QLabel("• REC")
+        rec.setStyleSheet(f"color:{theme.INK}; background:{theme.ACCENT}; font-family:'{theme.FONT_MONO}'; "
+                          "font-size:8.5pt; border-radius:4px; padding:2px 7px;")
+        tag_row.addWidget(rec)
+        tag_row.addWidget(eyebrow)
+        tag_row.addStretch()
+        col.addLayout(tag_row)
+        for w in (title, sub):
             col.addWidget(w)
         row.addLayout(col, 1)
+        trace = QLabel()
+        trace.setPixmap(icons.trace_pixmap(300, 84, "#FFFFFF", 0.20))
+        row.addWidget(trace, 0, Qt.AlignVCenter)
         return hero
 
     # ---- sources ---------------------------------------------------------

@@ -10,7 +10,7 @@ do. It runs fully offline, and all data stays on the PC.
 
 **Explaining the project (Arabic, for the defence):** [docs/PROJECT_EXPLAINED_AR.md](docs/PROJECT_EXPLAINED_AR.md)
 
-## The app (4 screens, Arabic/English, navy & light theme)
+## The app (4 screens, Arabic/English, "Black Box" identity)
 
 **Advanced analysis:** Results → Advanced analysis opens sensor-graph analysis, multi-horizon
 probabilistic forecasts, active PID acquisition, synchronized WAV/accelerometer/OBD fusion,

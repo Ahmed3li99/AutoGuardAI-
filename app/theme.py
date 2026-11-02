@@ -1,75 +1,86 @@
-"""AutoGuard AI design tokens and Qt stylesheet.
+"""AutoGuard AI design tokens and Qt stylesheet — "Black Box" identity.
 
-Brand: deep navy (instrument-panel feel) + one confident blue for actions; cyan only as an accent
-(it is the "reading point" of the logo). Status colours are deeper and calmer than traffic-light
-defaults, so a red finding reads as serious, not alarming. Same tokens as the Figma design system.
+The app is the car's own black box: it records a trip and understands it. Graphite surfaces like a
+recorder's casing, recorder orange as the single brand accent (active tab, REC tag, logo), warm
+paper for content. Actions are graphite, not a second bright colour, so orange stays special.
+Status colours are deep and calm; orange text uses a darker shade so it passes contrast (4.5:1).
+Type: IBM Plex Sans Arabic (Arabic + Latin), Archivo for the wordmark, IBM Plex Mono for tags.
 """
 from __future__ import annotations
 
 import pyqtgraph as pg
 
-# neutrals
-NAVY = "#0B1626"          # header / brand surface
-NAVY_2 = "#13233A"        # hover on navy
-NAVY_LINE = "#22344F"     # separators on navy
-ON_NAVY = "#E6EDF7"       # text on navy
-ON_NAVY_MUTED = "#8FA3BF"
-BG = "#F3F5F9"
+# graphite (header, brand surfaces)
+INK = "#121417"
+INK_2 = "#1E2126"         # hover on ink
+INK_LINE = "#30343B"      # separators / outlines on ink
+ON_INK = "#ECEAE6"
+ON_INK_MUTED = "#9A9DA3"
+# paper (content)
+BG = "#F6F4EF"
 CARD = "#FFFFFF"
-SURFACE_2 = "#F7F9FC"     # table headers, subtle fills
-BORDER = "#E3E8EF"
-BORDER_STRONG = "#CBD3DF"
-TEXT = "#0F1B2D"
-MUTED = "#5B6779"
-# brand / action
-PRIMARY = "#1C4FD8"
-PRIMARY_DARK = "#163FAF"
-PRIMARY_SOFT = "#EAF0FD"
-ACCENT = "#22D3EE"
+SURFACE_2 = "#FAF9F6"     # table headers, subtle fills
+BORDER = "#E5E1D8"
+BORDER_STRONG = "#CFCAC0"
+TEXT = "#121417"
+MUTED = "#5E6168"
+# brand + actions
+ACCENT = "#FF6A13"        # recorder orange: fills, bars, logo (not for small text)
+ACCENT_TEXT = "#B8470B"   # orange for text/links on paper (contrast >= 4.5:1)
+ACCENT_SOFT = "#FFF0E6"
+PRIMARY = INK             # primary buttons are graphite
+PRIMARY_DARK = "#2C3037"
+PRIMARY_SOFT = "#EFEDE7"
 # status
-OK = "#0F7B55"
-OK_SOFT = "#E6F4EE"
-ATTENTION = "#B45309"
-ATTENTION_SOFT = "#FDF3E4"
-WARNING = "#C2283A"
-WARNING_SOFT = "#FCEBED"
+OK = "#1F7A4D"
+OK_SOFT = "#E8F3EC"
+ATTENTION = "#A16207"
+ATTENTION_SOFT = "#FBF3E2"
+WARNING = "#B42318"
+WARNING_SOFT = "#FCEBE9"
 SYNTHETIC = "#6D4AE0"
 SYNTHETIC_SOFT = "#F0ECFD"
+# older names still used by some widgets
+NAVY, NAVY_2, NAVY_LINE, ON_NAVY, ON_NAVY_MUTED = INK, INK_2, INK_LINE, ON_INK, ON_INK_MUTED
+
+FONT_UI = "IBM Plex Sans Arabic"
+FONT_BRAND = "Archivo"
+FONT_MONO = "IBM Plex Mono"
 
 ORIGIN_COLORS = {"recorded": PRIMARY, "synthetic": SYNTHETIC, "live_obd": OK}
 SEVERITY_COLORS = {"attention": ATTENTION, "warning": WARNING}
 LEVEL_COLORS = {"ok": (OK, OK_SOFT), "attention": (ATTENTION, ATTENTION_SOFT),
-                "warning": (WARNING, WARNING_SOFT), "none": (MUTED, "#EDF0F5")}
+                "warning": (WARNING, WARNING_SOFT), "none": (MUTED, "#EFEDE7")}
 STATUS_COLORS = {"Normal": OK, "Attention": ATTENTION, "Warning": WARNING}
-PLOT_COLORS = ["#1C4FD8", "#0E9F8E", "#D97706", "#C2283A", "#6D4AE0", "#0891B2", "#65A30D", "#BE185D"]
+PLOT_COLORS = ["#121417", "#FF6A13", "#0E7C86", "#B42318", "#6D4AE0", "#A16207", "#1F7A4D", "#5E6168"]
 
 QSS = f"""
-* {{ font-family: 'Segoe UI', 'Tahoma'; }}
+* {{ font-family: '{FONT_UI}', 'Segoe UI', 'Tahoma'; }}
 QWidget {{ background: {BG}; color: {TEXT}; font-size: 10.5pt; }}
 QDialog {{ background: {BG}; }}
-QFrame#card {{ background: {CARD}; border: 1px solid {BORDER}; border-radius: 12px; }}
+QFrame#card {{ background: {CARD}; border: 1px solid {BORDER}; border-radius: 10px; }}
 QFrame#card QLabel, QFrame#card QCheckBox {{ background: transparent; }}
 
-/* ---- navy header ---- */
+/* ---- graphite header ---- */
 QFrame#header {{ background: {NAVY}; border: none; }}
 QFrame#header QLabel {{ background: transparent; color: {ON_NAVY}; }}
-QLabel#brand {{ font-size: 15pt; font-weight: 700; color: white; letter-spacing: 0.3px; }}
-QFrame#header QLabel#brandAi {{ font-size: 9pt; font-weight: 800; color: {NAVY}; background: {ACCENT};
-                  border-radius: 6px; padding: 1px 6px; }}
+QLabel#brand {{ font-family: '{FONT_BRAND}'; font-size: 15pt; font-weight: 800; color: white; letter-spacing: 1.5px; }}
+QFrame#header QLabel#brandAi {{ font-family: '{FONT_MONO}'; font-size: 8.5pt; font-weight: 500; color: {INK};
+                  background: {ACCENT}; border-radius: 4px; padding: 2px 7px; }}
 QPushButton#nav {{ background: transparent; border: none; border-radius: 0; padding: 18px 16px 15px 16px;
                    font-size: 11pt; font-weight: 600; color: {ON_NAVY_MUTED}; border-bottom: 3px solid transparent; }}
 QPushButton#nav:hover {{ color: white; }}
 QPushButton#nav:checked {{ color: white; border-bottom: 3px solid {ACCENT}; }}
-QPushButton#onNavy {{ background: transparent; border: 1px solid {NAVY_LINE}; border-radius: 8px;
+QPushButton#onNavy {{ background: transparent; border: 1px solid {NAVY_LINE}; border-radius: 6px;
                       padding: 7px 14px; color: {ON_NAVY}; }}
 QPushButton#onNavy:hover {{ background: {NAVY_2}; border-color: {ON_NAVY_MUTED}; color: white; }}
 
 QLabel#h1 {{ font-size: 21pt; font-weight: 700; color: {TEXT}; }}
 QLabel#h2 {{ font-size: 13pt; font-weight: 700; color: {TEXT}; }}
 QLabel#muted {{ color: {MUTED}; }}
-QLabel#eyebrow {{ color: {PRIMARY}; font-size: 9pt; font-weight: 700; letter-spacing: 1px; }}
+QLabel#eyebrow {{ color: {ACCENT_TEXT}; font-size: 9pt; font-weight: 700; letter-spacing: 1px; }}
 
-QPushButton {{ background: {CARD}; border: 1px solid {BORDER_STRONG}; border-radius: 8px; padding: 8px 16px; color: {TEXT};
+QPushButton {{ background: {CARD}; border: 1px solid {BORDER_STRONG}; border-radius: 6px; padding: 8px 16px; color: {TEXT};
                font-weight: 600; }}
 QPushButton:hover {{ border-color: {PRIMARY}; color: {PRIMARY}; background: {PRIMARY_SOFT}; }}
 QPushButton:pressed {{ background: #DCE6FB; }}
@@ -80,13 +91,13 @@ QPushButton#primary:pressed {{ background: #11348F; }}
 QPushButton#primary:disabled {{ background: #A9BCEB; border-color: #A9BCEB; color: white; }}
 QPushButton#danger {{ color: {WARNING}; border-color: #EBC2C8; }}
 QPushButton#danger:hover {{ background: {WARNING_SOFT}; border-color: {WARNING}; color: {WARNING}; }}
-QPushButton#link {{ background: transparent; border: none; color: {PRIMARY}; padding: 4px; text-align: left;
+QPushButton#link {{ background: transparent; border: none; color: {ACCENT_TEXT}; padding: 4px; text-align: left;
                     font-weight: 600; }}
 QPushButton#link:hover {{ text-decoration: underline; background: transparent; }}
 
 QComboBox, QSpinBox, QDoubleSpinBox, QLineEdit {{ background: {CARD}; border: 1px solid {BORDER_STRONG};
-    border-radius: 8px; padding: 7px 10px; }}
-QComboBox:hover, QLineEdit:focus, QSpinBox:focus {{ border-color: {PRIMARY}; }}
+    border-radius: 6px; padding: 7px 10px; }}
+QComboBox:hover, QLineEdit:focus, QSpinBox:focus {{ border-color: {ACCENT}; }}
 QComboBox::drop-down {{ border: none; width: 26px; subcontrol-origin: padding; }}
 QComboBox::down-arrow {{ image: url(__ARROW__); width: 12px; height: 12px; }}
 QComboBox QAbstractItemView {{ background: {CARD}; border: 1px solid {BORDER}; selection-background-color: {PRIMARY_SOFT};
@@ -104,17 +115,17 @@ QScrollBar:horizontal {{ background: transparent; height: 10px; margin: 2px; }}
 QScrollBar::handle:horizontal {{ background: {BORDER_STRONG}; border-radius: 4px; min-width: 30px; }}
 QScrollBar::add-line, QScrollBar::sub-line {{ height: 0; width: 0; }}
 QSlider::groove:horizontal {{ height: 6px; background: {BORDER}; border-radius: 3px; }}
-QSlider::sub-page:horizontal {{ background: {PRIMARY}; border-radius: 3px; }}
-QSlider::handle:horizontal {{ background: white; border: 2px solid {PRIMARY}; width: 14px; margin: -6px 0; border-radius: 9px; }}
+QSlider::sub-page:horizontal {{ background: {ACCENT}; border-radius: 3px; }}
+QSlider::handle:horizontal {{ background: white; border: 2px solid {ACCENT}; width: 14px; margin: -6px 0; border-radius: 9px; }}
 QProgressBar {{ background: {BORDER}; border: none; border-radius: 6px; height: 12px; text-align: center;
     color: {TEXT}; font-weight: 600; }}
-QProgressBar::chunk {{ background: {PRIMARY}; border-radius: 6px; }}
+QProgressBar::chunk {{ background: {ACCENT}; border-radius: 6px; }}
 QCheckBox::indicator {{ width: 16px; height: 16px; }}
-QGroupBox {{ background: {CARD}; border: 1px solid {BORDER}; border-radius: 12px; margin-top: 16px; padding: 12px; font-weight: 600; }}
+QGroupBox {{ background: {CARD}; border: 1px solid {BORDER}; border-radius: 10px; margin-top: 16px; padding: 12px; font-weight: 600; }}
 QGroupBox::title {{ subcontrol-origin: margin; left: 12px; right: 12px; padding: 0 4px; color: {MUTED}; }}
 QTabWidget::pane {{ border: 1px solid {BORDER}; border-radius: 10px; background: {CARD}; }}
 QTabBar::tab {{ background: transparent; padding: 8px 14px; color: {MUTED}; font-weight: 600; }}
-QTabBar::tab:selected {{ color: {PRIMARY}; border-bottom: 2px solid {PRIMARY}; }}
+QTabBar::tab:selected {{ color: {TEXT}; border-bottom: 2px solid {ACCENT}; }}
 QStatusBar {{ background: {CARD}; color: {MUTED}; border-top: 1px solid {BORDER}; }}
 QToolTip {{ background: {NAVY}; color: white; border: none; padding: 6px 8px; }}
 """
@@ -126,6 +137,19 @@ def _arrow_path() -> str:
 
 
 QSS = QSS.replace("__ARROW__", _arrow_path())
+
+
+def load_fonts() -> list[str]:
+    """Register the bundled open-licensed fonts (app/assets/fonts, OFL). Needs a Qt application.
+    Missing files are skipped: the stylesheet then falls back to Segoe UI."""
+    from PySide6.QtGui import QFontDatabase
+
+    from core.paths import resource_root
+    families = []
+    for f in sorted((resource_root() / "app" / "assets" / "fonts").glob("*.ttf")):
+        i = QFontDatabase.addApplicationFont(str(f))
+        families += QFontDatabase.applicationFontFamilies(i) if i >= 0 else []
+    return sorted(set(families))
 
 
 def configure_pyqtgraph() -> None:

@@ -37,5 +37,7 @@ python-OBD 0.7.3 (GPLv2) with pyserial (BSD) and Pint (BSD) for the read-only OB
 python-OBD is GPLv2 and is bundled in the EXE. Before distributing the EXE beyond the graduation
 submission, check the GPL obligations (e.g. offer the source code) or ship python-OBD separately.
 
+Bundled fonts (`app/assets/fonts/`, from https://github.com/google/fonts, licence texts next to the files): IBM Plex Sans Arabic and IBM Plex Mono (© IBM, SIL Open Font License 1.1), Archivo (© The Archivo Project Authors, SIL Open Font License 1.1).
+
 PDF reports use a font from the user's Windows Fonts folder (Arial/Tahoma/Segoe UI) at runtime. No
 font file is redistributed.

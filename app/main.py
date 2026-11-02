@@ -137,6 +137,8 @@ def main(argv: list[str] | None = None) -> int:
 
     app = QApplication(argv if argv is not None else sys.argv)
     app.setApplicationName("AutoGuard AI")
+    from app.theme import load_fonts
+    load_fonts()
     app.setStyleSheet(QSS)
     from app.icons import app_icon
     app.setWindowIcon(app_icon())

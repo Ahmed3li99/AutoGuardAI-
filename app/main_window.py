@@ -51,10 +51,10 @@ class MainWindow(QMainWindow):
         mark = QLabel()
         mark.setPixmap(icons.pixmap_file(icons.logo_path(64), 34))
         hl.addWidget(mark)
-        brand = QLabel("AutoGuard")
+        brand = QLabel("AUTOGUARD")
         brand.setObjectName("brand")
         hl.addWidget(brand)
-        ai = QLabel("AI")
+        ai = QLabel("• REC · AI")
         ai.setObjectName("brandAi")
         hl.addWidget(ai, 0, Qt.AlignVCenter)
         hl.addSpacing(28)
@@ -71,10 +71,10 @@ class MainWindow(QMainWindow):
             hl.addWidget(b)
         hl.addStretch()
         self.mode_pill = Pill("")
-        hl.addWidget(self.mode_pill)
-        offline = Pill(tr("offline"), "#7EE2B8", "#0F2E2A")
+        hl.addWidget(self.mode_pill, 0, Qt.AlignVCenter)
+        offline = Pill(tr("offline"), "#8FD9B1", "#16261E")
         offline.setToolTip(pick("كل التحليل بيحصل على جهازك، من غير نت", "All analysis runs on this PC, no internet"))
-        hl.addWidget(offline)
+        hl.addWidget(offline, 0, Qt.AlignVCenter)
         lang_b = button(tr("lang_toggle"), "onNavy", self.toggle_lang)
         lang_b.setIcon(icons.icon("globe", theme.ON_NAVY, size=16))
         hl.addWidget(lang_b)
@@ -178,6 +178,6 @@ class MainWindow(QMainWindow):
             return
         o = s.meta.origin.value
         # tinted pills that read on the navy header
-        fg, bg = {"recorded": ("#9CC0FF", "#16284A"), "synthetic": ("#C9B8FF", "#251B4D"),
+        fg, bg = {"recorded": ("#FFB58A", "#2A1C14"), "synthetic": ("#C9B8FF", "#231C3A"),
                   "live_obd": ("#7EE2B8", "#0F2E2A")}[o]
         self.mode_pill.set(tr("origin_" + o), fg, bg)

@@ -99,6 +99,24 @@ def tile(name: str, fg: str, bg: str, size: int = 44, radius: int = 12) -> QLabe
     return lab
 
 
+def trace_pixmap(width: int, height: int, color: str = "#FFFFFF", opacity: float = 0.22,
+                 ratio: float = 2.0) -> QPixmap:
+    """A recorder-style signal trace, used as quiet decoration on brand panels."""
+    pts = "0,60 70,60 95,58 120,62 150,60 175,30 195,92 215,40 232,60 300,60 330,57 360,63 390,60 420,60"
+    svg_text = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" preserveAspectRatio="none">'
+                f'<polyline points="{pts}" fill="none" stroke="{color}" stroke-opacity="{opacity}" stroke-width="3" '
+                f'stroke-linecap="round" stroke-linejoin="round"/><circle cx="420" cy="60" r="0"/></svg>')
+    img = QImage(int(width * ratio), int(height * ratio), QImage.Format_ARGB32_Premultiplied)
+    img.fill(Qt.transparent)
+    p = QPainter(img)
+    p.setRenderHint(QPainter.Antialiasing)
+    QSvgRenderer(QByteArray(svg_text.encode())).render(p, QRectF(0, 0, width * ratio, height * ratio))
+    p.end()
+    pm = QPixmap.fromImage(img)
+    pm.setDevicePixelRatio(ratio)
+    return pm
+
+
 def logo_path(size: int = 64) -> str:
     return str(resource_root() / "app" / "assets" / f"logo_{size}.png")
 
