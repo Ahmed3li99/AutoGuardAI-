@@ -1,0 +1,61 @@
+{
+  "version": "expected-vs-actual-drivetrain-multicar-v2-2026-11-02",
+  "variant": "drivetrain",
+  "trained_on": "toyota_carobd train (77 trips) + VED 106 cars (1310 clean trips)",
+  "calibration_source": "toyota_carobd calibration (26 trips) + VED 26 other cars (362 trips)",
+  "calibrated_on_dataset": "multi_car",
+  "split_file": "datasets/splits/multicar_split.json",
+  "targets": [
+    "rpm",
+    "speed_kmh"
+  ],
+  "context_signals": [
+    "rpm",
+    "speed_kmh"
+  ],
+  "threshold_quantile": 0.999,
+  "smooth_s": 5,
+  "threshold_rule": "q0.999 if >= 3000 calibration s else 1.1 x max",
+  "n_calibration_points": 269941,
+  "sklearn_version": "1.9.1",
+  "seed": 2024,
+  "per_target": {
+    "rpm": {
+      "scale": 187.34810402855942,
+      "threshold_z": 6.3158395786513495,
+      "typical": {
+        "all": [
+          604.0,
+          2579.0
+        ],
+        "idle": [
+          552.0,
+          1423.8
+        ],
+        "moving": [
+          695.0,
+          2673.0
+        ]
+      }
+    },
+    "speed_kmh": {
+      "scale": 7.395812194508303,
+      "threshold_z": 6.215486846353799,
+      "typical": {
+        "all": [
+          0.0,
+          105.0
+        ],
+        "idle": [
+          0.0,
+          0.0
+        ],
+        "moving": [
+          3.0,
+          109.0
+        ]
+      }
+    }
+  },
+  "artifact_sha256": "4731d42307d3d489a60ac7628a435cb6b5a63500a2503de4ad5edf12edd40b66"
+}

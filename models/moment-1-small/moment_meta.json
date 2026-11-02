@@ -1,6 +1,8 @@
 {
-  "version": "moment-1-small@411e288267+thr-carobd-v1-2026-10-22",
+  "version": "moment-1-small@411e288267+zero-shot+thr-carobd-v1-2026-10-22",
   "hf_revision": "411e288267f82cce86296dbe4d6c8bc533cc162f",
+  "weights": "zero-shot",
+  "scoring": "unmasked",
   "signals": [
     "rpm",
     "speed_kmh",

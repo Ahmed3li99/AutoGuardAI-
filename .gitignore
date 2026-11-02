@@ -3,6 +3,7 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+.test-tmp/
 build/
 dist/
 # Raw third-party datasets: downloaded locally, not redistributed via git
@@ -11,3 +12,9 @@ data/raw/
 models/moment-1-small/model.safetensors
 models/_eval*/
 *.sqlite3
+models/moment-1-small-carobd/
+
+# Local caches built from raw datasets (rebuild with experiments/build_clean_dataset.py)
+data/processed/*.pkl
+# Local test/build scratch
+.ruff_cache/

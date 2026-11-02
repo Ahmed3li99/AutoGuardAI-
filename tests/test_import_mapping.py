@@ -131,7 +131,7 @@ def test_auto_mapping_aliases():
 def test_reimported_synthetic_export_stays_synthetic(tmp_path):
     from core.data_sources.synthetic_demo import SyntheticDemoDataSource
     from reporting.csv_export import export_session_csv
-    s = SyntheticDemoDataSource("normal_drive", duration_s=200).read_session()
+    s = SyntheticDemoDataSource("generated_normal_drive", duration_s=200).read_session()
     p = export_session_csv(s, tmp_path / "syn.csv")
     s2 = RecordedFileSource(p).read_session()
     assert s2.meta.origin == DataOrigin.SYNTHETIC

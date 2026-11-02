@@ -64,7 +64,7 @@ def test_origin_constraint(repo):
 
 
 def test_delete_all_history(repo):
-    s = SyntheticDemoDataSource(duration_s=100).read_session()
+    s = SyntheticDemoDataSource("generated_normal_drive", duration_s=100).read_session()
     repo.save_session(s)
     repo.save_session(s)
     repo.delete_all_history()
@@ -85,18 +85,25 @@ def test_reports_match_persisted_results(repo, tmp_path):
     assert len(csv) == len(db) == len(r.alerts)
     assert csv["t_start_s"].tolist() == db["t_start_s"].tolist()
     assert (csv["data_origin"] == "synthetic").all()
-    pdf = build_pdf_report(tmp_path / "r.pdf", s2, q2, r2, sid)
+    pdf = build_pdf_report(tmp_path / "r.pdf", s2, q2, r2, sid, lang="en")
     assert pdf.stat().st_size > 10_000
     text = _pdf_text(pdf)
-    assert "SYNTHETIC DEMO DATA" in text
-    assert f"Alert timeline ({len(r.alerts)})" in text
+    assert "DEMO DATA" in text
+    from ai.explain import findings, verdict
+    fs = findings(r2, s2)
+    assert verdict(fs, r2, s2)["en"] in text.replace("\n", " ")
+    for f in fs:
+        if f.confidence != "low":
+            assert f.en["title"] in text            # every shown finding is in the report
+    pdf_ar = build_pdf_report(tmp_path / "r_ar.pdf", s2, q2, r2, sid, lang="ar")
+    assert pdf_ar.stat().st_size > 10_000
 
 
 def test_report_without_analysis_omits_results(tmp_path, toyota_sample):
     src = RecordedFileSource(toyota_sample)
     s = src.read_session()
     text = _pdf_text(build_pdf_report(tmp_path / "r.pdf", s, src.quality.to_dict(), None))
-    assert "No analysis has been run" in text and "SYNTHETIC" not in text
+    assert "not been analysed" in text and "DEMO DATA" not in text
     assert alerts_frame(s, run_analysis(s, ModelRegistry(enable_moment=False))).columns[0] == "session_id"
 
 

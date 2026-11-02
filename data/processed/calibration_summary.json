@@ -33,7 +33,7 @@
     }
   },
   "moment": {
-    "version": "moment-1-small@411e288267+thr-carobd-v1-2026-10-22",
+    "version": "moment-1-small@411e288267+zero-shot+thr-carobd-v1-2026-10-22",
     "device": "cuda",
     "threshold": {
       "attention": 7.732344664650788,
@@ -43,6 +43,193 @@
       "n_calibration_points": 33739,
       "calibration_source": "toyota_carobd calibration partition (26 trips)"
     },
-    "calibration_scoring_seconds": 0.98
+    "calibration_scoring_seconds": 2.39
+  },
+  "expected_vs_actual": {
+    "version": "expected-vs-actual-carobd-v1-2026-10-22",
+    "per_target": {
+      "coolant_temp_c": {
+        "scale": 1.0537274195436939,
+        "threshold_z": 17.61068091115812,
+        "typical": {
+          "all": [
+            78.0,
+            92.0
+          ],
+          "idle": [
+            76.0,
+            94.0
+          ],
+          "moving": [
+            81.0,
+            89.0
+          ]
+        }
+      },
+      "rpm": {
+        "scale": 55.38344805766351,
+        "threshold_z": 10.790815599824656,
+        "typical": {
+          "all": [
+            644.5,
+            2407.8
+          ],
+          "idle": [
+            634.2,
+            916.4
+          ],
+          "moving": [
+            697.5,
+            2549.0
+          ]
+        }
+      },
+      "battery_voltage": {
+        "scale": 0.0694132077618269,
+        "threshold_z": 10.201632645288505,
+        "typical": {
+          "all": [
+            13.3,
+            14.0
+          ],
+          "idle": [
+            13.1,
+            14.1
+          ],
+          "moving": [
+            13.4,
+            14.0
+          ]
+        }
+      },
+      "manifold_pressure_kpa": {
+        "scale": 1.4165381519495839,
+        "threshold_z": 19.79768448543294,
+        "typical": {
+          "all": [
+            20.0,
+            83.0
+          ],
+          "idle": [
+            24.0,
+            45.0
+          ],
+          "moving": [
+            20.0,
+            88.0
+          ]
+        }
+      },
+      "engine_load_pct": {
+        "scale": 1.8255680579991171,
+        "threshold_z": 15.002634242329558,
+        "typical": {
+          "all": [
+            19.2,
+            82.0
+          ],
+          "idle": [
+            24.3,
+            44.7
+          ],
+          "moving": [
+            18.8,
+            86.7
+          ]
+        }
+      },
+      "intake_air_temp_c": {
+        "scale": 2.9075344889239223,
+        "threshold_z": 4.543614894597062,
+        "typical": {
+          "all": [
+            35.0,
+            61.0
+          ],
+          "idle": [
+            36.0,
+            63.0
+          ],
+          "moving": [
+            35.0,
+            56.0
+          ]
+        }
+      },
+      "speed_kmh": {
+        "scale": 3.2331455494884014,
+        "threshold_z": 7.725867546164575,
+        "typical": {
+          "all": [
+            0.0,
+            82.0
+          ],
+          "idle": [
+            0.0,
+            0.0
+          ],
+          "moving": [
+            4.0,
+            88.0
+          ]
+        }
+      }
+    },
+    "threshold_quantile": 0.999
+  },
+  "moment_adapted": {
+    "version": "moment-1-small@411e288267+carobd-adapted+thr-carobd-v1-2026-10-22",
+    "device": "cuda",
+    "threshold": {
+      "attention": 5.322238550183401,
+      "warning": 16.35630543503897,
+      "attention_quantile": 0.995,
+      "warning_quantile": 0.9995,
+      "n_calibration_points": 33739,
+      "calibration_source": "toyota_carobd calibration partition (26 trips)"
+    },
+    "calibration_scoring_seconds": 5.35
+  },
+  "expected_vs_actual_drivetrain": {
+    "version": "expected-vs-actual-drivetrain-carobd-v1-2026-10-23",
+    "per_target": {
+      "rpm": {
+        "scale": 132.6257640291637,
+        "threshold_z": 6.276542566861147,
+        "typical": {
+          "all": [
+            644.5,
+            2407.8
+          ],
+          "idle": [
+            634.2,
+            916.4
+          ],
+          "moving": [
+            697.5,
+            2549.0
+          ]
+        }
+      },
+      "speed_kmh": {
+        "scale": 3.662151297023438,
+        "threshold_z": 7.2041877990385865,
+        "typical": {
+          "all": [
+            0.0,
+            82.0
+          ],
+          "idle": [
+            0.0,
+            0.0
+          ],
+          "moving": [
+            4.0,
+            88.0
+          ]
+        }
+      }
+    },
+    "threshold_quantile": 0.999
   }
 }

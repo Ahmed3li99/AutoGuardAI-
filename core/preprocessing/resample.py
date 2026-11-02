@@ -30,12 +30,21 @@ def resample_1hz(df: pd.DataFrame, signals: list[str] | None = None,
         signals = [c for c in df.columns if c in CANONICAL_FIELDS and CANONICAL_FIELDS[c].numeric]
     if df.empty:
         return pd.DataFrame(columns=[TIME_COL, *signals]), ResampleInfo(0, 0, 0)
-    sec = np.floor(df[TIME_COL].to_numpy(dtype=float)).astype(np.int64)
+    times = df[TIME_COL].to_numpy(dtype=float)
+    if not np.isfinite(times).all() or np.abs(times).max() > 1e12:
+        raise ValueError("Invalid timestamps; expected finite seconds.")
+    span = float(np.floor(times.max())-np.floor(times.min())+1)
+    if span > 7*86400 or span*max(1,len(signals)) > 5_000_000:
+        raise ValueError("Trip time span is too large; split long recordings before analysis.")
+    if not isinstance(ffill_limit_s, int) or ffill_limit_s < 0:
+        raise ValueError("Fill duration must be a nonnegative integer.")
+    sec = np.floor(times).astype(np.int64)
     g = df[signals].assign(_s=sec).groupby("_s", sort=True).last()
     full = pd.RangeIndex(int(sec.min()), int(sec.max()) + 1)
     g = g.reindex(full)
     before = int(g.isna().sum().sum())
-    g = g.ffill(limit=ffill_limit_s)
+    if ffill_limit_s:
+        g = g.ffill(limit=ffill_limit_s)
     after = int(g.isna().sum().sum())
     out = g.reset_index(names=TIME_COL)
     out[TIME_COL] = out[TIME_COL].astype(float)

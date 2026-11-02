@@ -6,6 +6,7 @@ import time
 
 import numpy as np
 
+from ai.consistency import ConsistencyConfig, run_consistency
 from ai.events import AnalysisResult, DetectorScores
 from ai.model_registry import ModelRegistry
 from ai.rules_baseline import RuleConfig, run_rules
@@ -33,9 +34,22 @@ def run_analysis(session: NormalizedSession, registry: ModelRegistry,
     t0 = time.perf_counter()
     alerts += run_rules(df1, rule_cfg, origin)
     timing["rules"] = time.perf_counter() - t0
+    t0 = time.perf_counter()
+    hybrid = getattr(registry, "powertrain", "") in ("hybrid", "ev")
+    active_sampling = any(n.startswith("ACTIVE_SAMPLING:") for n in session.meta.notes)
+    alerts += run_consistency(df1, ConsistencyConfig(engine_can_stop_while_moving=hybrid,
+                              check_dropouts=not active_sampling), origin=origin)
+    timing["consistency"] = time.perf_counter() - t0
+    status["consistency"] = {"status": "ok", "version": "consistency-v1", "kind": "data_consistency"}
+    if active_sampling:
+        notes.append("Selective OBD acquisition: dropout checks disabled because unrequested PIDs are not failures.")
+    if hybrid:
+        status["consistency"]["note"] = "Hybrid/electric car profile: 'moving with 0 RPM' is not checked."
     t_list = df1[TIME_COL].tolist()
 
-    for name, getter in (("isolation_forest", registry.iforest), ("moment", registry.moment)):
+    avail = [c for c in df1.columns if c != TIME_COL and df1[c].notna().any()]
+    for name, getter in (("expected_vs_actual", lambda: registry.expected_vs_actual(avail)),
+                         ("isolation_forest", registry.iforest), ("moment", registry.moment)):
         model = getter()
         st = dict(registry.status.get(name, {"status": "unavailable", "reason": "not loaded"}))
         if model is None:
@@ -48,14 +62,21 @@ def run_analysis(session: NormalizedSession, registry: ModelRegistry,
         if model.threshold is None:
             status[name] = {**st, "status": "unavailable", "reason": "No calibrated threshold."}
             continue
-        n_ok = int(df1[model.signals].notna().all(axis=1).sum())
+        present = [s for s in model.signals if s in df1]
+        if name == "expected_vs_actual":   # works per signal: needs any one target
+            n_ok = max((int(df1[s].notna().sum()) for s in present), default=0)
+        else:
+            n_ok = int(df1[model.signals].notna().all(axis=1).sum())
         if n_ok < MIN_SECONDS_FOR_MODELS:
             status[name] = {**st, "status": "insufficient_data",
                             "reason": f"Only {n_ok} s with all required signals (< {MIN_SECONDS_FOR_MODELS})."}
             continue
         note = ""
         trained = model.meta.get("calibrated_on_dataset")
-        if trained and session.meta.dataset_id != trained:
+        if model.meta.get("scope") == "vehicle":
+            # personal model: the registry only loads it for trips of that same car
+            st["calibration"] = "calibrated_personal"
+        elif trained and session.meta.dataset_id != trained:
             note = (f"Threshold was calibrated on '{trained}' data; this session is "
                     f"'{session.meta.dataset_id or 'unknown'}', so the score scale is UNCALIBRATED here.")
             st["calibration"] = "uncalibrated_for_this_data"
@@ -63,8 +84,11 @@ def run_analysis(session: NormalizedSession, registry: ModelRegistry,
             st["calibration"] = "calibrated"
         try:
             t1 = time.perf_counter()
-            out = model.score(df1)
+            pred = model.predict(df1) if name == "expected_vs_actual" else None   # shared by score + alerts
+            out = model.score(df1, pred) if pred is not None else model.score(df1)
             sc, contrib = out[0], out[1]
+            if pred is not None:
+                new_alerts = model.alerts(df1, origin, note=note, pred=pred)
             timing[name] = time.perf_counter() - t1
             if len(out) > 2:
                 st["device"] = out[2].get("device")
@@ -74,8 +98,11 @@ def run_analysis(session: NormalizedSession, registry: ModelRegistry,
             continue
         scores[name] = DetectorScores(t_list, [None if not np.isfinite(v) else float(v) for v in sc],
                                       model.threshold.to_dict())
-        alerts += scores_to_alerts(df1, sc, model.threshold, f"model:{name}", model.version,
-                                   contrib, origin, note=note)
+        if pred is not None:
+            alerts += new_alerts
+        else:
+            alerts += scores_to_alerts(df1, sc, model.threshold, f"model:{name}", model.version,
+                                       contrib, origin, note=note)
         status[name] = {**st, "status": "ok", "note": note} if note else {**st, "status": "ok"}
 
     alerts.sort(key=lambda a: (a.t_start_s, a.detector))
@@ -90,14 +117,17 @@ def overall_status(result: AnalysisResult | None, session: NormalizedSession) ->
 
     'Warning' is reserved for interpretable rule criteria; statistical anomalies
     alone (however high their score) raise at most 'Attention'."""
-    if session.duration_s < MIN_SECONDS_FOR_MODELS or not session.signals:
+    if not session.signals:
         return "Insufficient Data"
     if result is None:
         return "Not Analysed"
+    # Detected warnings take priority over "too little data" (a 30 s overheat is still an overheat).
     if any(a.severity == "warning" and a.detector_kind == "heuristic_rule" for a in result.alerts):
         return "Warning"
     if result.alerts:
         return "Attention"
-    if not any(s.get("status") == "ok" for k, s in result.detector_status.items() if k != "rules"):
-        return "Normal (rules only - models unavailable)"
+    if session.duration_s < MIN_SECONDS_FOR_MODELS:
+        return "Insufficient Data"
+    if any(s.get("status") != "ok" for s in result.detector_status.values()):
+        return "Normal (partial check)"
     return "Normal"

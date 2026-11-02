@@ -1,0 +1,115 @@
+{
+  "frozen": true,
+  "resource_root": "D:\\black box\\AutoGuardAI\\dist\\AutoGuardAI\\_internal",
+  "drivetrain_variant": "drivetrain",
+  "hybrid_rpm0_alerts": 0,
+  "brand_assets": {
+    "logo": true,
+    "app_icon_sizes": 7,
+    "line_icon": true
+  },
+  "spike_check": [
+    "consistency:rpm_spike"
+  ],
+  "lab_detection": {
+    "rules": 293.0,
+    "consistency": null,
+    "expected_vs_actual": 190.0,
+    "isolation_forest": 304.0,
+    "moment": null
+  },
+  "what_if_gone": [
+    "Low battery / charging voltage"
+  ],
+  "adaptation_car_map": {
+    "coolant_temp_c": [
+      6.0754,
+      1.0
+    ]
+  },
+  "consistency_status": "ok",
+  "ok": true,
+  "rows": 5035,
+  "quality": "OK",
+  "n_alerts": 14,
+  "status": "Attention",
+  "verdict": "Car looks OK \u2014 6 observations",
+  "findings": [
+    "Unusual throttle position",
+    "Unusual throttle position",
+    "Unusual throttle position",
+    "Unusual throttle position",
+    "Unusual throttle position",
+    "Contradiction: speed reading vs engine"
+  ],
+  "demo_findings": [
+    "warning: Low battery / charging voltage",
+    "warning: High engine temperature",
+    "attention: Frozen engine speed (rpm) reading",
+    "attention: Unusual throttle position",
+    "attention: Unusual throttle position",
+    "attention: Unusual throttle position",
+    "attention: Unusual throttle position",
+    "attention: Unusual throttle position",
+    "attention: Contradiction: speed reading vs engine"
+  ],
+  "simulated_adapter_signals": [
+    "baro_pressure_kpa",
+    "battery_voltage",
+    "coolant_temp_c",
+    "engine_load_pct",
+    "fuel_level_pct",
+    "intake_air_temp_c",
+    "manifold_pressure_kpa",
+    "rpm",
+    "speed_kmh",
+    "throttle_pct"
+  ],
+  "detectors": {
+    "rules": {
+      "status": "ok",
+      "version": "rules-v1",
+      "kind": "heuristic_rule"
+    },
+    "consistency": {
+      "status": "ok",
+      "version": "consistency-v1",
+      "kind": "data_consistency"
+    },
+    "expected_vs_actual": {
+      "kind": "ml_anomaly",
+      "variant": "full",
+      "scope": "base",
+      "status": "ok",
+      "version": "expected-vs-actual-carobd-v1-2026-10-22",
+      "trained_on": "toyota_carobd train partition (77 trips)",
+      "warning": null,
+      "calibration": "calibrated"
+    },
+    "isolation_forest": {
+      "status": "ok",
+      "version": "iforest-carobd-v1-2026-10-22",
+      "kind": "ml_anomaly",
+      "trained_on": "toyota_carobd train partition (77 trips)",
+      "warning": null,
+      "calibration": "calibrated"
+    },
+    "moment": {
+      "status": "ok",
+      "version": "moment-1-small@411e288267+zero-shot+thr-carobd-v1-2026-10-22",
+      "kind": "ml_anomaly",
+      "device": "cuda",
+      "trained_on": "pretrained (AutonLab); threshold calibrated on toyota_carobd calibration partition",
+      "calibration": "calibrated"
+    }
+  },
+  "timing_s": {
+    "rules": 0.0157177999999476,
+    "consistency": 0.007804399999713496,
+    "expected_vs_actual": 0.11718169999994643,
+    "isolation_forest": 0.0316872999997031,
+    "moment": 0.6296910999999454
+  },
+  "total_s": 34.17,
+  "persisted_alerts": 14
+}

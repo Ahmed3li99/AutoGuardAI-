@@ -128,12 +128,56 @@ into `data/raw/kit_obd/` → run `python experiments/audit_datasets.py`. The aud
 columns. The app's alias auto-mapping and manual mapping editor can import the files. No KIT-specific
 mapping was written, because its real column names have not been seen.
 
+## 5a. Vehicle Energy Dataset — VED (obtained 2026-10-23, cross-car validation)
+
+Source https://github.com/gsoh/VED (Apache 2.0, LICENSE file). Cite G. Oh, D. J. LeBlanc, H. Peng,
+IEEE T-ITS 2020, doi:10.1109/TITS.2020.3035596. Two 7z archives → **54 weekly CSVs, 3.2 GB**, plus two
+static tables. Numbers from `data/processed/audit/ved.json`:
+
+| | ICE (petrol) | HEV | PHEV | EV | total |
+|---|---|---|---|---|---|
+| cars | 264 | 93 | 24 | 3 | **384** |
+| trips | 18,936 | 9,507 | 3,605 | 504 | 32,552 |
+| hours (1 Hz) | 2,746 | 1,413 | 615 | 80 | **4,855** |
+
+- **Signals:** speed, RPM, MAF, outside air temperature, fuel trims, GPS (and fuel rate, HV battery for
+  some cars). **No coolant temperature, battery voltage, throttle or MAP.** So only the RPM/speed part
+  of AutoGuard can be tested here; the app picks its *drivetrain* model (RPM + speed) for such logs.
+- *Absolute Load* (PID 0x43) is **not** mapped to `engine_load_pct` (calculated load, PID 0x04).
+- **Time:** `Timestamp(ms)` from the trip start (no clock time); trips ordered by `DayNum`.
+  Signals are asynchronous (different rows), so each trip is put on a 1 Hz grid (last value per second,
+  ≤ 3 s forward fill), the same as the app's own import.
+- **Labels:** none. Vehicle type, class, engine and gearbox come from the static tables.
+- **Use:** local cross-car validation only, never for training the shipped base models. ICE cars are
+  split once (seeded) into **DEV** cars (used to choose one setting) and **TEST** cars
+  (`datasets/splits/ved_cars_split.json`). Not bundled.
+- Preprocessing: `experiments/prepare_ved.py` → `data/raw/ved/by_vehicle/veh_<id>.pkl` (610 MB).
+
+## 5b. APMonitor Automotive Monitoring — Ford Focus 2014, Chrysler Pacifica 2021 (obtained 2026-10-23)
+
+Source https://apmonitor.com/pds/index.php/Main/AutomotiveMonitoring. **No license is stated**, so the
+files are used locally for evaluation only and **not bundled**. The two column mappings are the project's
+own work (`apmonitor_ford.json`, `apmonitor_chrysler.json`).
+
+| File | Car | Length | Signals mapped | Notes |
+|---|---|---|---|---|
+| `auto_trip/auto_trip.csv` | Ford | 12.7 h span, 7.7 h with data | 13 (no MAP, no voltage) | Utah (GPS) highway at altitude (median baro ≈ 84 kPa). **Contains real glitch values**: RPM 11,596, coolant 190 °C, intake air 158 °C, MAF 504 g/s, baro 210 kPa, catalyst 4,157 °C |
+| `automotive.txt` | Ford | 2.6 h | 4 (RPM, speed, throttle, MAF) | logged with OBDLink MX+ |
+| `auto_warmup.txt` | Ford | 34 min | 15, but RPM only 2.5 % of seconds | engine warm-up; ambient reads a constant **−40 °C** (the PID's "raw 0" — no real value) |
+| `auto_iowa.txt` | Chrysler | 67 min | 11 (6 of the 8 model inputs + voltage + MAP) | Iowa highway, ~1 Hz, `Time (sec)` |
+
+Import details found while auditing (fixed in `core/mapping.py`, with tests in `tests/test_other_cars.py`):
+- Car Scanner logs (Ford) give **one PID per row** and a **clock time without a date**. Time is parsed
+  as seconds from the first row, unwrapped at midnight; no date is invented.
+- `℉` (U+2109) was not recognised as Fahrenheit, which risked reading 194 °F as 194 °C. Fixed.
+- New conversions: inHg → kPa, lb/min → g/s. Header names with a leading space are stripped.
+
 ## 6. Normalized schema
 
 See `core/schema.py`. Canonical fields carry fixed units (rpm, km/h, °C, %, kPa, V, g/s). The time
 column is `t_s`, and its meaning is set by `time_basis` ∈ {`absolute`, `relative_recorded`,
 `synthetic_clock`}. Data origin ∈ {`recorded`, `synthetic`, `live_obd`}. Mappings live in
-`datasets/column_mappings/*.json` (carOBD, DieselOBD, AutoGuard exports).
+`datasets/column_mappings/*.json` (carOBD, DieselOBD, AutoGuard exports, APMonitor Ford/Chrysler).
 
 ## 7. Which files were used for what
 
@@ -144,6 +188,10 @@ column is `t_s`, and its meaning is set by `time_basis` ∈ {`absolute`, `relati
 | Held-out evaluation | carOBD `test` partition | 26 trips, 31,527 s |
 | Bundled demo samples | carOBD long10, ufpe7, idle3 (all `test`); DieselOBD first 3,000 test rows | 4 files |
 | Supervised experiments | none (see §3, §4) | – |
+| Drivetrain model (RPM + speed) | carOBD `train` / `calibration` partitions (same split) | 77 / 26 trips |
+| Cross-car setting choice (`NOISE_UP_TO`) | VED **dev** ICE cars | see EVALUATION §G |
+| Cross-car measurement | VED **test** ICE cars; Ford; Chrysler | see EVALUATION §G |
+| Consistency check on real hybrids / EVs | all VED cars (its thresholds were never tuned on VED) | 384 cars |
 
 ## Reproduce
 ```
@@ -151,5 +199,10 @@ git clone --depth 1 https://github.com/eron93br/carOBD data/raw/eron93br_carOBD
 git clone --depth 1 https://github.com/willkn/odb2 data/raw/willkn_odb2
 git clone --depth 1 https://github.com/AbouAbdallah-Lounis/OBD-Dataset data/raw/AbouAbdallah-Lounis_OBD-Dataset
 # Scania: download https://archive.ics.uci.edu/static/public/421/aps+failure+at+scania+trucks.zip, unzip to data/raw/scania_aps/
+# VED: download Data/VED_DynamicData_Part1.7z, Part2.7z and both static xlsx from https://github.com/gsoh/VED
+#      into data/raw/ved/, extract the 7z files into data/raw/ved/extracted/, then:
+python experiments/prepare_ved.py
+# APMonitor: download auto_warmup.txt, automotive.txt, auto_iowa.txt, auto_trip.zip from
+#      https://apmonitor.com/pds/uploads/Main/ into data/raw/apmonitor/ (unzip auto_trip.zip into auto_trip/)
 python experiments/audit_datasets.py
 ```

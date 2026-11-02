@@ -1,0 +1,70 @@
+{
+  "partition": "calibration",
+  "draws": [
+    [
+      "long11.csv",
+      "live31.csv",
+      "drive10.csv"
+    ],
+    [
+      "live3.csv",
+      "live17.csv",
+      "idle32.csv"
+    ],
+    [
+      "live24.csv",
+      "idle29.csv",
+      "idle41.csv"
+    ]
+  ],
+  "results": [
+    {
+      "variant": "base model (no adaptation)",
+      "part": "same_car",
+      "false_alerts_per_hour": 0.38,
+      "overheat_detection_model_only": 1.0
+    },
+    {
+      "variant": "base model (no adaptation)",
+      "part": "simulated_other_car",
+      "false_alerts_per_hour": 6.46,
+      "overheat_detection_model_only": 1.0
+    },
+    {
+      "variant": "ungated, scale clip 0.8-1.2",
+      "part": "same_car",
+      "false_alerts_per_hour": 2.06,
+      "overheat_detection_model_only": 0.96
+    },
+    {
+      "variant": "ungated, scale clip 0.8-1.2",
+      "part": "simulated_other_car",
+      "false_alerts_per_hour": 4.79,
+      "overheat_detection_model_only": 0.68
+    },
+    {
+      "variant": "gated k=2 (chosen)",
+      "part": "same_car",
+      "false_alerts_per_hour": 0.38,
+      "overheat_detection_model_only": 1.0
+    },
+    {
+      "variant": "gated k=2 (chosen)",
+      "part": "simulated_other_car",
+      "false_alerts_per_hour": 1.37,
+      "overheat_detection_model_only": 0.7
+    },
+    {
+      "variant": "gated k=3",
+      "part": "same_car",
+      "false_alerts_per_hour": 0.38,
+      "overheat_detection_model_only": 1.0
+    },
+    {
+      "variant": "gated k=3",
+      "part": "simulated_other_car",
+      "false_alerts_per_hour": 3.94,
+      "overheat_detection_model_only": 0.81
+    }
+  ]
+}

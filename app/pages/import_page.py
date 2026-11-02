@@ -279,7 +279,13 @@ class ImportPage(QWidget):
         sid = self.state.repo.save_session(session, q.to_dict(), self.state.repo.get_setting("active_vehicle_id"))
         self.state.set_session(session, q.to_dict(), sid)
         self.state.history_changed.emit()
-        self.window().navigate("Replay")  # type: ignore[attr-defined]
+        self.state.run_analysis_async()
+        dlg = self.window()
+        if hasattr(dlg, "accept"):
+            dlg.accept()                     # opened inside the "advanced import" dialog
+        main = dlg.parent() if dlg.parent() is not None else dlg
+        if hasattr(main, "navigate"):
+            main.navigate("results")
 
 
 def _ro_item(text: str):

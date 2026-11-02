@@ -1,0 +1,197 @@
+{
+  "graph_path": "D:\\black box\\AutoGuardAI\\models\\advanced\\graph.npz",
+  "forecast_path": "D:\\black box\\AutoGuardAI\\models\\advanced\\forecast.npz",
+  "signals": [
+    "rpm",
+    "speed_kmh",
+    "coolant_temp_c",
+    "engine_load_pct",
+    "throttle_pct",
+    "manifold_pressure_kpa",
+    "intake_air_temp_c",
+    "battery_voltage"
+  ],
+  "graph_test": {
+    "rpm": {
+      "mae": 61.94695494898605,
+      "persistence_mae": 41.639734374999996,
+      "exceedance_rate": 0.0108125
+    },
+    "speed_kmh": {
+      "mae": 1.6799938688741822,
+      "persistence_mae": 0.8590625,
+      "exceedance_rate": 0.0094375
+    },
+    "coolant_temp_c": {
+      "mae": 0.57496129297587,
+      "persistence_mae": 0.09287500000000001,
+      "exceedance_rate": 0.0123125
+    },
+    "engine_load_pct": {
+      "mae": 4.713469492286078,
+      "persistence_mae": 3.8894362238125004,
+      "exceedance_rate": 0.0108125
+    },
+    "throttle_pct": {
+      "mae": 0.7168666958986654,
+      "persistence_mae": 0.5252450882499999,
+      "exceedance_rate": 0.0105625
+    },
+    "manifold_pressure_kpa": {
+      "mae": 4.24039749380681,
+      "persistence_mae": 3.2551250000000005,
+      "exceedance_rate": 0.012125
+    },
+    "intake_air_temp_c": {
+      "mae": 0.33898313674268893,
+      "persistence_mae": 0.09225,
+      "exceedance_rate": 0.0126875
+    },
+    "battery_voltage": {
+      "mae": 0.04002554382109092,
+      "persistence_mae": 0.024408062499999997,
+      "exceedance_rate": 0.0081875
+    }
+  },
+  "forecast_test": {
+    "rpm": {
+      "10": {
+        "coverage": 0.9000667334000667,
+        "mae": 212.83831990231502,
+        "mean_band_width": 983.3662439805197
+      },
+      "30": {
+        "coverage": 0.9045553145336226,
+        "mae": 275.4626115731201,
+        "mean_band_width": 1180.2711292526376
+      },
+      "60": {
+        "coverage": 0.9054369579719813,
+        "mae": 290.1993208103828,
+        "mean_band_width": 1225.393087091452
+      }
+    },
+    "speed_kmh": {
+      "10": {
+        "coverage": 0.9059059059059059,
+        "mae": 5.583468568989144,
+        "mean_band_width": 27.523937314220596
+      },
+      "30": {
+        "coverage": 0.9182379442683131,
+        "mae": 9.651306980151661,
+        "mean_band_width": 45.76245607449602
+      },
+      "60": {
+        "coverage": 0.921447631754503,
+        "mae": 10.728977732109247,
+        "mean_band_width": 51.6284759160841
+      }
+    },
+    "coolant_temp_c": {
+      "10": {
+        "coverage": 0.8980647313980648,
+        "mae": 0.6163682305105959,
+        "mean_band_width": 2.6860366683791774
+      },
+      "30": {
+        "coverage": 0.9210745870181879,
+        "mae": 1.009909992193229,
+        "mean_band_width": 4.582432833569912
+      },
+      "60": {
+        "coverage": 0.920780520346898,
+        "mae": 1.2435434354417754,
+        "mean_band_width": 5.760596642496232
+      }
+    },
+    "engine_load_pct": {
+      "10": {
+        "coverage": 0.8858858858858859,
+        "mae": 9.460807632438959,
+        "mean_band_width": 35.96276641385715
+      },
+      "30": {
+        "coverage": 0.8915401301518439,
+        "mae": 9.688497484212634,
+        "mean_band_width": 37.83398333676907
+      },
+      "60": {
+        "coverage": 0.8800867244829886,
+        "mae": 9.831957781885807,
+        "mean_band_width": 36.00773666891222
+      }
+    },
+    "throttle_pct": {
+      "10": {
+        "coverage": 0.8943943943943944,
+        "mae": 1.8384952013636846,
+        "mean_band_width": 7.0344699967875846
+      },
+      "30": {
+        "coverage": 0.8923744368429835,
+        "mae": 1.924232237109842,
+        "mean_band_width": 7.237400974817557
+      },
+      "60": {
+        "coverage": 0.8944296197464977,
+        "mae": 1.9738293395480284,
+        "mean_band_width": 7.390139538675951
+      }
+    },
+    "manifold_pressure_kpa": {
+      "10": {
+        "coverage": 0.8872205538872205,
+        "mae": 9.50205945175835,
+        "mean_band_width": 36.29816439629835
+      },
+      "30": {
+        "coverage": 0.8885366260637411,
+        "mae": 9.665306796497914,
+        "mean_band_width": 37.59955595435034
+      },
+      "60": {
+        "coverage": 0.874749833222148,
+        "mae": 9.854250363443345,
+        "mean_band_width": 35.579152414256235
+      }
+    },
+    "intake_air_temp_c": {
+      "10": {
+        "coverage": 0.881715048381715,
+        "mae": 0.5799307550874939,
+        "mean_band_width": 2.3544850889325373
+      },
+      "30": {
+        "coverage": 0.89103954613716,
+        "mae": 0.7956376929415987,
+        "mean_band_width": 3.3852574462380214
+      },
+      "60": {
+        "coverage": 0.8984322881921281,
+        "mae": 0.9605453005336299,
+        "mean_band_width": 4.097566242888199
+      }
+    },
+    "battery_voltage": {
+      "10": {
+        "coverage": 0.9062395729062396,
+        "mae": 0.05532558057296898,
+        "mean_band_width": 0.22190937409883127
+      },
+      "30": {
+        "coverage": 0.9103954613716002,
+        "mae": 0.06038042523193508,
+        "mean_band_width": 0.24198252045256663
+      },
+      "60": {
+        "coverage": 0.9041027351567712,
+        "mae": 0.06554902592866525,
+        "mean_band_width": 0.2531998939735749
+      }
+    }
+  },
+  "train_trips": 77,
+  "calibration_trips": 26,
+  "test_trips": 26
+}

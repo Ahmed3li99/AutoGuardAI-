@@ -1,0 +1,74 @@
+{
+  "device": "cuda",
+  "train_windows": 398,
+  "calibration_windows": 92,
+  "epochs": 12,
+  "lr": 0.0001,
+  "seed": 11,
+  "base_revision": "411e288267f82cce86296dbe4d6c8bc533cc162f",
+  "zero_shot_masked_nmse": 1.3653,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.5914,
+      "calibration_masked_nmse": 0.5829
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.4349,
+      "calibration_masked_nmse": 0.5137
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.4053,
+      "calibration_masked_nmse": 0.5013
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.4021,
+      "calibration_masked_nmse": 0.494
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.3944,
+      "calibration_masked_nmse": 0.4899
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.4024,
+      "calibration_masked_nmse": 0.4873
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.3711,
+      "calibration_masked_nmse": 0.4883
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.3836,
+      "calibration_masked_nmse": 0.4883
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.3824,
+      "calibration_masked_nmse": 0.4929
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.3884,
+      "calibration_masked_nmse": 0.4869
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.3869,
+      "calibration_masked_nmse": 0.4867
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.3737,
+      "calibration_masked_nmse": 0.4871
+    }
+  ],
+  "best_calibration_masked_nmse": 0.4867,
+  "train_seconds": 187.5
+}

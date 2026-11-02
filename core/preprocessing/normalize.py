@@ -79,11 +79,13 @@ def normalize(raw: pd.DataFrame, mapping: ColumnMapping, source_name: str,
             origin = DataOrigin.SYNTHETIC
             notes.append("data_origin column marks this file as SYNTHETIC.")
 
-    n_nonmono = int((np.diff(out[TIME_COL].to_numpy()) < 0).sum())
+    # Drop rows without time FIRST: a NaN between two times hides a backwards step
+    # from np.diff (NaN < 0 is False), which would leave the rows unsorted.
     n_time_nan = int(out[TIME_COL].isna().sum())
     if n_time_nan:
         out = out[out[TIME_COL].notna()]
         notes.append(f"Dropped {n_time_nan} rows without a parseable time value.")
+    n_nonmono = int((np.diff(out[TIME_COL].to_numpy()) < 0).sum())
     if n_nonmono:
         notes.append(f"Time went backwards {n_nonmono} times; rows were stably sorted by time.")
         out = out.sort_values(TIME_COL, kind="stable")

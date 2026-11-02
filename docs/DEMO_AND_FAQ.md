@@ -1,53 +1,67 @@
-# Demo walkthrough (≈ 8 minutes, fully offline)
+# Demo walkthrough (≈ 7 minutes, offline)
 
-1. **Turn Wi-Fi off.** Start `dist\AutoGuardAI\AutoGuardAI.exe` (or `python run.py`). The status bar
-   reads *Offline · no session*.
-2. **Data Import & Quality** → *Bundled sample* → "Toyota Etios – long trip" → *Load sample*.
-   Point out: mapping `toyota_carobd_v1` detected, time basis *Recorded relative time*, quality
-   table with real counts, 0 invalid values, the unmapped columns.
-3. Optional: load the DieselOBD excerpt. Note the **synthetic playback clock** warning and the
-   **unit INFERRED** flags (°F/psi). Explain why there is no fault classifier (DATASET_AUDIT §3).
-4. *Save session & open replay* → **Replay**: Play, 8×/16×, Pause/Resume, drag the slider, Stop.
-   Plots show recorded timing. The banner says *Recorded Replay*, not live.
-5. **AI & Anomalies** → *Run analysis*. Show the detector table (versions, CUDA/CPU, calibration
-   status), the score plots with thresholds, then click an alert for the evidence window and its
-   explanation. Note the fault-classifier row: *unavailable*.
-6. **Overview**: signal cards (N/A where absent), per-signal status, Health Index explicitly N/A.
-7. **Data Import** → *Load synthetic demo* (`overheat_and_low_voltage`) → save → run analysis. Rules
-   flag coolant and voltage, everything is labelled **Synthetic Demo**, and the ML detectors say
-   *uncalibrated for this data*.
-8. **Events & Alerts**: filter by severity and detector type, export CSV. **Trips & History**:
-   reopen the first session. **Reports**: export the PDF and show the provenance, quality, charts,
-   timeline and limitations.
-9. **Settings**: change the coolant threshold, re-run analysis. Show the OBD section: disabled,
-   *NOT TESTED ON A REAL VEHICLE*.
+1. **Wi-Fi off.** Start `dist\AutoGuardAI\AutoGuardAI.exe`. The app opens on **Home** in Arabic.
+   🌐 switches to English, and the whole layout flips direction.
+2. **Real trip:** *Try a real sample trip* → "long highway trip" → *Open trip*. It is analysed
+   automatically. **Results** shows an orange verdict "Car looks OK — n observations" with the trip
+   summary. Open one throttle observation: it happened at 76–99 km/h, it is a driving situation rare in
+   training, no action needed. Point out the confidence badges.
+3. **Demo with faults:** Home → *Run demo*. A red verdict "2 important issues to check". Walk
+   through the overheat card: measured 112 °C, expected ≈ 87 °C, usual 78–92 °C, possible cooling
+   issue, what to do, found by 2 methods, ⚠️ artificial fault. Then the voltage card (found by 4
+   methods) and the frozen-RPM card.
+4. Click **Show on chart** → the **Trip** screen jumps to the fault with it shaded. Press ▶ and change
+   the speed.
+5. **Technical details…** (on Results) shows the detector table with versions, device (CUDA/CPU) and
+   calibration, plus score plots with thresholds. The fault-classifier row reads *unavailable*, with
+   the reason.
+6. **Report** → PDF in Arabic → open it.
+7. **Connect to the car** → *Try with a simulated adapter*: connected (simulated), protocol, supported
+   signals, "no stored trouble codes", live values. *Start recording* → after ~30 s *Stop & analyse*.
+   Say clearly that this is a simulation and that the real adapter test comes next.
+8. **Settings** → change the coolant limit → *Analyse again*.
+9. **Is it the car or the sensor?** In the scenario lab, choose *Sensor jumps by a fixed offset* on
+   the engine temperature (+25). The lab shows the sensor-consistency check ⭐ at 0 s and the new
+   finding *impossible jump*. On a trip that really contains such a glitch, the Results screen lists
+   it under "Reading reliability", with what the other sensors read at that moment. Say: the
+   thresholds come from the largest real changes in 129 trips, and it gave 0 false alerts on all of
+   them.
+10. **Scenario lab** (Results → 🧪): on the real long trip choose *Voltage declines gradually*,
+    start 1000 s, 600 s → *Run*. The model ⭐ finds it after ~190 s, the fixed rule after ~293 s.
+    Then the *What if?* tab on the demo: "if the voltage had stayed normal" → only the voltage finding
+    disappears, so the overheating is an independent problem.
+11. **Learn your car** (Home → *My cars*): add a car, tick 3–5 normal trips with real driving as
+    references (a trip with a warning is refused), *Learn my car now*. It shows how this car differs
+    from the general model in words. Set the engine type (hybrid → "moving with 0 RPM" is not
+    flagged). Show EVALUATION §F and §G:
+    - the first design failed (11–24 false alerts/h);
+    - on 107 real VED test cars the final one gives 25.3 → 1.1 false alerts/h, and on the Ford
+      20.5 → 0.26/h;
+    - the price: RPM sensor faults are rarely caught on those cars.
 
-# Likely faculty questions
+# Likely questions
 
-**Did you train an AI model?** We trained no deep model. MOMENT-1-small is a third-party pretrained
-model (MIT). We only standardize inputs and calibrate a threshold on recorded calibration trips. We
-fitted a small Isolation Forest on training trips as a baseline.
+- **Your "learn your car" — did it work the first time?** No, and we can show it. Refitting from 3 trips
+  gave up to 24 false alerts/h. We measured, changed the design (adapt with an evidence gate, require
+  real driving), chose the settings on calibration trips, and measured once on test trips.
+- **How do you know a reading is wrong and not the car?** Physics: in 129 real trips the coolant
+  never changed more than 3 °C per second, and the car never moved at 0 RPM. Beyond that, it is the
+  sensor or the logger, not the engine.
+See the Arabic explainer [PROJECT_EXPLAINED_AR.md](PROJECT_EXPLAINED_AR.md) §9. Short English versions:
 
-**How accurate is it?** On real faults: unknown, because none of the obtained datasets has
-trustworthy fault labels. We report alert rates on 26 held-out trips (0–1.4 alerts/h) and a
-*synthetic* injection stress test with confidence intervals (EVALUATION.md). We do not present these
-as real-world accuracy.
-
-**Why is MOMENT not clearly better?** We measured it. In our setup its reconstruction is no better
-than a mean predictor (normalized MSE ≈ 1.4), identically under two transformers versions. It is
-excellent on voltage-drop injections but misses slow drifts. We report that instead of assuming the
-foundation model wins.
-
-**Why not use DieselOBD for fault classification?** Its labels are per vehicle, it has no vehicle or
-time column, 76.5 % of training rows are duplicates, and all 7 label signatures appear in both train
-and test. Any accuracy would measure vehicle identity.
-
-**Does it work with my car?** It works with recorded CSV/XLSX/JSON files from any car via the
-mapping editor. Thresholds were calibrated on one Toyota, so the UI marks scores on other data as
-uncalibrated. Live OBD is future work.
-
-**What happens if data are missing?** They stay missing (N/A), are counted in the quality report and
-are masked by the models. Nothing is filled with plausible fake values. Short gaps (≤ 3 s) are
-carried forward only on the models' 1 Hz grid, and the report says so.
-
-**Where does the data go?** Nowhere. Everything is local SQLite, with user-controlled deletion.
+- **Did you train an AI model?** Yes, small ones. The expected-vs-actual model (gradient boosting,
+  under 1 min) and an Isolation Forest. MOMENT is a published pretrained model; we only set its
+  threshold, and we ran a documented fine-tuning experiment.
+- **How accurate is it?** On real faults: unknown, because no labelled real faults exist in the
+  data. On 26 held-out normal trips: 0.57 false alerts/h (main model). On injected faults: 25/25
+  overheat, 26/26 voltage drop (stress test, with confidence intervals).
+- **Why isn't the foundation model the main model?** We measured it: zero-shot it reconstructs no
+  better than the mean; adapted, it reconstructs well but detects less. The simpler explainable
+  model won on every test, so the decision follows the numbers.
+- **Can it misdiagnose?** Explanations are fixed templates filled with real measured numbers (no
+  language model inventing text). Each finding shows its confidence and evidence, and actions are
+  cautious ("have it inspected").
+- **Will it recognise my car?** With an ELM327 adapter it auto-detects the port and protocol, reads
+  the VIN if the car reports it, and lists the signals the car supports. Not yet tested on a real car.
+- **Where does the data go?** Nowhere. Local SQLite only; 0 network connections were measured during
+  analysis.

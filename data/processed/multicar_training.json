@@ -1,0 +1,59 @@
+{
+  "version": "expected-vs-actual-drivetrain-multicar-v2-2026-11-02",
+  "hours": {
+    "train": 277.1,
+    "calibration": 75.1
+  },
+  "per_target": {
+    "rpm": {
+      "scale": 187.34810402855942,
+      "threshold_z": 6.3158395786513495,
+      "typical": {
+        "all": [
+          604.0,
+          2579.0
+        ],
+        "idle": [
+          552.0,
+          1423.8
+        ],
+        "moving": [
+          695.0,
+          2673.0
+        ]
+      }
+    },
+    "speed_kmh": {
+      "scale": 7.395812194508303,
+      "threshold_z": 6.215486846353799,
+      "typical": {
+        "all": [
+          0.0,
+          105.0
+        ],
+        "idle": [
+          0.0,
+          0.0
+        ],
+        "moving": [
+          3.0,
+          109.0
+        ]
+      }
+    }
+  },
+  "overfitting_check": {
+    "rpm": {
+      "median_abs_error_train_cars": 143.0,
+      "median_abs_error_unseen_calibration_cars": 142.29,
+      "median_abs_error_toyota_train": 122.0,
+      "median_abs_error_toyota_calibration": 128.05
+    },
+    "speed_kmh": {
+      "median_abs_error_train_cars": 4.97,
+      "median_abs_error_unseen_calibration_cars": 5.11,
+      "median_abs_error_toyota_train": 4.21,
+      "median_abs_error_toyota_calibration": 4.12
+    }
+  }
+}

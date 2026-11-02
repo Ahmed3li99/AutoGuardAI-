@@ -1,8 +1,15 @@
-"""Zero-shot anomaly scoring with the pretrained MOMENT-1-small foundation model.
+"""Anomaly scoring with the MOMENT-1-small foundation model.
 
 Third-party model: AutonLab/MOMENT-1-small (MIT license), loaded ONLY from a
-local directory with Hugging Face offline mode forced on. The backbone is
-never trained here.
+local directory with Hugging Face offline mode forced on. An adapted variant
+(experiments/adapt_moment.py: a few epochs of the model's own masked-patch
+objective on carOBD train trips, starting from the published weights) can be
+loaded from ADAPTED_MODEL_DIR for experiments.
+
+Scoring modes (moment_meta.json "scoring"):
+  masked   - each 8-step patch is hidden once and rebuilt from context
+             (MASK_PASSES passes); error measured on hidden steps only.
+  unmasked - plain reconstruction of the full window (original zero-shot use).
 
 Signal/window -> score strategy
   1. 1 Hz grid; each model signal standardized with mean/std from the TRAIN
@@ -11,8 +18,8 @@ Signal/window -> score strategy
   2. Windows of 512 s, stride 256 s (last window right-aligned). Shorter
      sessions are left-padded; padding and remaining gaps get input_mask=0
      (MOMENT ignores patches that are not fully observed).
-  3. Deterministic reconstruction (``MOMENT.reconstruct``: no random masking),
-     squared error per channel and second; overlapping windows averaged.
+  3. Deterministic reconstruction (see scoring modes), squared error per
+     channel and second; overlapping windows averaged.
   4. Per-second score = mean squared error over channels observed that second.
      Channel errors are kept as the evidence for "largest deviation in".
 """
@@ -32,7 +39,13 @@ from core.paths import MODELS_DIR
 
 SEQ_LEN = 512
 STRIDE = 256
-MODEL_DIR = MODELS_DIR / "moment-1-small"
+PATCH = 8
+MASK_PASSES = 4
+BASE_MODEL_DIR = MODELS_DIR / "moment-1-small"
+ADAPTED_MODEL_DIR = MODELS_DIR / "moment-1-small-carobd"
+# The app uses the published weights. The carOBD-adapted variant reconstructs better but
+# DETECTED LESS on the held-out stress test (docs/EVALUATION.md), so it stays an experiment.
+MODEL_DIR = BASE_MODEL_DIR
 
 
 class MomentUnavailable(RuntimeError):
@@ -54,6 +67,11 @@ class MomentScorer:
     std: np.ndarray
     meta: dict
     threshold: Threshold | None = None
+
+    @property
+    def scoring(self) -> str:
+        """'masked' (pretraining-style imputation) or 'unmasked' (plain reconstruction)."""
+        return self.meta.get("scoring", "unmasked")
 
     @property
     def version(self) -> str:
@@ -124,10 +142,22 @@ class MomentScorer:
                     ob[k, :, pad:] = obs[seg].T
                     # a timestep is usable when every channel was observed
                     mb[k, pad:] = obs[seg].all(axis=1)
-                out = self.model.reconstruct(x_enc=torch.from_numpy(xb).to(self.device),
-                                             input_mask=torch.from_numpy(mb).to(self.device))
-                rec = out.reconstruction.detach().float().cpu().numpy()
-                se = (rec - xb) ** 2                                   # B x C x L
+                xt = torch.from_numpy(xb).to(self.device)
+                mt = torch.from_numpy(mb).to(self.device)
+                if self.scoring == "masked":
+                    # Pretraining-style imputation: each 8-step patch is hidden exactly once
+                    # (MASK_PASSES passes) and scored on how well it is rebuilt from context.
+                    se = np.zeros_like(xb)
+                    for off in range(MASK_PASSES):
+                        hide = torch.ones_like(mt)
+                        for p in range(off, SEQ_LEN // PATCH, MASK_PASSES):
+                            hide[:, p * PATCH:(p + 1) * PATCH] = 0
+                        rec = self.model.reconstruction(x_enc=xt, input_mask=mt, mask=hide).reconstruction
+                        h = (1 - hide).cpu().numpy()[:, None, :].astype(bool)
+                        se = np.where(h, (rec.detach().float().cpu().numpy() - xb) ** 2, se)
+                else:
+                    rec = self.model.reconstruct(x_enc=xt, input_mask=mt).reconstruction
+                    se = (rec.detach().float().cpu().numpy() - xb) ** 2      # B x C x L
                 valid = ob & (mb[:, None, :] > 0)
                 for k, s in enumerate(batch_starts):
                     n = min(SEQ_LEN, T)

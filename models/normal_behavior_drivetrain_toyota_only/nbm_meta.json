@@ -1,0 +1,61 @@
+{
+  "version": "expected-vs-actual-drivetrain-carobd-v1-2026-10-23",
+  "variant": "drivetrain",
+  "trained_on": "toyota_carobd train partition (77 trips)",
+  "calibration_source": "toyota_carobd calibration partition (26 trips)",
+  "calibrated_on_dataset": "toyota_carobd",
+  "split_file": "datasets\\splits\\toyota_carobd_split.json",
+  "targets": [
+    "rpm",
+    "speed_kmh"
+  ],
+  "context_signals": [
+    "rpm",
+    "speed_kmh"
+  ],
+  "threshold_quantile": 0.999,
+  "smooth_s": 5,
+  "threshold_rule": "q0.999 if >= 3000 calibration s else 1.1 x max",
+  "n_calibration_points": 33749,
+  "sklearn_version": "1.9.1",
+  "seed": 2024,
+  "per_target": {
+    "rpm": {
+      "scale": 132.6257640291637,
+      "threshold_z": 6.276542566861147,
+      "typical": {
+        "all": [
+          644.5,
+          2407.8
+        ],
+        "idle": [
+          634.2,
+          916.4
+        ],
+        "moving": [
+          697.5,
+          2549.0
+        ]
+      }
+    },
+    "speed_kmh": {
+      "scale": 3.662151297023438,
+      "threshold_z": 7.2041877990385865,
+      "typical": {
+        "all": [
+          0.0,
+          82.0
+        ],
+        "idle": [
+          0.0,
+          0.0
+        ],
+        "moving": [
+          4.0,
+          88.0
+        ]
+      }
+    }
+  },
+  "artifact_sha256": "3c5bbdcfe91d4e3a1e78c329236ccc1200cd021b3eff71e47e679adfc36e9260"
+}

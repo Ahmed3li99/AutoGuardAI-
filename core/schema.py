@@ -106,6 +106,8 @@ class SessionMetadata:
     column_map: dict[str, str] = field(default_factory=dict)   # source -> canonical
     unit_conversions: dict[str, str] = field(default_factory=dict)
     notes: list[str] = field(default_factory=list)
+    # Only for synthetic demo data: the faults this program injected (ground truth of the demo).
+    injected_events: list[dict] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         d = asdict(self)
@@ -115,7 +117,7 @@ class SessionMetadata:
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> "SessionMetadata":
-        d = dict(d)
+        d = {k: v for k, v in d.items() if k in cls.__dataclass_fields__}   # tolerate older/newer rows
         d["origin"] = DataOrigin(d["origin"])
         d["time_basis"] = TimeBasis(d["time_basis"])
         return cls(**d)

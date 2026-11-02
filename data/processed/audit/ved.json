@@ -1,0 +1,98 @@
+{
+  "dataset_id": "ved",
+  "obtained": true,
+  "source_url": "https://github.com/gsoh/VED",
+  "inventory": [
+    {
+      "file": "data/raw/ved/LICENSE",
+      "bytes": 11346,
+      "sha256": "9856fba4809707af8aa4a3a224a881c8dc2a06f487ab4b6644cab5647934c388"
+    },
+    {
+      "file": "data/raw/ved/README.md",
+      "bytes": 3044,
+      "sha256": "c0f216828cd727635cea6fe46931033e9cdc823f7066f8b3685364aacb56d3bd"
+    },
+    {
+      "file": "data/raw/ved/VED_DynamicData_Part1.7z",
+      "bytes": 82723769,
+      "sha256": "44d53754fd39e196171ec09f123604375d0248d5c06a97d6695ef0e22a948c61"
+    },
+    {
+      "file": "data/raw/ved/VED_DynamicData_Part2.7z",
+      "bytes": 93662910,
+      "sha256": "a235c894e619a9e06b6c28c6e68593e26f4b168265cd2c45a0f3a43e646bc701"
+    },
+    {
+      "file": "data/raw/ved/VED_Static_Data_ICE_HEV.xlsx",
+      "bytes": 21193,
+      "sha256": "addb23d937ef7d943620755f478cc5a24316a7d61dee232ffbfd9b6e50986dae"
+    },
+    {
+      "file": "data/raw/ved/VED_Static_Data_PHEV_EV.xlsx",
+      "bytes": 9763,
+      "sha256": "e0f2b4d7a360074c17fd00068d8d8bf898f0e650f0cdda43c7e10883f6bf9340"
+    }
+  ],
+  "weekly_csv_files": 54,
+  "weekly_csv_bytes": 3203555729,
+  "columns": [
+    "DayNum",
+    "VehId",
+    "Trip",
+    "Timestamp(ms)",
+    "Latitude[deg]",
+    "Longitude[deg]",
+    "Vehicle Speed[km/h]",
+    "MAF[g/sec]",
+    "Engine RPM[RPM]",
+    "Absolute Load[%]",
+    "OAT[DegC]",
+    "Fuel Rate[L/hr]",
+    "Air Conditioning Power[kW]",
+    "Air Conditioning Power[Watts]",
+    "Heater Power[Watts]",
+    "HV Battery Current[A]",
+    "HV Battery SOC[%]",
+    "HV Battery Voltage[V]",
+    "Short Term Fuel Trim Bank 1[%]",
+    "Short Term Fuel Trim Bank 2[%]",
+    "Long Term Fuel Trim Bank 1[%]",
+    "Long Term Fuel Trim Bank 2[%]"
+  ],
+  "vehicles_in_static_tables": 384,
+  "vehicle_types": {
+    "ICE": 264,
+    "HEV": 93,
+    "PHEV": 24,
+    "EV": 3
+  },
+  "vehicles_with_dynamic_data": 384,
+  "trips": 32552,
+  "hours_1hz": 4854.9,
+  "by_type": {
+    "ICE": {
+      "vehicles": 264,
+      "trips": 18936,
+      "hours": 2746.12
+    },
+    "HEV": {
+      "vehicles": 93,
+      "trips": 9507,
+      "hours": 1413.45
+    },
+    "PHEV": {
+      "vehicles": 24,
+      "trips": 3605,
+      "hours": 615.44
+    },
+    "EV": {
+      "vehicles": 3,
+      "trips": 504,
+      "hours": 79.86
+    }
+  },
+  "vehicles_with_rpm": 381,
+  "no_coolant_voltage_throttle_map": true,
+  "time_column": "Timestamp(ms) relative to trip start; DayNum = days since 2017-11-01 (fractional)"
+}

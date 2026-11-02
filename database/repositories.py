@@ -47,6 +47,17 @@ class Repository:
                               (name, make, model, year, fuel, notes, vehicle_id))
             return vehicle_id
 
+    def set_vehicle_fuel(self, vehicle_id: int, fuel: str) -> None:
+        """Powertrain of the car profile: "", "ice", "hybrid" or "ev"."""
+        with self.conn:
+            self.conn.execute("UPDATE vehicles SET fuel=? WHERE id=?", (fuel, vehicle_id))
+
+    def vehicle_fuel(self, vehicle_id: int | None) -> str:
+        if vehicle_id is None:
+            return ""
+        r = self.conn.execute("SELECT fuel FROM vehicles WHERE id=?", (vehicle_id,)).fetchone()
+        return (r[0] or "") if r else ""
+
     def list_vehicles(self) -> list[dict]:
         return [dict(r) for r in self.conn.execute("SELECT * FROM vehicles ORDER BY id")]
 
@@ -78,14 +89,66 @@ class Repository:
                                   if cols else f"INSERT INTO readings (session_id, idx, t_s) VALUES ({ph})", rows)
         return sid
 
-    def list_sessions(self) -> pd.DataFrame:
-        q = """SELECT s.id, s.created_at, s.source_name, s.origin, s.time_basis, s.dataset_id, s.n_rows,
-                      s.duration_s, s.signals_json,
-                      (SELECT COUNT(*) FROM alerts a WHERE a.session_id = s.id
-                         AND a.run_id = (SELECT MAX(id) FROM analysis_runs r WHERE r.session_id = s.id)) AS n_alerts,
-                      (SELECT MAX(id) FROM analysis_runs r WHERE r.session_id = s.id) AS last_run_id
-               FROM sessions s ORDER BY s.id DESC"""
-        return pd.read_sql_query(q, self.conn)
+    def list_sessions(self, vehicle_id: int | None = None) -> pd.DataFrame:
+        latest = "(SELECT MAX(id) FROM analysis_runs r WHERE r.session_id = s.id)"
+        q = f"""SELECT s.id, s.created_at, s.source_name, s.origin, s.time_basis, s.dataset_id, s.n_rows,
+                      s.duration_s, s.signals_json, s.vehicle_profile_id, s.is_reference,
+                      (SELECT COUNT(*) FROM alerts a WHERE a.session_id = s.id AND a.run_id = {latest}) AS n_alerts,
+                      (SELECT COUNT(*) FROM alerts a WHERE a.session_id = s.id AND a.run_id = {latest}
+                         AND a.detector_kind = 'heuristic_rule' AND a.severity = 'warning') AS n_rule_warnings,
+                      {latest} AS last_run_id
+               FROM sessions s {"WHERE s.vehicle_profile_id = ?" if vehicle_id is not None else ""}
+               ORDER BY s.id DESC"""
+        return pd.read_sql_query(q, self.conn, params=(vehicle_id,) if vehicle_id is not None else ())
+
+    # ---- "learn your car" -------------------------------------------------
+    def session_vehicle(self, session_id: int) -> int | None:
+        r = self.conn.execute("SELECT vehicle_profile_id FROM sessions WHERE id=?", (session_id,)).fetchone()
+        return r[0] if r else None
+
+    def set_session_vehicle(self, session_id: int, vehicle_id: int | None) -> None:
+        with self.conn:
+            self.conn.execute("UPDATE sessions SET is_reference=CASE WHEN vehicle_profile_id IS ? THEN is_reference "
+                              "ELSE 0 END, vehicle_profile_id=? WHERE id=?", (vehicle_id, vehicle_id, session_id))
+
+    def set_reference(self, session_id: int, is_reference: bool) -> None:
+        """Mark a trip as a user-approved normal reference trip. Refused for trips whose
+        latest analysis contains a rule warning (the app must not learn a fault as normal)."""
+        if is_reference:
+            row = self.list_sessions().set_index("id").loc[session_id]
+            if pd.isna(row["last_run_id"]):
+                raise ValueError("Analyse the trip before using it as a reference.")
+            if int(row["n_rule_warnings"]) > 0:
+                raise ValueError("This trip has a confirmed warning, so it cannot be a normal reference trip.")
+            if self.conn.execute("SELECT 1 FROM alerts WHERE run_id=? AND detector_kind='data_consistency' LIMIT 1",
+                                 (int(row["last_run_id"]),)).fetchone():
+                raise ValueError("Resolve data consistency problems before approving a reference trip.")
+            if pd.isna(row["vehicle_profile_id"]):
+                raise ValueError("Assign the trip to a car first.")
+        with self.conn:
+            self.conn.execute("UPDATE sessions SET is_reference=? WHERE id=?", (int(is_reference), session_id))
+
+    def reference_sessions(self, vehicle_id: int) -> list[int]:
+        return [r[0] for r in self.conn.execute(
+            "SELECT s.id FROM sessions s WHERE vehicle_profile_id=? AND is_reference=1 "
+            "AND EXISTS (SELECT 1 FROM analysis_runs r WHERE r.session_id=s.id) "
+            "AND NOT EXISTS (SELECT 1 FROM alerts a WHERE a.run_id=(SELECT MAX(id) FROM analysis_runs r "
+            "WHERE r.session_id=s.id) AND ((a.detector_kind='heuristic_rule' AND a.severity='warning') "
+            "OR a.detector_kind='data_consistency')) ORDER BY s.id", (vehicle_id,))]
+
+    def set_vehicle_model(self, vehicle_id: int, info: dict | None) -> None:
+        with self.conn:
+            self.conn.execute("UPDATE vehicles SET model_json=? WHERE id=?",
+                              (_j(info) if info is not None else None, vehicle_id))
+
+    def vehicle_model(self, vehicle_id: int) -> dict | None:
+        r = self.conn.execute("SELECT model_json FROM vehicles WHERE id=?", (vehicle_id,)).fetchone()
+        return json.loads(r[0]) if r and r[0] else None
+
+    def delete_vehicle(self, vehicle_id: int) -> None:
+        with self.conn:
+            self.conn.execute("UPDATE sessions SET is_reference=0 WHERE vehicle_profile_id=?", (vehicle_id,))
+            self.conn.execute("DELETE FROM vehicles WHERE id=?", (vehicle_id,))
 
     def load_session(self, session_id: int) -> tuple[NormalizedSession, dict | None]:
         row = self.conn.execute("SELECT * FROM sessions WHERE id=?", (session_id,)).fetchone()
@@ -120,6 +183,9 @@ class Repository:
 
     def save_analysis(self, session_id: int, result: AnalysisResult) -> int:
         with self.conn:
+            if any((a.detector_kind == "heuristic_rule" and a.severity == "warning")
+                   or a.detector_kind == "data_consistency" for a in result.alerts):
+                self.conn.execute("UPDATE sessions SET is_reference=0 WHERE id=?", (session_id,))
             cur = self.conn.execute(
                 "INSERT INTO analysis_runs (session_id, detector_status_json, timing_json, config_json) VALUES (?,?,?,?)",
                 (session_id, _j(result.detector_status), _j(result.timing_s), _j(result.config)))

@@ -1,0 +1,1373 @@
+{
+  "protocol": {
+    "seed": 7,
+    "selection": "first 12 fixed VED test vehicle IDs; first 5 usable chronological trips each",
+    "labels": "No verified mechanical-fault labels; only injected events have ground truth.",
+    "toyota": "Previously examined test partition is a regression benchmark, not a new blind test.",
+    "tuning": "No VED/APMonitor data used to train or tune these models."
+  },
+  "toyota_previous": {
+    "trips": 26,
+    "hours": 8.7575,
+    "unmodified_alert_events_per_hour": 105.73793890950613,
+    "prediction": {
+      "rpm": {
+        "mae": 62.81511353574928,
+        "persistence_mae": 42.243092557848655,
+        "exceedance_rate": 0.011694809255784866
+      },
+      "speed_kmh": {
+        "mae": 1.7011246948023369,
+        "persistence_mae": 0.8587242026266417,
+        "exceedance_rate": 0.010193871169480926
+      },
+      "coolant_temp_c": {
+        "mae": 0.57266571937576,
+        "persistence_mae": 0.09174484052532832,
+        "exceedance_rate": 0.011694809255784866
+      },
+      "engine_load_pct": {
+        "mae": 4.810353289904231,
+        "persistence_mae": 3.9385152317698555,
+        "exceedance_rate": 0.012257661038148843
+      },
+      "throttle_pct": {
+        "mae": 0.7160598973340542,
+        "persistence_mae": 0.5252300794871794,
+        "exceedance_rate": 0.010819262038774233
+      },
+      "manifold_pressure_kpa": {
+        "mae": 4.3349414915739,
+        "persistence_mae": 3.324140087554722,
+        "exceedance_rate": 0.012883051907442152
+      },
+      "intake_air_temp_c": {
+        "mae": 0.3353580753121824,
+        "persistence_mae": 0.08961851156973108,
+        "exceedance_rate": 0.012132582864290182
+      },
+      "battery_voltage": {
+        "mae": 0.04068797344644282,
+        "persistence_mae": 0.02516704190118824,
+        "exceedance_rate": 0.008442776735459663
+      }
+    },
+    "synthetic_events": {
+      "step_jump": {
+        "hit": 26,
+        "n": 26,
+        "recall": 1.0,
+        "recall_wilson95": [
+          0.8712669561953784,
+          1.0
+        ],
+        "median_delay_s": 0.0
+      },
+      "flatline": {
+        "hit": 0,
+        "n": 26,
+        "recall": 0.0,
+        "recall_wilson95": [
+          0.0,
+          0.12873304380462175
+        ],
+        "median_delay_s": null
+      },
+      "spike_noise": {
+        "hit": 25,
+        "n": 26,
+        "recall": 0.9615384615384616,
+        "recall_wilson95": [
+          0.811068230080416,
+          0.9931781910230102
+        ],
+        "median_delay_s": 2.0
+      }
+    }
+  },
+  "toyota_residual": {
+    "trips": 26,
+    "hours": 8.7575,
+    "unmodified_alert_events_per_hour": 103.11161861261775,
+    "prediction": {
+      "rpm": {
+        "mae": 43.413827164775064,
+        "persistence_mae": 42.243092557848655,
+        "exceedance_rate": 0.01207004377736085
+      },
+      "speed_kmh": {
+        "mae": 0.913208963119892,
+        "persistence_mae": 0.8587242026266417,
+        "exceedance_rate": 0.010381488430268919
+      },
+      "coolant_temp_c": {
+        "mae": 0.10514627680081315,
+        "persistence_mae": 0.09174484052532832,
+        "exceedance_rate": 0.009193245778611633
+      },
+      "engine_load_pct": {
+        "mae": 3.954384500399972,
+        "persistence_mae": 3.9385152317698555,
+        "exceedance_rate": 0.013008130081300813
+      },
+      "throttle_pct": {
+        "mae": 0.5303024930603772,
+        "persistence_mae": 0.5252300794871794,
+        "exceedance_rate": 0.01207004377736085
+      },
+      "manifold_pressure_kpa": {
+        "mae": 3.349907441788361,
+        "persistence_mae": 3.324140087554722,
+        "exceedance_rate": 0.012945590994371483
+      },
+      "intake_air_temp_c": {
+        "mae": 0.09798216946400182,
+        "persistence_mae": 0.08961851156973108,
+        "exceedance_rate": 0.01282051282051282
+      },
+      "battery_voltage": {
+        "mae": 0.02557529361359206,
+        "persistence_mae": 0.02516704190118824,
+        "exceedance_rate": 0.010131332082551596
+      }
+    },
+    "synthetic_events": {
+      "step_jump": {
+        "hit": 25,
+        "n": 26,
+        "recall": 0.9615384615384616,
+        "recall_wilson95": [
+          0.811068230080416,
+          0.9931781910230102
+        ],
+        "median_delay_s": 0.0
+      },
+      "flatline": {
+        "hit": 0,
+        "n": 26,
+        "recall": 0.0,
+        "recall_wilson95": [
+          0.0,
+          0.12873304380462175
+        ],
+        "median_delay_s": null
+      },
+      "spike_noise": {
+        "hit": 25,
+        "n": 26,
+        "recall": 0.9615384615384616,
+        "recall_wilson95": [
+          0.811068230080416,
+          0.9931781910230102
+        ],
+        "median_delay_s": 3.0
+      }
+    }
+  },
+  "ved": [
+    {
+      "vehicle_id": 2,
+      "trips": 5,
+      "hours": 0.5291666666666667,
+      "unmodified_alert_events_per_hour": 52.91338582677165,
+      "prediction": {
+        "rpm": {
+          "mae": 50.97014705080041,
+          "persistence_mae": 49.94525745257453,
+          "exceedance_rate": 0.015718157181571817
+        },
+        "speed_kmh": {
+          "mae": 1.4072931588315714,
+          "persistence_mae": 1.347967479674797,
+          "exceedance_rate": 0.011382113821138212
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 3,
+          "n": 4,
+          "recall": 0.75,
+          "recall_wilson95": [
+            0.3006360524426366,
+            0.9544139373553637
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 4,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.48990002040399916
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 4,
+          "n": 4,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.5100999795960008,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.8835705045278137,
+            "mae": 275.11469797821877,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.8102331606217616,
+            "mae": 381.13408376109203,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.6308290155440415,
+            "mae": 537.0265897001256,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.7826649417852523,
+            "mae": 10.427753104718914,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.6677461139896373,
+            "mae": 20.004929917243135,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.5790155440414507,
+            "mae": 26.275811124547005,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    {
+      "vehicle_id": 119,
+      "trips": 5,
+      "hours": 0.3675,
+      "unmodified_alert_events_per_hour": 57.142857142857146,
+      "prediction": {
+        "rpm": {
+          "mae": 61.39308480883693,
+          "persistence_mae": 59.59357429718876,
+          "exceedance_rate": 0.021686746987951807
+        },
+        "speed_kmh": {
+          "mae": 1.5575611912633116,
+          "persistence_mae": 1.555020080321285,
+          "exceedance_rate": 0.00642570281124498
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 1,
+          "n": 2,
+          "recall": 0.5,
+          "recall_wilson95": [
+            0.09452865480086614,
+            0.9054713451991339
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 2,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.6576280471103807
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 2,
+          "n": 2,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.34237195288961925,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.6838235294117647,
+            "mae": 404.188283117117,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.6223628691983122,
+            "mae": 520.4367880148571,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.6490486257928119,
+            "mae": 524.6603398531527,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.6995798319327731,
+            "mae": 12.384847036666729,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.5453586497890295,
+            "mae": 25.26148261441332,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.5380549682875264,
+            "mae": 27.146898448317025,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    {
+      "vehicle_id": 123,
+      "trips": 5,
+      "hours": 0.3983333333333333,
+      "unmodified_alert_events_per_hour": 75.31380753138076,
+      "prediction": {
+        "rpm": {
+          "mae": 70.49478759884312,
+          "persistence_mae": 69.8114161849711,
+          "exceedance_rate": 0.023121387283236993
+        },
+        "speed_kmh": {
+          "mae": 1.5640273981205577,
+          "persistence_mae": 1.5563583815028903,
+          "exceedance_rate": 0.010115606936416185
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 2,
+          "n": 3,
+          "recall": 0.6666666666666666,
+          "recall_wilson95": [
+            0.2076549551264879,
+            0.9385096847238394
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 3,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.5615060804490177
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 3,
+          "n": 3,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.43849391955098227,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.7024793388429752,
+            "mae": 392.881337745878,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.6813590449954087,
+            "mae": 460.01236566419345,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.7502295684113865,
+            "mae": 440.5874267096343,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.6786042240587695,
+            "mae": 12.6339393417601,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.6124885215794307,
+            "mae": 22.238652656757694,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.6473829201101928,
+            "mae": 22.681791291489713,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    {
+      "vehicle_id": 126,
+      "trips": 5,
+      "hours": 0.44583333333333336,
+      "unmodified_alert_events_per_hour": 87.47663551401868,
+      "prediction": {
+        "rpm": {
+          "mae": 56.70652100812744,
+          "persistence_mae": 55.46941403734707,
+          "exceedance_rate": 0.02704443013522215
+        },
+        "speed_kmh": {
+          "mae": 1.297457803304537,
+          "persistence_mae": 1.2537025112685127,
+          "exceedance_rate": 0.02189311010946555
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 3,
+          "n": 3,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.43849391955098227,
+            1.0
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 3,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.5615060804490177
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 3,
+          "n": 3,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.43849391955098227,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.7782193958664547,
+            "mae": 338.71848379922545,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.7241653418124007,
+            "mae": 450.597270368553,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.7790143084260731,
+            "mae": 451.68282781946607,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.7702702702702703,
+            "mae": 10.325737871076681,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.6597774244833068,
+            "mae": 20.92937640828506,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.7297297297297297,
+            "mae": 19.810565390557585,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    {
+      "vehicle_id": 128,
+      "trips": 5,
+      "hours": 1.1244444444444444,
+      "unmodified_alert_events_per_hour": 149.40711462450594,
+      "prediction": {
+        "rpm": {
+          "mae": 108.12900672344676,
+          "persistence_mae": 106.80390195097549,
+          "exceedance_rate": 0.05552776388194097
+        },
+        "speed_kmh": {
+          "mae": 1.5590688078835884,
+          "persistence_mae": 1.5135067533766886,
+          "exceedance_rate": 0.018759379689844924
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 3,
+          "n": 4,
+          "recall": 0.75,
+          "recall_wilson95": [
+            0.3006360524426366,
+            0.9544139373553637
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 4,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.48990002040399916
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 4,
+          "n": 4,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.5100999795960008,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.5865514447745072,
+            "mae": 499.5872530588134,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.5201188225762895,
+            "mae": 592.0856754397591,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.5765595463137996,
+            "mae": 582.1482431639761,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.7045638671347556,
+            "mae": 12.094476356410453,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.5662975965433432,
+            "mae": 24.608464086646144,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.5441533891439373,
+            "mae": 27.571756167533394,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    {
+      "vehicle_id": 130,
+      "trips": 5,
+      "hours": 1.1308333333333334,
+      "unmodified_alert_events_per_hour": 86.6617538688283,
+      "prediction": {
+        "rpm": {
+          "mae": 90.11415115829116,
+          "persistence_mae": 89.18426294820716,
+          "exceedance_rate": 0.04058764940239044
+        },
+        "speed_kmh": {
+          "mae": 1.4631112172238292,
+          "persistence_mae": 1.4332669322709166,
+          "exceedance_rate": 0.00597609561752988
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 4,
+          "n": 4,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.5100999795960008,
+            1.0
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 4,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.48990002040399916
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 4,
+          "n": 4,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.5100999795960008,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.8729860365198711,
+            "mae": 281.91775188656857,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.8850080601826975,
+            "mae": 330.70120129254883,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.830198817839871,
+            "mae": 358.9371470195867,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.8080021482277121,
+            "mae": 9.486165489025806,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.8170338527673294,
+            "mae": 15.136870939096395,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.778344975819452,
+            "mae": 17.82412221591736,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    {
+      "vehicle_id": 131,
+      "trips": 1,
+      "hours": 0.30916666666666665,
+      "unmodified_alert_events_per_hour": 45.28301886792453,
+      "prediction": {
+        "rpm": {
+          "mae": 60.241373465071426,
+          "persistence_mae": 58.580235720761564,
+          "exceedance_rate": 0.013599274705349048
+        },
+        "speed_kmh": {
+          "mae": 1.6138340828043571,
+          "persistence_mae": 1.5729827742520397,
+          "exceedance_rate": 0.0027198549410698096
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 1,
+          "n": 1,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.20654329147389294,
+            1.0
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 1,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.7934567085261071
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 1,
+          "n": 1,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.20654329147389294,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.7337164750957854,
+            "mae": 393.939872716236,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.7021072796934866,
+            "mae": 498.65995432602006,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.5708812260536399,
+            "mae": 621.5193491608329,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.7001915708812261,
+            "mae": 12.113354593885093,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.6130268199233716,
+            "mae": 22.2702887646251,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.5948275862068966,
+            "mae": 27.19021256850218,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    {
+      "vehicle_id": 139,
+      "trips": 5,
+      "hours": 0.6144444444444445,
+      "unmodified_alert_events_per_hour": 58.58951175406872,
+      "prediction": {
+        "rpm": {
+          "mae": 54.4368684739936,
+          "persistence_mae": 53.71692876965773,
+          "exceedance_rate": 0.017113783533765033
+        },
+        "speed_kmh": {
+          "mae": 1.3528028941453352,
+          "persistence_mae": 1.301110083256244,
+          "exceedance_rate": 0.008325624421831638
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 2,
+          "n": 3,
+          "recall": 0.6666666666666666,
+          "recall_wilson95": [
+            0.2076549551264879,
+            0.9385096847238394
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 3,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.5615060804490177
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 3,
+          "n": 3,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.43849391955098227,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.8891269416175683,
+            "mae": 251.06677322269496,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.8655597214783074,
+            "mae": 321.6641530820287,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.7546866630958757,
+            "mae": 427.53512990382274,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.7803963577932512,
+            "mae": 9.95541857668245,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.7600428494911623,
+            "mae": 16.890829297511452,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.7134440278521692,
+            "mae": 21.406443189530503,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    {
+      "vehicle_id": 140,
+      "trips": 5,
+      "hours": 0.73,
+      "unmodified_alert_events_per_hour": 104.10958904109589,
+      "prediction": {
+        "rpm": {
+          "mae": 87.09050869842869,
+          "persistence_mae": 86.33359193173003,
+          "exceedance_rate": 0.03995345228859581
+        },
+        "speed_kmh": {
+          "mae": 1.6610491608120155,
+          "persistence_mae": 1.6636927851047327,
+          "exceedance_rate": 0.01047323506594259
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 3,
+          "n": 4,
+          "recall": 0.75,
+          "recall_wilson95": [
+            0.3006360524426366,
+            0.9544139373553637
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 4,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.48990002040399916
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 4,
+          "n": 4,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.5100999795960008,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.7349978098992553,
+            "mae": 376.0861856452893,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.7906263688129654,
+            "mae": 404.73176278827117,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.78580814717477,
+            "mae": 421.39002249968377,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.7604029785370127,
+            "mae": 10.26542400721984,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.7801138852387209,
+            "mae": 15.381875967103053,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.7936925098554534,
+            "mae": 16.652546097759494,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    {
+      "vehicle_id": 142,
+      "trips": 5,
+      "hours": 0.5944444444444444,
+      "unmodified_alert_events_per_hour": 53.83177570093458,
+      "prediction": {
+        "rpm": {
+          "mae": 46.781839627929045,
+          "persistence_mae": 45.88564593301436,
+          "exceedance_rate": 0.01722488038277512
+        },
+        "speed_kmh": {
+          "mae": 1.4124553373571607,
+          "persistence_mae": 1.3650717703349282,
+          "exceedance_rate": 0.003827751196172249
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 4,
+          "n": 4,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.5100999795960008,
+            1.0
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 4,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.48990002040399916
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 4,
+          "n": 4,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.5100999795960008,
+            1.0
+          ],
+          "median_delay_s": 2.5
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.8852367688022285,
+            "mae": 263.5554136783455,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.8022284122562674,
+            "mae": 378.3129676210417,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.7075208913649025,
+            "mae": 513.587877764155,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.7877437325905292,
+            "mae": 10.219322571262705,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.6763231197771588,
+            "mae": 20.923920551491193,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.5665738161559889,
+            "mae": 30.305811801930915,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    {
+      "vehicle_id": 145,
+      "trips": 5,
+      "hours": 0.4688888888888889,
+      "unmodified_alert_events_per_hour": 93.8388625592417,
+      "prediction": {
+        "rpm": {
+          "mae": 81.6619702868455,
+          "persistence_mae": 80.79487179487181,
+          "exceedance_rate": 0.03663003663003663
+        },
+        "speed_kmh": {
+          "mae": 1.504729466386047,
+          "persistence_mae": 1.4884004884004884,
+          "exceedance_rate": 0.008547008547008548
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 3,
+          "n": 5,
+          "recall": 0.6,
+          "recall_wilson95": [
+            0.23071993220883708,
+            0.8823817688407467
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 5,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.43449149475208104
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 5,
+          "n": 5,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.5655085052479191,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.7125837676842889,
+            "mae": 405.3169440459438,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.6321667907669397,
+            "mae": 520.79449626572,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.6924795234549516,
+            "mae": 477.74904560379247,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.6783320923306031,
+            "mae": 11.87732225835474,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.533879374534624,
+            "mae": 24.084032236668566,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.5599404318689502,
+            "mae": 25.568422566917732,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    {
+      "vehicle_id": 148,
+      "trips": 5,
+      "hours": 0.6163888888888889,
+      "unmodified_alert_events_per_hour": 95.7187922487607,
+      "prediction": {
+        "rpm": {
+          "mae": 81.66311964169788,
+          "persistence_mae": 80.82342093130475,
+          "exceedance_rate": 0.046104195481788846
+        },
+        "speed_kmh": {
+          "mae": 1.4197525280218803,
+          "persistence_mae": 1.4167819271553712,
+          "exceedance_rate": 0.009681881051175657
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 2,
+          "n": 4,
+          "recall": 0.5,
+          "recall_wilson95": [
+            0.15003570882017148,
+            0.8499642911798285
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 4,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.48990002040399916
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 4,
+          "n": 4,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.5100999795960008,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.743863393810032,
+            "mae": 401.5076309751022,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.652614727854856,
+            "mae": 532.6807689958439,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.6424759871931697,
+            "mae": 541.6255465310296,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.7950907150480256,
+            "mae": 9.696548052689426,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.6974386339381003,
+            "mae": 18.43907311333306,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.7379935965848452,
+            "mae": 18.752892343060918,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    }
+  ],
+  "apmonitor": {
+    "Ford": {
+      "trips": 5,
+      "hours": 2.238611111111111,
+      "unmodified_alert_events_per_hour": 67.4525375356744,
+      "prediction": {
+        "rpm": {
+          "mae": 77.76841375851014,
+          "persistence_mae": 77.67227312664741,
+          "exceedance_rate": 0.02435044558805071
+        },
+        "speed_kmh": {
+          "mae": 1.3950293019587108,
+          "persistence_mae": 1.3720813457193066,
+          "exceedance_rate": 0.00464474014561888
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 2,
+          "n": 3,
+          "recall": 0.6666666666666666,
+          "recall_wilson95": [
+            0.2076549551264879,
+            0.9385096847238394
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 3,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.5615060804490177
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 3,
+          "n": 3,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.43849391955098227,
+            1.0
+          ],
+          "median_delay_s": 1.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.7959457195510136,
+            "mae": 317.75047539941573,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.7212263360696934,
+            "mae": 450.3574373440369,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.6992796113251801,
+            "mae": 502.5500980226829,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.7631093985592227,
+            "mae": 10.173771572685611,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.6952588373261853,
+            "mae": 20.04439213341024,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.677446380697051,
+            "mae": 23.109457787536137,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    },
+    "Chrysler": {
+      "trips": 1,
+      "hours": 1.1116666666666666,
+      "unmodified_alert_events_per_hour": 15.292353823088456,
+      "prediction": {
+        "rpm": {
+          "mae": 31.22217000229539,
+          "persistence_mae": 30.834675390035226,
+          "exceedance_rate": 0.004529441368897836
+        },
+        "speed_kmh": {
+          "mae": 0.7896739898492884,
+          "persistence_mae": 0.6009060154084106,
+          "exceedance_rate": 0.0002516356316054353
+        }
+      },
+      "synthetic_events": {
+        "step_jump": {
+          "hit": 1,
+          "n": 1,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.20654329147389294,
+            1.0
+          ],
+          "median_delay_s": 0.0
+        },
+        "flatline": {
+          "hit": 0,
+          "n": 1,
+          "recall": 0.0,
+          "recall_wilson95": [
+            0.0,
+            0.7934567085261071
+          ],
+          "median_delay_s": null
+        },
+        "spike_noise": {
+          "hit": 1,
+          "n": 1,
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.20654329147389294,
+            1.0
+          ],
+          "median_delay_s": 2.0
+        }
+      },
+      "forecast": {
+        "rpm": {
+          "10": {
+            "coverage": 0.8990028125799029,
+            "mae": 336.448480268165,
+            "mean_band_width": 1034.7168188623364
+          },
+          "30": {
+            "coverage": 0.8967280163599182,
+            "mae": 431.01110535986123,
+            "mean_band_width": 1242.9268252199906
+          },
+          "60": {
+            "coverage": 0.2861160828432626,
+            "mae": 705.9765316500245,
+            "mean_band_width": 1272.0781204649556
+          }
+        },
+        "speed_kmh": {
+          "10": {
+            "coverage": 0.9255944771158272,
+            "mae": 7.234319031494873,
+            "mean_band_width": 31.469917268635307
+          },
+          "30": {
+            "coverage": 0.8987730061349694,
+            "mae": 9.316503025497013,
+            "mean_band_width": 48.61814241053327
+          },
+          "60": {
+            "coverage": 0.843006903605216,
+            "mae": 14.95263314218341,
+            "mean_band_width": 53.98074652801465
+          }
+        }
+      }
+    }
+  }
+}

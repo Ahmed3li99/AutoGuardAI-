@@ -97,7 +97,7 @@ def test_moment_loads_offline_and_scores_cpu():
     import os
     assert os.environ.get("HF_HUB_OFFLINE") == "1"
     m = MomentScorer.load(MODEL_DIR, "cpu")
-    df = SyntheticDemoDataSource(duration_s=700).read_session().data
+    df = SyntheticDemoDataSource("generated_normal_drive", duration_s=700).read_session().data
     sc, contrib, info = m.score(df)
     assert sc.shape == (700,) and np.isfinite(sc).all() and info["windows"] == 2
     short = df.iloc[:100]                                 # shorter than 512 -> padded + masked
@@ -135,7 +135,9 @@ def test_ml_only_alerts_never_raise_warning_status(toyota_sample):
 def test_insufficient_data_status():
     from core.schema import DataOrigin, NormalizedSession, SessionMetadata, TimeBasis
     s = NormalizedSession(frame(20, rpm=800), SessionMetadata("x", DataOrigin.RECORDED, TimeBasis.RELATIVE_RECORDED))
-    assert overall_status(None, s) == "Insufficient Data"
+    from ai.events import AnalysisResult
+    assert overall_status(None, s) == "Not Analysed"
+    assert overall_status(AnalysisResult([], {}, {"rules": {"status": "ok"}}, {}, {}), s) == "Insufficient Data"
 
 
 def test_synthetic_demo_is_labelled_and_deterministic():

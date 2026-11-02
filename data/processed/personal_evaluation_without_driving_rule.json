@@ -1,0 +1,2163 @@
+{
+  "seed": 99,
+  "draws": 4,
+  "test_trips": 26,
+  "parts": {
+    "A_same_car": {
+      "base_model": {
+        "false_alerts_per_hour": 0.57,
+        "strict_detection": {
+          "coolant_overheat": [
+            25,
+            25
+          ],
+          "voltage_drop": [
+            26,
+            26
+          ],
+          "flatline": [
+            8,
+            26
+          ],
+          "spike_noise": [
+            12,
+            26
+          ]
+        },
+        "strict_detection_with_rules": {
+          "coolant_overheat": [
+            25,
+            25
+          ],
+          "voltage_drop": [
+            26,
+            26
+          ],
+          "flatline": [
+            15,
+            26
+          ],
+          "spike_noise": [
+            12,
+            26
+          ]
+        },
+        "hours": 8.76
+      },
+      "personal_k3": [
+        {
+          "reference": [
+            "live6.csv",
+            "ufpe10.csv",
+            "live14.csv"
+          ],
+          "minutes": 53.3,
+          "personal": {
+            "false_alerts_per_hour": 0.64,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                6,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "hours": 7.87
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 11.82,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                22,
+                23
+              ],
+              "flatline": [
+                5,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "hours": 7.87
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 0.64,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                6,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "hours": 7.87
+          }
+        },
+        {
+          "reference": [
+            "live14.csv",
+            "ufpe13.csv",
+            "ufpe8.csv"
+          ],
+          "minutes": 53.5,
+          "personal": {
+            "false_alerts_per_hour": 0.64,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                8,
+                23
+              ],
+              "spike_noise": [
+                11,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                11,
+                23
+              ]
+            },
+            "hours": 7.87
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 10.04,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                2,
+                23
+              ],
+              "spike_noise": [
+                8,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                8,
+                23
+              ]
+            },
+            "hours": 7.87
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 0.64,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                8,
+                23
+              ],
+              "spike_noise": [
+                11,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                11,
+                23
+              ]
+            },
+            "hours": 7.87
+          }
+        },
+        {
+          "reference": [
+            "live29.csv",
+            "live19.csv",
+            "idle34.csv"
+          ],
+          "minutes": 55.2,
+          "personal": {
+            "false_alerts_per_hour": 0.64,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                6,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "hours": 7.84
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 21.94,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                6,
+                23
+              ],
+              "flatline": [
+                10,
+                23
+              ],
+              "spike_noise": [
+                14,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                14,
+                23
+              ]
+            },
+            "hours": 7.84
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 0.64,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                6,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "hours": 7.84
+          }
+        },
+        {
+          "reference": [
+            "live14.csv",
+            "idle38.csv",
+            "live18.csv"
+          ],
+          "minutes": 46.2,
+          "personal": {
+            "false_alerts_per_hour": 0.5,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                6,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                12,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "hours": 7.99
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 3.26,
+            "strict_detection": {
+              "coolant_overheat": [
+                2,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                2,
+                23
+              ],
+              "spike_noise": [
+                1,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                12,
+                23
+              ],
+              "spike_noise": [
+                1,
+                23
+              ]
+            },
+            "hours": 7.99
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 0.5,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                6,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                12,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "hours": 7.99
+          }
+        }
+      ],
+      "personal_k5": [
+        {
+          "reference": [
+            "idle34.csv",
+            "ufpe13.csv",
+            "idle3.csv",
+            "live21.csv",
+            "long4.csv"
+          ],
+          "minutes": 120.0,
+          "personal": {
+            "false_alerts_per_hour": 0.59,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                7,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                11,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 6.76
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 4.44,
+            "strict_detection": {
+              "coolant_overheat": [
+                4,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                2,
+                21
+              ],
+              "spike_noise": [
+                1,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                11,
+                21
+              ],
+              "spike_noise": [
+                1,
+                21
+              ]
+            },
+            "hours": 6.76
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 0.59,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                7,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                11,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 6.76
+          }
+        },
+        {
+          "reference": [
+            "idle28.csv",
+            "ufpe7.csv",
+            "idle38.csv",
+            "long10.csv",
+            "live6.csv"
+          ],
+          "minutes": 110.9,
+          "personal": {
+            "false_alerts_per_hour": 0.58,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                9,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                11,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 6.91
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 0.43,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                0,
+                21
+              ],
+              "spike_noise": [
+                0,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                11,
+                21
+              ],
+              "spike_noise": [
+                0,
+                21
+              ]
+            },
+            "hours": 6.91
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 0.58,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                9,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                11,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 6.91
+          }
+        },
+        {
+          "reference": [
+            "idle4.csv",
+            "drive5.csv",
+            "drive12.csv",
+            "live29.csv",
+            "idle34.csv"
+          ],
+          "minutes": 80.8,
+          "personal": {
+            "false_alerts_per_hour": 0.67,
+            "strict_detection": {
+              "coolant_overheat": [
+                21,
+                21
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                2,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                21,
+                21
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                12,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 7.41
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 5.94,
+            "strict_detection": {
+              "coolant_overheat": [
+                21,
+                21
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                1,
+                21
+              ],
+              "spike_noise": [
+                8,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                21,
+                21
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                12,
+                21
+              ],
+              "spike_noise": [
+                8,
+                21
+              ]
+            },
+            "hours": 7.41
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 0.67,
+            "strict_detection": {
+              "coolant_overheat": [
+                21,
+                21
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                2,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                21,
+                21
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                12,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 7.41
+          }
+        },
+        {
+          "reference": [
+            "live6.csv",
+            "idle34.csv",
+            "drive4.csv",
+            "idle47.csv",
+            "live29.csv"
+          ],
+          "minutes": 105.5,
+          "personal": {
+            "false_alerts_per_hour": 0.57,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                5,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                13,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 7.0
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 3.14,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                2,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                13,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 7.0
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 0.57,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                5,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                13,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 7.0
+          }
+        }
+      ]
+    },
+    "B_simulated_other_car": {
+      "base_model": {
+        "false_alerts_per_hour": 5.25,
+        "strict_detection": {
+          "coolant_overheat": [
+            25,
+            25
+          ],
+          "voltage_drop": [
+            26,
+            26
+          ],
+          "flatline": [
+            9,
+            26
+          ],
+          "spike_noise": [
+            12,
+            26
+          ]
+        },
+        "strict_detection_with_rules": {
+          "coolant_overheat": [
+            25,
+            25
+          ],
+          "voltage_drop": [
+            26,
+            26
+          ],
+          "flatline": [
+            15,
+            26
+          ],
+          "spike_noise": [
+            12,
+            26
+          ]
+        },
+        "hours": 8.76
+      },
+      "personal_k3": [
+        {
+          "reference": [
+            "idle34.csv",
+            "idle17.csv",
+            "live29.csv"
+          ],
+          "minutes": 49.0,
+          "personal": {
+            "false_alerts_per_hour": 20.4,
+            "strict_detection": {
+              "coolant_overheat": [
+                19,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                6,
+                23
+              ],
+              "spike_noise": [
+                8,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                14,
+                23
+              ],
+              "spike_noise": [
+                8,
+                23
+              ]
+            },
+            "hours": 7.94
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 2.39,
+            "strict_detection": {
+              "coolant_overheat": [
+                4,
+                22
+              ],
+              "voltage_drop": [
+                21,
+                23
+              ],
+              "flatline": [
+                0,
+                23
+              ],
+              "spike_noise": [
+                0,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                0,
+                23
+              ]
+            },
+            "hours": 7.94
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 5.04,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                7,
+                23
+              ],
+              "spike_noise": [
+                11,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                11,
+                23
+              ]
+            },
+            "hours": 7.94
+          }
+        },
+        {
+          "reference": [
+            "drive5.csv",
+            "drive4.csv",
+            "idle17.csv"
+          ],
+          "minutes": 56.6,
+          "personal": {
+            "false_alerts_per_hour": 1.28,
+            "strict_detection": {
+              "coolant_overheat": [
+                5,
+                23
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                12,
+                23
+              ],
+              "spike_noise": [
+                13,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                23,
+                23
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                14,
+                23
+              ],
+              "spike_noise": [
+                13,
+                23
+              ]
+            },
+            "hours": 7.81
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 40.57,
+            "strict_detection": {
+              "coolant_overheat": [
+                0,
+                23
+              ],
+              "voltage_drop": [
+                15,
+                23
+              ],
+              "flatline": [
+                10,
+                23
+              ],
+              "spike_noise": [
+                12,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                23,
+                23
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                12,
+                23
+              ]
+            },
+            "hours": 7.81
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 5.63,
+            "strict_detection": {
+              "coolant_overheat": [
+                23,
+                23
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                5,
+                23
+              ],
+              "spike_noise": [
+                13,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                23,
+                23
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                13,
+                23
+              ],
+              "spike_noise": [
+                13,
+                23
+              ]
+            },
+            "hours": 7.81
+          }
+        },
+        {
+          "reference": [
+            "drive5.csv",
+            "long4.csv",
+            "idle3.csv"
+          ],
+          "minutes": 64.2,
+          "personal": {
+            "false_alerts_per_hour": 1.56,
+            "strict_detection": {
+              "coolant_overheat": [
+                23,
+                23
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                12,
+                23
+              ],
+              "spike_noise": [
+                12,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                23,
+                23
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                14,
+                23
+              ],
+              "spike_noise": [
+                12,
+                23
+              ]
+            },
+            "hours": 7.69
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 37.86,
+            "strict_detection": {
+              "coolant_overheat": [
+                23,
+                23
+              ],
+              "voltage_drop": [
+                10,
+                23
+              ],
+              "flatline": [
+                11,
+                23
+              ],
+              "spike_noise": [
+                12,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                23,
+                23
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                14,
+                23
+              ],
+              "spike_noise": [
+                12,
+                23
+              ]
+            },
+            "hours": 7.69
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 4.81,
+            "strict_detection": {
+              "coolant_overheat": [
+                23,
+                23
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                9,
+                23
+              ],
+              "spike_noise": [
+                13,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                23,
+                23
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                14,
+                23
+              ],
+              "spike_noise": [
+                13,
+                23
+              ]
+            },
+            "hours": 7.69
+          }
+        },
+        {
+          "reference": [
+            "live21.csv",
+            "idle3.csv",
+            "live19.csv"
+          ],
+          "minutes": 57.9,
+          "personal": {
+            "false_alerts_per_hour": 2.05,
+            "strict_detection": {
+              "coolant_overheat": [
+                3,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                5,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                12,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "hours": 7.79
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 11.55,
+            "strict_detection": {
+              "coolant_overheat": [
+                21,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                3,
+                23
+              ],
+              "spike_noise": [
+                8,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                12,
+                23
+              ],
+              "spike_noise": [
+                8,
+                23
+              ]
+            },
+            "hours": 7.79
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 5.52,
+            "strict_detection": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                5,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                22,
+                22
+              ],
+              "voltage_drop": [
+                23,
+                23
+              ],
+              "flatline": [
+                12,
+                23
+              ],
+              "spike_noise": [
+                10,
+                23
+              ]
+            },
+            "hours": 7.79
+          }
+        }
+      ],
+      "personal_k5": [
+        {
+          "reference": [
+            "idle6.csv",
+            "live6.csv",
+            "live19.csv",
+            "ufpe7.csv",
+            "live33.csv"
+          ],
+          "minutes": 94.5,
+          "personal": {
+            "false_alerts_per_hour": 0.56,
+            "strict_detection": {
+              "coolant_overheat": [
+                17,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                7,
+                21
+              ],
+              "spike_noise": [
+                9,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                12,
+                21
+              ],
+              "spike_noise": [
+                9,
+                21
+              ]
+            },
+            "hours": 7.18
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 1.25,
+            "strict_detection": {
+              "coolant_overheat": [
+                0,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                3,
+                21
+              ],
+              "spike_noise": [
+                6,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                12,
+                21
+              ],
+              "spike_noise": [
+                6,
+                21
+              ]
+            },
+            "hours": 7.18
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 5.29,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                7,
+                21
+              ],
+              "spike_noise": [
+                9,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                12,
+                21
+              ],
+              "spike_noise": [
+                9,
+                21
+              ]
+            },
+            "hours": 7.18
+          }
+        },
+        {
+          "reference": [
+            "idle38.csv",
+            "live21.csv",
+            "long10.csv",
+            "live18.csv",
+            "idle34.csv"
+          ],
+          "minutes": 116.7,
+          "personal": {
+            "false_alerts_per_hour": 0.29,
+            "strict_detection": {
+              "coolant_overheat": [
+                17,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                6,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                12,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 6.81
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 0.0,
+            "strict_detection": {
+              "coolant_overheat": [
+                0,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                3,
+                21
+              ],
+              "spike_noise": [
+                6,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                12,
+                21
+              ],
+              "spike_noise": [
+                6,
+                21
+              ]
+            },
+            "hours": 6.81
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 4.84,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                7,
+                21
+              ],
+              "spike_noise": [
+                9,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                13,
+                21
+              ],
+              "spike_noise": [
+                9,
+                21
+              ]
+            },
+            "hours": 6.81
+          }
+        },
+        {
+          "reference": [
+            "long10.csv",
+            "live6.csv",
+            "live14.csv",
+            "idle34.csv",
+            "live19.csv"
+          ],
+          "minutes": 109.0,
+          "personal": {
+            "false_alerts_per_hour": 0.58,
+            "strict_detection": {
+              "coolant_overheat": [
+                4,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                7,
+                21
+              ],
+              "spike_noise": [
+                9,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                12,
+                21
+              ],
+              "spike_noise": [
+                9,
+                21
+              ]
+            },
+            "hours": 6.94
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 0.86,
+            "strict_detection": {
+              "coolant_overheat": [
+                3,
+                20
+              ],
+              "voltage_drop": [
+                9,
+                21
+              ],
+              "flatline": [
+                3,
+                21
+              ],
+              "spike_noise": [
+                3,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                12,
+                21
+              ],
+              "spike_noise": [
+                3,
+                21
+              ]
+            },
+            "hours": 6.94
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 4.47,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                6,
+                21
+              ],
+              "spike_noise": [
+                8,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                12,
+                21
+              ],
+              "spike_noise": [
+                8,
+                21
+              ]
+            },
+            "hours": 6.94
+          }
+        },
+        {
+          "reference": [
+            "idle34.csv",
+            "idle47.csv",
+            "live34.csv",
+            "live29.csv",
+            "idle17.csv"
+          ],
+          "minutes": 82.2,
+          "personal": {
+            "false_alerts_per_hour": 0.54,
+            "strict_detection": {
+              "coolant_overheat": [
+                4,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                10,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                14,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 7.39
+          },
+          "personal_refit_v1": {
+            "false_alerts_per_hour": 3.66,
+            "strict_detection": {
+              "coolant_overheat": [
+                3,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                3,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                14,
+                21
+              ],
+              "spike_noise": [
+                10,
+                21
+              ]
+            },
+            "hours": 7.39
+          },
+          "base_same_trips": {
+            "false_alerts_per_hour": 5.42,
+            "strict_detection": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                6,
+                21
+              ],
+              "spike_noise": [
+                9,
+                21
+              ]
+            },
+            "strict_detection_with_rules": {
+              "coolant_overheat": [
+                20,
+                20
+              ],
+              "voltage_drop": [
+                21,
+                21
+              ],
+              "flatline": [
+                14,
+                21
+              ],
+              "spike_noise": [
+                9,
+                21
+              ]
+            },
+            "hours": 7.39
+          }
+        }
+      ]
+    }
+  }
+}

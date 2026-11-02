@@ -54,32 +54,38 @@ def main() -> None:
 
     # ---- MOMENT ----------------------------------------------------------
     if not args.skip_moment:
-        from ai.moment_inference import MODEL_DIR, MomentScorer
+        from ai.moment_inference import ADAPTED_MODEL_DIR, BASE_MODEL_DIR, MomentScorer
         allx = pd.concat([f[MODEL_SIGNALS] for f in train.values()])
         mean, std = allx.mean().to_numpy(), allx.std().to_numpy().copy()
         std[std < 1e-6] = 1.0
-        prov = json.loads((MODEL_DIR / "PROVENANCE.json").read_text(encoding="utf-8"))
-        meta = {"version": f"moment-1-small@{prov['revision'][:10]}+thr-carobd-v1-{today}",
-                "hf_revision": prov["revision"], "signals": MODEL_SIGNALS,
-                "mean": mean.tolist(), "std": std.tolist(), "scaler_fitted_on": "toyota_carobd train partition",
-                "calibrated_on": "toyota_carobd calibration partition", "calibrated_on_dataset": "toyota_carobd",
-                "seq_len": 512, "stride": 256}
-        (MODEL_DIR / "moment_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
-        scorer = MomentScorer.load(MODEL_DIR, args.device)
-        parts, secs = [], 0.0
-        for f in calib.values():
-            s, _, info = scorer.score(f)
-            parts.append(s)
-            secs += info["seconds"]
-        thr = calibrate(np.concatenate(parts), f"toyota_carobd calibration partition ({len(calib)} trips)")
-        meta["threshold"] = thr.to_dict()
-        (MODEL_DIR / "moment_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
-        summary["moment"] = {"version": meta["version"], "device": scorer.device, "threshold": thr.to_dict(),
-                             "calibration_scoring_seconds": round(secs, 2)}
-        print("moment", summary["moment"])
+        prov = json.loads((BASE_MODEL_DIR / "PROVENANCE.json").read_text(encoding="utf-8"))
+        variants = [("moment", BASE_MODEL_DIR, "unmasked", "zero-shot")]
+        if (ADAPTED_MODEL_DIR / "config.json").exists():
+            variants.append(("moment_adapted", ADAPTED_MODEL_DIR, "masked", "carobd-adapted"))
+        for key, mdir, scoring, tag in variants:
+            meta = {"version": f"moment-1-small@{prov['revision'][:10]}+{tag}+thr-carobd-v1-{today}",
+                    "hf_revision": prov["revision"], "weights": tag, "scoring": scoring, "signals": MODEL_SIGNALS,
+                    "mean": mean.tolist(), "std": std.tolist(), "scaler_fitted_on": "toyota_carobd train partition",
+                    "calibrated_on": "toyota_carobd calibration partition", "calibrated_on_dataset": "toyota_carobd",
+                    "seq_len": 512, "stride": 256}
+            (mdir / "moment_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
+            scorer = MomentScorer.load(mdir, args.device)
+            parts, secs = [], 0.0
+            for f in calib.values():
+                s, _, info = scorer.score(f)
+                parts.append(s)
+                secs += info["seconds"]
+            thr = calibrate(np.concatenate(parts), f"toyota_carobd calibration partition ({len(calib)} trips)")
+            meta["threshold"] = thr.to_dict()
+            (mdir / "moment_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
+            summary[key] = {"version": meta["version"], "device": scorer.device, "threshold": thr.to_dict(),
+                            "calibration_scoring_seconds": round(secs, 2)}
+            print(key, summary[key])
 
     PROCESSED.mkdir(parents=True, exist_ok=True)
-    (PROCESSED / "calibration_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    p = PROCESSED / "calibration_summary.json"
+    old = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+    p.write_text(json.dumps({**old, **summary}, indent=2), encoding="utf-8")
 
 
 if __name__ == "__main__":

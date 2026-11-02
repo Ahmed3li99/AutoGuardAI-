@@ -58,8 +58,9 @@ class OBDDataSource(VehicleDataSource):
 
     def __init__(self, port: str | None = None, *, enabled: bool | None = None,
                  obd_module: ModuleType | None = None, clock: Callable[[], float] = time.time,
-                 max_retries: int = 2):
-        self.port = port
+                 max_retries: int = 2, simulated: bool = False, active: bool = False):
+        self.port = port          # None = let python-OBD auto-detect the adapter's serial port
+        self.simulated = simulated
         self.enabled = obd_feature_enabled() if enabled is None else enabled
         self._obd = obd_module if obd_module is not None else load_obd_module()
         self._clock = clock
@@ -70,6 +71,9 @@ class OBDDataSource(VehicleDataSource):
         self.unsupported: list[str] = []
         self.recorded: list[Reading] = []
         self.errors: list[str] = []
+        from ai.active_diagnosis import ActiveScheduler
+        self.scheduler = ActiveScheduler() if active else None
+        self.acquisition_summary: dict = {}
 
     # ---- availability -------------------------------------------------
     def availability(self) -> tuple[bool, str]:
@@ -110,7 +114,12 @@ class OBDDataSource(VehicleDataSource):
             self.errors.append(last)
             raise DataSourceError(f"Could not connect to OBD-II adapter on {self.port or 'auto'}: {last}")
         self._discover()
-        self._start_wall = self._clock()
+        if self._start_wall is None:
+            # Start the session clock ONCE. A reconnect keeps it, so time never runs
+            # backwards; the outage simply shows up as a gap in the recording.
+            self._start_wall = self._clock()
+        else:
+            self.errors.append(f"Reconnected at t={self._clock() - self._start_wall:.1f} s (gap in recording).")
 
     def close(self) -> None:
         if self._conn is not None:
@@ -132,6 +141,42 @@ class OBDDataSource(VehicleDataSource):
     def supported_signals(self) -> list[str]:
         return [READ_ONLY_PIDS[n][0] for n in self._commands]
 
+    def identify(self) -> dict:
+        """Read-only identification: port, protocol and VIN (Mode 09, if the car reports it)."""
+        info = {"port": None, "protocol": None, "vin": None}
+        if not self.is_connected:
+            return info
+        for key, fn in (("port", "port_name"), ("protocol", "protocol_name")):
+            try:
+                info[key] = getattr(self._conn, fn)()
+            except Exception:
+                pass
+        vin_cmd = getattr(self._obd.commands, "VIN", None)
+        if vin_cmd is not None:
+            try:
+                if self._conn.supports(vin_cmd):
+                    r = self._conn.query(vin_cmd)
+                    if r is not None and not r.is_null():
+                        v = r.value
+                        info["vin"] = v.decode(errors="ignore") if isinstance(v, (bytes, bytearray)) else str(v)
+            except Exception as e:
+                self.errors.append(f"VIN: {e}")
+        return info
+
+    def read_dtcs(self) -> list[tuple[str, str]]:
+        """READ the trouble codes the car has stored (Mode 03). Never clears them."""
+        cmd = getattr(self._obd.commands, "GET_DTC", None)
+        if cmd is None or not self.is_connected:
+            return []
+        try:
+            r = self._conn.query(cmd)
+        except Exception as e:
+            self.errors.append(f"GET_DTC: {e}")
+            return []
+        if r is None or r.is_null() or not r.value:
+            return []
+        return [(str(c), str(d)) for c, d in r.value]
+
     # ---- polling ------------------------------------------------------
     def poll_once(self) -> Reading:
         if not self.is_connected:
@@ -141,21 +186,37 @@ class OBDDataSource(VehicleDataSource):
             except DataSourceError as e:
                 raise DataSourceError(f"Connection lost and reconnect failed: {e}") from e
         values: dict[str, float] = {}
-        for name, cmd in self._commands.items():
+        commands = list(self._commands.items())
+        if self.scheduler is not None:
+            plan = self.scheduler.plan(self.supported_signals(), time.monotonic())
+            chosen = {p["signal"] for p in plan}
+            order = {p["signal"]: i for i, p in enumerate(plan)}
+            commands = sorted([(n,c) for n,c in commands if READ_ONLY_PIDS[n][0] in chosen],
+                              key=lambda item: order[READ_ONLY_PIDS[item[0]][0]])
+        for name, cmd in commands:
             field, unit = READ_ONLY_PIDS[name]
+            started = time.monotonic()
             try:
                 resp = self._conn.query(cmd)
             except Exception as e:
                 self.errors.append(f"{name}: {type(e).__name__}: {e}")
+                if self.scheduler is not None:
+                    self.scheduler.observe(field, None, time.monotonic(), time.monotonic()-started)
                 continue
             if resp is None or resp.is_null() or resp.value is None:
+                if self.scheduler is not None:
+                    self.scheduler.observe(field, None, time.monotonic(), time.monotonic()-started)
                 continue
             v = resp.value
             try:
                 values[field] = float(v.to(unit).magnitude) if hasattr(v, "to") else float(v)
             except Exception as e:
                 self.errors.append(f"{name}: unit conversion failed: {e}")
-        reading = Reading(self._clock() - (self._start_wall or self._clock()), values,
+            if self.scheduler is not None:
+                self.scheduler.observe(field, values.get(field), time.monotonic(), time.monotonic()-started)
+        if self.scheduler is not None:
+            self.acquisition_summary = self.scheduler.summary()
+        reading = Reading(self._clock() - (self._start_wall if self._start_wall is not None else self._clock()), values,
                           DataOrigin.LIVE_OBD, unsupported=list(self.unsupported))
         self.recorded.append(reading)
         return reading
@@ -169,11 +230,19 @@ class OBDDataSource(VehicleDataSource):
             df[TIME_COL] = pd.Series(dtype=float)
         start = (dt.datetime.fromtimestamp(self._start_wall).isoformat()
                  if self._start_wall else None)
+        if self.simulated:
+            origin, basis, name = DataOrigin.SYNTHETIC, TimeBasis.SYNTHETIC_CLOCK, "simulated-obd-adapter"
+            notes = ["SIMULATED ADAPTER: a recorded carOBD trip replayed through the live OBD code path. "
+                     "No real car or adapter was involved."]
+            start = None
+        else:
+            origin, basis, name = DataOrigin.LIVE_OBD, TimeBasis.ABSOLUTE, f"obd:{self.port or 'auto'}"
+            notes = ["Live OBD-II recording - connector NOT TESTED ON A REAL VEHICLE."]
         meta = SessionMetadata(
-            source_name=f"obd:{self.port or 'auto'}", origin=DataOrigin.LIVE_OBD,
-            time_basis=TimeBasis.ABSOLUTE, start_timestamp=start, mapping_id="python-obd",
-            notes=["Live OBD-II recording - connector NOT TESTED ON A REAL VEHICLE."]
-                  + ([f"Unsupported PIDs: {', '.join(self.unsupported)}"] if self.unsupported else []))
+            source_name=name, origin=origin, time_basis=basis, start_timestamp=start, mapping_id="python-obd",
+            notes=notes + ([f"Unsupported PIDs: {', '.join(self.unsupported)}"] if self.unsupported else []))
+        if self.scheduler is not None:
+            meta.notes.append("ACTIVE_SAMPLING: PIDs sampled selectively; absent cells may be unrequested, not sensor failures.")
         return NormalizedSession(df, meta)
 
     def capabilities(self) -> SourceCapabilities:

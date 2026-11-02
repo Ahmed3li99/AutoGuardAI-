@@ -1,0 +1,78 @@
+{
+  "toyota_test": {
+    "hours": 8.8,
+    "spike_alerts": {},
+    "spike_alerts_per_hour": 0.0
+  },
+  "ved_test_ice": {
+    "cars": 132,
+    "hours": 1257.0,
+    "spike_alerts": {},
+    "spike_alerts_per_hour": 0.0
+  },
+  "ved_hev": {
+    "cars": 93,
+    "hours": 1334.6,
+    "spike_alerts": {},
+    "spike_alerts_per_hour": 0.0
+  },
+  "ved_phev": {
+    "cars": 24,
+    "hours": 593.3,
+    "spike_alerts": {},
+    "spike_alerts_per_hour": 0.0
+  },
+  "ved_ev": {
+    "cars": 3,
+    "hours": 0.0,
+    "spike_alerts": {},
+    "spike_alerts_per_hour": null
+  },
+  "chrysler": {
+    "hours": 1.1,
+    "spike_alerts": {},
+    "spike_alerts_per_hour": 0.0
+  },
+  "ford_automotive": {
+    "hours": 2.2,
+    "spike_alerts": {},
+    "spike_alerts_per_hour": 0.0
+  },
+  "ford_auto_trip": {
+    "hours": 7.7,
+    "spike_alerts": {
+      "consistency:mass_air_flow_g_per_s_spike": 2,
+      "consistency:baro_pressure_kpa_spike": 10,
+      "consistency:rpm_spike": 3
+    },
+    "spike_alerts_per_hour": 1.9572,
+    "glitch_events": {
+      "rpm": 4,
+      "coolant_temp_c": 2,
+      "mass_air_flow_g_per_s": 2,
+      "baro_pressure_kpa": 5,
+      "catalyst_temp_c": 5,
+      "intake_air_temp_c": 1
+    },
+    "total": 19,
+    "flagged_by_spike_check": {
+      "rpm": 3,
+      "coolant_temp_c": 0,
+      "mass_air_flow_g_per_s": 2,
+      "baro_pressure_kpa": 5,
+      "catalyst_temp_c": 0,
+      "intake_air_temp_c": 0
+    },
+    "flagged_by_spike_check_total": 10,
+    "flagged_by_all_consistency_or_rules": {
+      "rpm": 3,
+      "coolant_temp_c": 2,
+      "mass_air_flow_g_per_s": 2,
+      "baro_pressure_kpa": 5,
+      "catalyst_temp_c": 1,
+      "intake_air_temp_c": 1
+    },
+    "flagged_by_all_consistency_or_rules_total": 14,
+    "spike_alerts_not_on_a_glitch_event": 5
+  }
+}

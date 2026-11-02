@@ -24,6 +24,7 @@ _CONVERSIONS: dict[tuple[str, str], Callable[[pd.Series], pd.Series]] = {
     ("kg/h", "g/s"): lambda s: s / 3.6,
     ("lb/min", "g/s"): lambda s: s * 453.59237 / 60.0,
     ("mV", "V"): lambda s: s / 1000.0,
+    ("inHg", "kPa"): lambda s: s * 3.386389,
 }
 # Spellings that already equal the canonical unit.
 _IDENTITY = {"degC": "°C", "C": "°C", "°C": "°C", "km/h": "km/h", "kph": "km/h",
@@ -39,7 +40,7 @@ UNITS_BY_FIELD: dict[str, list[str]] = {
 def convert_units(series: pd.Series, from_unit: str, field_name: str) -> tuple[pd.Series, str | None]:
     """Return (converted series, description or None if no conversion was needed)."""
     target = CANONICAL_FIELDS[field_name].unit
-    if _IDENTITY.get(from_unit, from_unit) == target:
+    if from_unit == target or _IDENTITY.get(from_unit, from_unit) == target:
         return series, None
     fn = _CONVERSIONS.get((from_unit, target))
     if fn is None:
@@ -155,7 +156,8 @@ _TIME_ALIASES_ABS = ["timestamp", "datetime", "date_time", "time_stamp", "gps_ti
 _TIME_ALIASES_REL = ["t_s", "time_s", "elapsed_s", "seconds", "time", "elapsed", "run_time"]
 _UNIT_HINTS = {"mph": "mph", "km_h": "km/h", "kmh": "km/h", "kph": "km/h", "f": "degF",
                "degf": "degF", "c": "degC", "degc": "degC", "psi": "psi", "kpa": "kPa",
-               "bar": "bar", "mpa": "MPa", "v": "V", "mv": "mV", "g_s": "g/s", "kg_h": "kg/h"}
+               "bar": "bar", "mpa": "MPa", "v": "V", "mv": "mV", "g_s": "g/s", "g_sec": "g/s", "kg_h": "kg/h",
+               "inhg": "inHg", "lb_min": "lb/min"}
 
 
 def _norm(name: str) -> tuple[str, str | None]:
@@ -164,7 +166,10 @@ def _norm(name: str) -> tuple[str, str | None]:
     m = re.search(r"[\(\[]\s*([^\)\]]+?)\s*[\)\]]\s*$", name)
     base = name
     if m:
-        key = re.sub(r"[^a-z0-9]+", "_", m.group(1).lower().replace("°", "deg")).strip("_")
+        # "℉"/"℃" are single Unicode characters (U+2109/U+2103), not "°F" - normalise them first,
+        # otherwise a Fahrenheit column would silently be read as Celsius.
+        raw_unit = m.group(1).replace("℉", "degF").replace("℃", "degC").replace("°", "deg")
+        key = re.sub(r"[^a-z0-9]+", "_", raw_unit.lower()).strip("_")
         unit = _UNIT_HINTS.get(key)
         base = name[:m.start()]
     base = re.sub(r"[^a-z0-9]+", "_", base.lower()).strip("_")
@@ -221,6 +226,19 @@ def parse_time_column(raw: pd.Series, basis: TimeBasis, unit: str = "s") -> tupl
         t = (ts - first).dt.total_seconds().to_numpy(dtype=float) if first is not None \
             else np.full(len(raw), np.nan)
         return t, (first.isoformat() if first is not None else None), max(bad, 0)
+    if unit == "time_of_day":
+        # "HH:MM:SS(.fff)" with NO date: seconds since the first row, unwrapping a midnight
+        # crossing. A calendar date is never invented (time basis stays relative).
+        parts = raw.astype("string").str.extract(r"^\s*(\d{1,2}):(\d{2}):(\d{2}(?:\.\d+)?)\s*$")
+        sec = parts[0].astype(float) * 3600 + parts[1].astype(float) * 60 + parts[2].astype(float)
+        v = sec.to_numpy(dtype=float)
+        ok = np.isfinite(v)
+        if ok.any():
+            first = v[ok][0]
+            wrap = np.cumsum(np.r_[0, np.diff(np.where(ok, v, np.nan)) < -43200].astype(float)) * 86400
+            v = v + np.nan_to_num(wrap) - first
+        bad = int((~ok).sum() - raw.isna().sum())
+        return v, None, max(bad, 0)
     num = pd.to_numeric(raw, errors="coerce")
     bad = int(num.isna().sum() - raw.isna().sum())
     scale = {"s": 1.0, "ms": 1e-3, "min": 60.0}.get(unit, 1.0)

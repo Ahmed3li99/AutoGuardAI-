@@ -30,12 +30,51 @@
   "n_test_trips": 26,
   "test_seconds": 31527,
   "versions": {
+    "rules": "rules-v1",
+    "consistency": "consistency-v1",
     "isolation_forest": "iforest-carobd-v1-2026-10-22",
-    "moment": "moment-1-small@411e288267+thr-carobd-v1-2026-10-22"
+    "moment": "moment-1-small@411e288267+zero-shot+thr-carobd-v1-2026-10-22",
+    "moment_adapted": "moment-1-small@411e288267+carobd-adapted+thr-carobd-v1-2026-10-22",
+    "expected_vs_actual": "expected-vs-actual-carobd-v1-2026-10-22"
   },
   "moment_device": "cuda",
   "A_unmodified_test_trips": {
     "rules": {
+      "alerts": 0,
+      "alert_seconds": 0,
+      "above_thr_seconds": 0,
+      "scored_seconds": 0,
+      "by_category": {
+        "drive": {
+          "alerts": 0,
+          "seconds": 4348,
+          "alerts_per_hour": 0.0
+        },
+        "idle": {
+          "alerts": 0,
+          "seconds": 6938,
+          "alerts_per_hour": 0.0
+        },
+        "live": {
+          "alerts": 0,
+          "seconds": 9823,
+          "alerts_per_hour": 0.0
+        },
+        "long": {
+          "alerts": 0,
+          "seconds": 5358,
+          "alerts_per_hour": 0.0
+        },
+        "ufpe": {
+          "alerts": 0,
+          "seconds": 5060,
+          "alerts_per_hour": 0.0
+        }
+      },
+      "alerts_per_hour": 0.0,
+      "fraction_seconds_in_alert": 0.0
+    },
+    "consistency": {
       "alerts": 0,
       "alert_seconds": 0,
       "above_thr_seconds": 0,
@@ -141,6 +180,78 @@
       "alerts_per_hour": 1.37,
       "fraction_seconds_in_alert": 0.0047,
       "fraction_seconds_above_attention_thr": 0.0065
+    },
+    "moment_adapted": {
+      "alerts": 5,
+      "alert_seconds": 55,
+      "above_thr_seconds": 170,
+      "scored_seconds": 31503,
+      "by_category": {
+        "drive": {
+          "alerts": 0,
+          "seconds": 4348,
+          "alerts_per_hour": 0.0
+        },
+        "idle": {
+          "alerts": 0,
+          "seconds": 6938,
+          "alerts_per_hour": 0.0
+        },
+        "live": {
+          "alerts": 0,
+          "seconds": 9823,
+          "alerts_per_hour": 0.0
+        },
+        "long": {
+          "alerts": 4,
+          "seconds": 5358,
+          "alerts_per_hour": 2.69
+        },
+        "ufpe": {
+          "alerts": 1,
+          "seconds": 5060,
+          "alerts_per_hour": 0.71
+        }
+      },
+      "alerts_per_hour": 0.57,
+      "fraction_seconds_in_alert": 0.0017,
+      "fraction_seconds_above_attention_thr": 0.0054
+    },
+    "expected_vs_actual": {
+      "alerts": 5,
+      "alert_seconds": 59,
+      "above_thr_seconds": 276,
+      "scored_seconds": 31527,
+      "by_category": {
+        "drive": {
+          "alerts": 1,
+          "seconds": 4348,
+          "alerts_per_hour": 0.83
+        },
+        "idle": {
+          "alerts": 1,
+          "seconds": 6938,
+          "alerts_per_hour": 0.52
+        },
+        "live": {
+          "alerts": 2,
+          "seconds": 9823,
+          "alerts_per_hour": 0.73
+        },
+        "long": {
+          "alerts": 1,
+          "seconds": 5358,
+          "alerts_per_hour": 0.67
+        },
+        "ufpe": {
+          "alerts": 0,
+          "seconds": 5060,
+          "alerts_per_hour": 0.0
+        }
+      },
+      "alerts_per_hour": 0.57,
+      "fraction_seconds_in_alert": 0.0019,
+      "fraction_seconds_above_attention_thr": 0.0088
     }
   },
   "B_synthetic_injection_stress_test": {
@@ -148,171 +259,796 @@
       "rules": {
         "injected": 25,
         "detected": 25,
+        "detected_strict": 25,
         "event_detection_rate": 1.0,
         "wilson95": [
           0.867,
           1.0
         ],
-        "median_delay_s": 65.0,
+        "median_delay_s": 66.0,
+        "strict_detection_rate": 1.0,
+        "strict_wilson95": [
+          0.867,
+          1.0
+        ],
+        "strict_median_delay_s": 66.0,
+        "mean_auroc": null,
+        "mean_average_precision": null
+      },
+      "consistency": {
+        "injected": 25,
+        "detected": 0,
+        "detected_strict": 0,
+        "event_detection_rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.133
+        ],
+        "median_delay_s": null,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.133
+        ],
+        "strict_median_delay_s": null,
         "mean_auroc": null,
         "mean_average_precision": null
       },
       "isolation_forest": {
         "injected": 25,
-        "detected": 0,
-        "event_detection_rate": 0.0,
+        "detected": 3,
+        "detected_strict": 2,
+        "event_detection_rate": 0.12,
         "wilson95": [
-          0.0,
-          0.133
+          0.042,
+          0.3
         ],
-        "median_delay_s": null,
-        "mean_auroc": 0.757,
-        "mean_average_precision": 0.331
+        "median_delay_s": 21.0,
+        "strict_detection_rate": 0.08,
+        "strict_wilson95": [
+          0.022,
+          0.25
+        ],
+        "strict_median_delay_s": 49.5,
+        "mean_auroc": 0.822,
+        "mean_average_precision": 0.415
       },
       "moment": {
         "injected": 25,
-        "detected": 0,
-        "event_detection_rate": 0.0,
+        "detected": 2,
+        "detected_strict": 0,
+        "event_detection_rate": 0.08,
         "wilson95": [
+          0.022,
+          0.25
+        ],
+        "median_delay_s": 5.0,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
           0.0,
           0.133
         ],
-        "median_delay_s": null,
-        "mean_auroc": 0.642,
-        "mean_average_precision": 0.245
+        "strict_median_delay_s": null,
+        "mean_auroc": 0.617,
+        "mean_average_precision": 0.238
+      },
+      "moment_adapted": {
+        "injected": 25,
+        "detected": 1,
+        "detected_strict": 0,
+        "event_detection_rate": 0.04,
+        "wilson95": [
+          0.007,
+          0.195
+        ],
+        "median_delay_s": 74.0,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.133
+        ],
+        "strict_median_delay_s": null,
+        "mean_auroc": 0.513,
+        "mean_average_precision": 0.192
+      },
+      "expected_vs_actual": {
+        "injected": 25,
+        "detected": 25,
+        "detected_strict": 25,
+        "event_detection_rate": 1.0,
+        "wilson95": [
+          0.867,
+          1.0
+        ],
+        "median_delay_s": 67.0,
+        "strict_detection_rate": 1.0,
+        "strict_wilson95": [
+          0.867,
+          1.0
+        ],
+        "strict_median_delay_s": 67.0,
+        "mean_auroc": 0.9,
+        "mean_average_precision": 0.775
       }
     },
     "voltage_drop": {
       "rules": {
         "injected": 26,
         "detected": 26,
+        "detected_strict": 26,
         "event_detection_rate": 1.0,
         "wilson95": [
           0.871,
           1.0
         ],
         "median_delay_s": 0.0,
+        "strict_detection_rate": 1.0,
+        "strict_wilson95": [
+          0.871,
+          1.0
+        ],
+        "strict_median_delay_s": 0.0,
+        "mean_auroc": null,
+        "mean_average_precision": null
+      },
+      "consistency": {
+        "injected": 26,
+        "detected": 0,
+        "detected_strict": 0,
+        "event_detection_rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.129
+        ],
+        "median_delay_s": null,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.129
+        ],
+        "strict_median_delay_s": null,
         "mean_auroc": null,
         "mean_average_precision": null
       },
       "isolation_forest": {
         "injected": 26,
-        "detected": 8,
-        "event_detection_rate": 0.308,
+        "detected": 6,
+        "detected_strict": 6,
+        "event_detection_rate": 0.231,
         "wilson95": [
-          0.165,
-          0.5
+          0.11,
+          0.421
         ],
-        "median_delay_s": 11.5,
-        "mean_auroc": 0.95,
-        "mean_average_precision": 0.48
+        "median_delay_s": 12.5,
+        "strict_detection_rate": 0.231,
+        "strict_wilson95": [
+          0.11,
+          0.421
+        ],
+        "strict_median_delay_s": 12.5,
+        "mean_auroc": 0.949,
+        "mean_average_precision": 0.515
       },
       "moment": {
         "injected": 26,
         "detected": 26,
+        "detected_strict": 26,
         "event_detection_rate": 1.0,
         "wilson95": [
           0.871,
           1.0
         ],
         "median_delay_s": 0.0,
+        "strict_detection_rate": 1.0,
+        "strict_wilson95": [
+          0.871,
+          1.0
+        ],
+        "strict_median_delay_s": 0.0,
         "mean_auroc": 0.996,
-        "mean_average_precision": 0.9
+        "mean_average_precision": 0.907
+      },
+      "moment_adapted": {
+        "injected": 26,
+        "detected": 5,
+        "detected_strict": 4,
+        "event_detection_rate": 0.192,
+        "wilson95": [
+          0.085,
+          0.379
+        ],
+        "median_delay_s": 0.0,
+        "strict_detection_rate": 0.154,
+        "strict_wilson95": [
+          0.061,
+          0.335
+        ],
+        "strict_median_delay_s": 26.5,
+        "mean_auroc": 0.765,
+        "mean_average_precision": 0.217
+      },
+      "expected_vs_actual": {
+        "injected": 26,
+        "detected": 26,
+        "detected_strict": 26,
+        "event_detection_rate": 1.0,
+        "wilson95": [
+          0.871,
+          1.0
+        ],
+        "median_delay_s": 0.0,
+        "strict_detection_rate": 1.0,
+        "strict_wilson95": [
+          0.871,
+          1.0
+        ],
+        "strict_median_delay_s": 0.0,
+        "mean_auroc": 1.0,
+        "mean_average_precision": 1.0
       }
     },
     "flatline": {
       "rules": {
         "injected": 26,
-        "detected": 16,
-        "event_detection_rate": 0.615,
+        "detected": 15,
+        "detected_strict": 15,
+        "event_detection_rate": 0.577,
         "wilson95": [
-          0.425,
-          0.776
+          0.389,
+          0.745
         ],
-        "median_delay_s": 1.0,
+        "median_delay_s": 0.0,
+        "strict_detection_rate": 0.577,
+        "strict_wilson95": [
+          0.389,
+          0.745
+        ],
+        "strict_median_delay_s": 0.0,
+        "mean_auroc": null,
+        "mean_average_precision": null
+      },
+      "consistency": {
+        "injected": 26,
+        "detected": 26,
+        "detected_strict": 26,
+        "event_detection_rate": 1.0,
+        "wilson95": [
+          0.871,
+          1.0
+        ],
+        "median_delay_s": 0.0,
+        "strict_detection_rate": 1.0,
+        "strict_wilson95": [
+          0.871,
+          1.0
+        ],
+        "strict_median_delay_s": 0.0,
         "mean_auroc": null,
         "mean_average_precision": null
       },
       "isolation_forest": {
         "injected": 26,
-        "detected": 0,
-        "event_detection_rate": 0.0,
+        "detected": 2,
+        "detected_strict": 0,
+        "event_detection_rate": 0.077,
         "wilson95": [
+          0.021,
+          0.241
+        ],
+        "median_delay_s": 27.0,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
           0.0,
           0.129
         ],
-        "median_delay_s": null,
-        "mean_auroc": 0.553,
-        "mean_average_precision": 0.076
+        "strict_median_delay_s": null,
+        "mean_auroc": 0.483,
+        "mean_average_precision": 0.062
       },
       "moment": {
         "injected": 26,
+        "detected": 2,
+        "detected_strict": 0,
+        "event_detection_rate": 0.077,
+        "wilson95": [
+          0.021,
+          0.241
+        ],
+        "median_delay_s": 27.0,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.129
+        ],
+        "strict_median_delay_s": null,
+        "mean_auroc": 0.473,
+        "mean_average_precision": 0.059
+      },
+      "moment_adapted": {
+        "injected": 26,
         "detected": 0,
+        "detected_strict": 0,
         "event_detection_rate": 0.0,
         "wilson95": [
           0.0,
           0.129
         ],
         "median_delay_s": null,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.129
+        ],
+        "strict_median_delay_s": null,
         "mean_auroc": 0.485,
-        "mean_average_precision": 0.061
+        "mean_average_precision": 0.065
+      },
+      "expected_vs_actual": {
+        "injected": 26,
+        "detected": 7,
+        "detected_strict": 7,
+        "event_detection_rate": 0.269,
+        "wilson95": [
+          0.137,
+          0.461
+        ],
+        "median_delay_s": 41.0,
+        "strict_detection_rate": 0.269,
+        "strict_wilson95": [
+          0.137,
+          0.461
+        ],
+        "strict_median_delay_s": 41.0,
+        "mean_auroc": 0.643,
+        "mean_average_precision": 0.254
       }
     },
     "spike_noise": {
       "rules": {
         "injected": 26,
         "detected": 0,
+        "detected_strict": 0,
         "event_detection_rate": 0.0,
         "wilson95": [
           0.0,
           0.129
         ],
         "median_delay_s": null,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.129
+        ],
+        "strict_median_delay_s": null,
+        "mean_auroc": null,
+        "mean_average_precision": null
+      },
+      "consistency": {
+        "injected": 26,
+        "detected": 17,
+        "detected_strict": 17,
+        "event_detection_rate": 0.654,
+        "wilson95": [
+          0.462,
+          0.806
+        ],
+        "median_delay_s": 25.0,
+        "strict_detection_rate": 0.654,
+        "strict_wilson95": [
+          0.462,
+          0.806
+        ],
+        "strict_median_delay_s": 25.0,
         "mean_auroc": null,
         "mean_average_precision": null
       },
       "isolation_forest": {
         "injected": 26,
-        "detected": 7,
-        "event_detection_rate": 0.269,
+        "detected": 3,
+        "detected_strict": 3,
+        "event_detection_rate": 0.115,
         "wilson95": [
-          0.137,
-          0.461
+          0.04,
+          0.29
         ],
         "median_delay_s": 8.0,
-        "mean_auroc": 0.845,
-        "mean_average_precision": 0.251
+        "strict_detection_rate": 0.115,
+        "strict_wilson95": [
+          0.04,
+          0.29
+        ],
+        "strict_median_delay_s": 8.0,
+        "mean_auroc": 0.839,
+        "mean_average_precision": 0.193
       },
       "moment": {
         "injected": 26,
-        "detected": 2,
-        "event_detection_rate": 0.077,
+        "detected": 1,
+        "detected_strict": 1,
+        "event_detection_rate": 0.038,
         "wilson95": [
-          0.021,
-          0.241
+          0.007,
+          0.189
         ],
         "median_delay_s": 18.0,
-        "mean_auroc": 0.56,
-        "mean_average_precision": 0.051
+        "strict_detection_rate": 0.038,
+        "strict_wilson95": [
+          0.007,
+          0.189
+        ],
+        "strict_median_delay_s": 18.0,
+        "mean_auroc": 0.551,
+        "mean_average_precision": 0.044
+      },
+      "moment_adapted": {
+        "injected": 26,
+        "detected": 1,
+        "detected_strict": 1,
+        "event_detection_rate": 0.038,
+        "wilson95": [
+          0.007,
+          0.189
+        ],
+        "median_delay_s": 18.0,
+        "strict_detection_rate": 0.038,
+        "strict_wilson95": [
+          0.007,
+          0.189
+        ],
+        "strict_median_delay_s": 18.0,
+        "mean_auroc": 0.712,
+        "mean_average_precision": 0.074
+      },
+      "expected_vs_actual": {
+        "injected": 26,
+        "detected": 12,
+        "detected_strict": 12,
+        "event_detection_rate": 0.462,
+        "wilson95": [
+          0.288,
+          0.645
+        ],
+        "median_delay_s": 4.0,
+        "strict_detection_rate": 0.462,
+        "strict_wilson95": [
+          0.288,
+          0.645
+        ],
+        "strict_median_delay_s": 5.0,
+        "mean_auroc": 0.889,
+        "mean_average_precision": 0.442
       }
+    },
+    "step_jump": {
+      "rules": {
+        "injected": 26,
+        "detected": 22,
+        "detected_strict": 22,
+        "event_detection_rate": 0.846,
+        "wilson95": [
+          0.665,
+          0.939
+        ],
+        "median_delay_s": 0.0,
+        "strict_detection_rate": 0.846,
+        "strict_wilson95": [
+          0.665,
+          0.939
+        ],
+        "strict_median_delay_s": 0.0,
+        "mean_auroc": null,
+        "mean_average_precision": null
+      },
+      "consistency": {
+        "injected": 26,
+        "detected": 26,
+        "detected_strict": 26,
+        "event_detection_rate": 1.0,
+        "wilson95": [
+          0.871,
+          1.0
+        ],
+        "median_delay_s": 0.0,
+        "strict_detection_rate": 1.0,
+        "strict_wilson95": [
+          0.871,
+          1.0
+        ],
+        "strict_median_delay_s": 0.0,
+        "mean_auroc": null,
+        "mean_average_precision": null
+      },
+      "isolation_forest": {
+        "injected": 26,
+        "detected": 3,
+        "detected_strict": 3,
+        "event_detection_rate": 0.115,
+        "wilson95": [
+          0.04,
+          0.29
+        ],
+        "median_delay_s": 5.0,
+        "strict_detection_rate": 0.115,
+        "strict_wilson95": [
+          0.04,
+          0.29
+        ],
+        "strict_median_delay_s": 5.0,
+        "mean_auroc": 0.772,
+        "mean_average_precision": 0.179
+      },
+      "moment": {
+        "injected": 26,
+        "detected": 1,
+        "detected_strict": 0,
+        "event_detection_rate": 0.038,
+        "wilson95": [
+          0.007,
+          0.189
+        ],
+        "median_delay_s": 5.0,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.129
+        ],
+        "strict_median_delay_s": null,
+        "mean_auroc": 0.807,
+        "mean_average_precision": 0.223
+      },
+      "moment_adapted": {
+        "injected": 26,
+        "detected": 1,
+        "detected_strict": 0,
+        "event_detection_rate": 0.038,
+        "wilson95": [
+          0.007,
+          0.189
+        ],
+        "median_delay_s": 5.0,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.129
+        ],
+        "strict_median_delay_s": null,
+        "mean_auroc": 0.646,
+        "mean_average_precision": 0.123
+      },
+      "expected_vs_actual": {
+        "injected": 26,
+        "detected": 26,
+        "detected_strict": 26,
+        "event_detection_rate": 1.0,
+        "wilson95": [
+          0.871,
+          1.0
+        ],
+        "median_delay_s": 0.0,
+        "strict_detection_rate": 1.0,
+        "strict_wilson95": [
+          0.871,
+          1.0
+        ],
+        "strict_median_delay_s": 0.0,
+        "mean_auroc": 0.999,
+        "mean_average_precision": 0.939
+      }
+    },
+    "dropout": {
+      "rules": {
+        "injected": 26,
+        "detected": 0,
+        "detected_strict": 0,
+        "event_detection_rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.129
+        ],
+        "median_delay_s": null,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.129
+        ],
+        "strict_median_delay_s": null,
+        "mean_auroc": null,
+        "mean_average_precision": null
+      },
+      "consistency": {
+        "injected": 26,
+        "detected": 26,
+        "detected_strict": 26,
+        "event_detection_rate": 1.0,
+        "wilson95": [
+          0.871,
+          1.0
+        ],
+        "median_delay_s": 0.0,
+        "strict_detection_rate": 1.0,
+        "strict_wilson95": [
+          0.871,
+          1.0
+        ],
+        "strict_median_delay_s": 0.0,
+        "mean_auroc": null,
+        "mean_average_precision": null
+      },
+      "isolation_forest": {
+        "injected": 26,
+        "detected": 0,
+        "detected_strict": 0,
+        "event_detection_rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.129
+        ],
+        "median_delay_s": null,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.129
+        ],
+        "strict_median_delay_s": null,
+        "mean_auroc": null,
+        "mean_average_precision": null
+      },
+      "moment": {
+        "injected": 26,
+        "detected": 0,
+        "detected_strict": 0,
+        "event_detection_rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.129
+        ],
+        "median_delay_s": null,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.129
+        ],
+        "strict_median_delay_s": null,
+        "mean_auroc": null,
+        "mean_average_precision": null
+      },
+      "moment_adapted": {
+        "injected": 26,
+        "detected": 0,
+        "detected_strict": 0,
+        "event_detection_rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.129
+        ],
+        "median_delay_s": null,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.129
+        ],
+        "strict_median_delay_s": null,
+        "mean_auroc": null,
+        "mean_average_precision": null
+      },
+      "expected_vs_actual": {
+        "injected": 26,
+        "detected": 0,
+        "detected_strict": 0,
+        "event_detection_rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.129
+        ],
+        "median_delay_s": null,
+        "strict_detection_rate": 0.0,
+        "strict_wilson95": [
+          0.0,
+          0.129
+        ],
+        "strict_median_delay_s": null,
+        "mean_auroc": 0.574,
+        "mean_average_precision": 0.17
+      }
+    }
+  },
+  "B_invalid_labels_skipped": {
+    "coolant_overheat": 0,
+    "voltage_drop": 0,
+    "flatline": 0,
+    "spike_noise": 0,
+    "step_jump": 0,
+    "dropout": 0
+  },
+  "B_app_combined_strict": {
+    "coolant_overheat": {
+      "detected": 25,
+      "injected": 25,
+      "rate": 1.0,
+      "wilson95": [
+        0.867,
+        1.0
+      ]
+    },
+    "voltage_drop": {
+      "detected": 26,
+      "injected": 26,
+      "rate": 1.0,
+      "wilson95": [
+        0.871,
+        1.0
+      ]
+    },
+    "flatline": {
+      "detected": 26,
+      "injected": 26,
+      "rate": 1.0,
+      "wilson95": [
+        0.871,
+        1.0
+      ]
+    },
+    "spike_noise": {
+      "detected": 17,
+      "injected": 26,
+      "rate": 0.654,
+      "wilson95": [
+        0.462,
+        0.806
+      ]
+    },
+    "step_jump": {
+      "detected": 26,
+      "injected": 26,
+      "rate": 1.0,
+      "wilson95": [
+        0.871,
+        1.0
+      ]
+    },
+    "dropout": {
+      "detected": 26,
+      "injected": 26,
+      "rate": 1.0,
+      "wilson95": [
+        0.871,
+        1.0
+      ]
     }
   },
   "C_latency": {
     "rules": {
-      "seconds_total": 0.232,
-      "ms_per_hour_of_data": 26.4
+      "seconds_total": 1.254,
+      "ms_per_hour_of_data": 143.2
+    },
+    "consistency": {
+      "seconds_total": 1.175,
+      "ms_per_hour_of_data": 134.1
     },
     "isolation_forest": {
-      "seconds_total": 0.576,
-      "ms_per_hour_of_data": 65.8
+      "seconds_total": 2.034,
+      "ms_per_hour_of_data": 232.3
     },
     "moment": {
-      "seconds_total": 0.898,
-      "ms_per_hour_of_data": 102.5,
-      "cuda_peak_mb_longest_trip": 285.3,
-      "cpu_seconds_longest_trip": 0.59,
+      "seconds_total": 1.595,
+      "ms_per_hour_of_data": 182.2,
+      "cuda_peak_mb_longest_trip": 430.3,
+      "cpu_seconds_longest_trip": 5.67,
       "cpu_python_heap_peak_mb": 1.6,
       "longest_trip_seconds": 2883
+    },
+    "moment_adapted": {
+      "seconds_total": 4.089,
+      "ms_per_hour_of_data": 467.0,
+      "cuda_peak_mb_longest_trip": 430.5,
+      "cpu_seconds_longest_trip": 22.25,
+      "cpu_python_heap_peak_mb": 1.6,
+      "longest_trip_seconds": 2883
+    },
+    "expected_vs_actual": {
+      "seconds_total": 6.681,
+      "ms_per_hour_of_data": 762.9,
+      "cpu_seconds_longest_trip": 0.41
     },
     "cpu_count": 16
   }

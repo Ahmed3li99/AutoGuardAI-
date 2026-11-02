@@ -1,0 +1,211 @@
+{
+  "dataset_id": "apmonitor_automotive",
+  "obtained": true,
+  "source_url": "https://apmonitor.com/pds/index.php/Main/AutomotiveMonitoring",
+  "inventory": [
+    {
+      "file": "data/raw/apmonitor/auto_iowa.txt",
+      "bytes": 1459580,
+      "sha256": "9321afddc51383aebf5a0b232d952eefc485bb806950a099f1e9727b0f123b38"
+    },
+    {
+      "file": "data/raw/apmonitor/auto_trip/auto_trip.csv",
+      "bytes": 30778712,
+      "sha256": "5bd7a0743c60161582bc86ae2124db427cf11de529afca4ca490fd0f5b8ec9f4"
+    },
+    {
+      "file": "data/raw/apmonitor/auto_trip.zip",
+      "bytes": 5617612,
+      "sha256": "c2d8b468575e8af6d5f45b479098b59dc9bbf8e72e00bb7969c2c9a4cf1cb72e"
+    },
+    {
+      "file": "data/raw/apmonitor/auto_warmup.txt",
+      "bytes": 1360159,
+      "sha256": "5e5aa687838e4366043312b4513dee7dfa256857aecae211a092b1f90b3effe4"
+    },
+    {
+      "file": "data/raw/apmonitor/automotive.txt",
+      "bytes": 4330580,
+      "sha256": "ba1e3d1a064eac0c1525187c6c06285cd8b96bcc9efb5c65ae74c17c50c2ce5f"
+    }
+  ],
+  "files": {
+    "auto_warmup.txt": {
+      "car": "ford",
+      "mapping_id": "apmonitor_ford_carscanner_v1",
+      "rows": 13316,
+      "duration_s": 2059.4,
+      "signals": [
+        "rpm",
+        "speed_kmh",
+        "coolant_temp_c",
+        "engine_load_pct",
+        "throttle_pct",
+        "intake_air_temp_c",
+        "ambient_air_temp_c",
+        "battery_voltage",
+        "mass_air_flow_g_per_s",
+        "baro_pressure_kpa",
+        "fuel_level_pct",
+        "timing_advance_deg",
+        "long_fuel_trim_pct",
+        "short_fuel_trim_pct",
+        "catalyst_temp_c"
+      ],
+      "row_coverage": {
+        "rpm": 0.003,
+        "speed_kmh": 0.389,
+        "coolant_temp_c": 0.388,
+        "engine_load_pct": 0.001,
+        "throttle_pct": 0.005,
+        "intake_air_temp_c": 0.001,
+        "ambient_air_temp_c": 0.001,
+        "battery_voltage": 0.001,
+        "mass_air_flow_g_per_s": 0.003,
+        "baro_pressure_kpa": 0.001,
+        "fuel_level_pct": 0.001,
+        "timing_advance_deg": 0.001,
+        "long_fuel_trim_pct": 0.001,
+        "short_fuel_trim_pct": 0.001,
+        "catalyst_temp_c": 0.386
+      },
+      "max": {
+        "rpm": 716.0,
+        "speed_kmh": 68.0,
+        "coolant_temp_c": 96.0,
+        "engine_load_pct": 0.0,
+        "throttle_pct": 16.9,
+        "intake_air_temp_c": 16.0,
+        "ambient_air_temp_c": -40.0,
+        "battery_voltage": 11.8,
+        "mass_air_flow_g_per_s": 2.7,
+        "baro_pressure_kpa": 85.0,
+        "fuel_level_pct": 46.0,
+        "timing_advance_deg": 10.0,
+        "long_fuel_trim_pct": -3.9,
+        "short_fuel_trim_pct": 0.0,
+        "catalyst_temp_c": 677.9
+      }
+    },
+    "automotive.txt": {
+      "car": "ford",
+      "mapping_id": "apmonitor_ford_carscanner_v1",
+      "rows": 49602,
+      "duration_s": 9453.3,
+      "signals": [
+        "rpm",
+        "speed_kmh",
+        "throttle_pct",
+        "mass_air_flow_g_per_s"
+      ],
+      "row_coverage": {
+        "rpm": 0.202,
+        "speed_kmh": 0.201,
+        "throttle_pct": 0.199,
+        "mass_air_flow_g_per_s": 0.199
+      },
+      "max": {
+        "rpm": 3606.0,
+        "speed_kmh": 135.0,
+        "throttle_pct": 56.1,
+        "mass_air_flow_g_per_s": 46.4
+      }
+    },
+    "auto_trip/auto_trip.csv": {
+      "car": "ford",
+      "mapping_id": "apmonitor_ford_carscanner_v1",
+      "rows": 291866,
+      "duration_s": 45727.9,
+      "signals": [
+        "rpm",
+        "speed_kmh",
+        "coolant_temp_c",
+        "engine_load_pct",
+        "throttle_pct",
+        "intake_air_temp_c",
+        "ambient_air_temp_c",
+        "mass_air_flow_g_per_s",
+        "baro_pressure_kpa",
+        "fuel_level_pct",
+        "catalyst_temp_c",
+        "latitude",
+        "longitude"
+      ],
+      "row_coverage": {
+        "rpm": 0.046,
+        "speed_kmh": 0.046,
+        "coolant_temp_c": 0.023,
+        "engine_load_pct": 0.046,
+        "throttle_pct": 0.046,
+        "intake_air_temp_c": 0.046,
+        "ambient_air_temp_c": 0.0,
+        "mass_air_flow_g_per_s": 0.046,
+        "baro_pressure_kpa": 0.046,
+        "fuel_level_pct": 0.046,
+        "catalyst_temp_c": 0.046,
+        "latitude": 1.0,
+        "longitude": 1.0
+      },
+      "max": {
+        "rpm": 11596.0,
+        "speed_kmh": 196.0,
+        "coolant_temp_c": 190.0,
+        "engine_load_pct": 100.0,
+        "throttle_pct": 87.1,
+        "intake_air_temp_c": 158.0,
+        "ambient_air_temp_c": 41.0,
+        "mass_air_flow_g_per_s": 503.5,
+        "baro_pressure_kpa": 210.0,
+        "fuel_level_pct": 100.0,
+        "catalyst_temp_c": 4157.0,
+        "latitude": 40.2,
+        "longitude": -111.6
+      }
+    },
+    "auto_iowa.txt": {
+      "car": "chrysler",
+      "mapping_id": "apmonitor_chrysler_v1",
+      "rows": 3927,
+      "duration_s": 4001.7,
+      "signals": [
+        "rpm",
+        "speed_kmh",
+        "coolant_temp_c",
+        "engine_load_pct",
+        "throttle_pct",
+        "intake_air_temp_c",
+        "manifold_pressure_kpa",
+        "battery_voltage",
+        "mass_air_flow_g_per_s",
+        "latitude",
+        "longitude"
+      ],
+      "row_coverage": {
+        "rpm": 1.0,
+        "speed_kmh": 1.0,
+        "coolant_temp_c": 1.0,
+        "engine_load_pct": 1.0,
+        "throttle_pct": 1.0,
+        "intake_air_temp_c": 1.0,
+        "manifold_pressure_kpa": 1.0,
+        "battery_voltage": 1.0,
+        "mass_air_flow_g_per_s": 1.0,
+        "latitude": 1.0,
+        "longitude": 1.0
+      },
+      "max": {
+        "rpm": 3498.0,
+        "speed_kmh": 119.0,
+        "coolant_temp_c": 95.0,
+        "engine_load_pct": 100.0,
+        "throttle_pct": 61.2,
+        "intake_air_temp_c": 20.0,
+        "manifold_pressure_kpa": 98.0,
+        "battery_voltage": 14.5,
+        "mass_air_flow_g_per_s": 42.2,
+        "latitude": 41.6,
+        "longitude": -92.9
+      }
+    }
+  }
+}

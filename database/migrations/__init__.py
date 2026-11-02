@@ -90,4 +90,10 @@ CREATE TABLE settings (
     value_json TEXT NOT NULL
 );
 """),
+    # v2: "learn your car" - reference trips approved by the user, per-vehicle model status
+    (2, """
+ALTER TABLE sessions ADD COLUMN is_reference INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE vehicles ADD COLUMN model_json TEXT;
+CREATE INDEX idx_sessions_vehicle ON sessions(vehicle_profile_id);
+"""),
 ]

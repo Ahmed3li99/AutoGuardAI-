@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-22",
+  "generated": "2026-10-23",
   "generator": "experiments/audit_datasets.py",
   "datasets": [
     {
@@ -75,6 +75,43 @@
       "obtained": false,
       "audit_file": "data/processed/audit/kit_obd.json",
       "doi": "10.35097/1130"
+    },
+    {
+      "dataset_id": "ved",
+      "name": "Vehicle Energy Dataset (VED)",
+      "provider": "G. Oh, D. J. LeBlanc, H. Peng (University of Michigan)",
+      "citation": "G. Oh, D. J. LeBlanc, H. Peng. Vehicle Energy Dataset (VED), A Large-scale Dataset for Vehicle Energy Consumption Research. IEEE T-ITS, 2020. doi:10.1109/TITS.2020.3035596",
+      "license": "Apache License 2.0 (LICENSE file in the repository)",
+      "ground_truth": "none (no fault labels); vehicle type / class / engine from the static tables",
+      "decision": "ACCEPT (cross-car validation only)",
+      "uses": [
+        "cross-car validation of the drivetrain model and 'learn your car' (RPM + speed only)",
+        "consistency-check behaviour on ICE / HEV / PHEV / EV"
+      ],
+      "source_url": "https://github.com/gsoh/VED",
+      "obtained": true,
+      "audit_file": "data/processed/audit/ved.json",
+      "n_files": 6,
+      "total_bytes": 176432025
+    },
+    {
+      "dataset_id": "apmonitor_automotive",
+      "name": "APMonitor Automotive Monitoring (2014 Ford Focus, 2021 Chrysler Pacifica)",
+      "provider": "APMonitor / BYU PRISM course material (J. Hedengren)",
+      "citation": "APMonitor, Automotive Monitoring, https://apmonitor.com/pds/index.php/Main/AutomotiveMonitoring",
+      "license": "No license stated on the page: used locally for evaluation only, NOT bundled or redistributed.",
+      "ground_truth": "none; the long Ford file contains real glitch values (e.g. RPM 11,596, coolant 190 C)",
+      "decision": "RESTRICTED USE (local evaluation only)",
+      "uses": [
+        "cross-car validation (full + drivetrain models)",
+        "real sensor glitches vs the consistency check",
+        "import tests for Car Scanner / OBD Fusion style logs"
+      ],
+      "source_url": "https://apmonitor.com/pds/index.php/Main/AutomotiveMonitoring",
+      "obtained": true,
+      "audit_file": "data/processed/audit/apmonitor_automotive.json",
+      "n_files": 5,
+      "total_bytes": 43546643
     }
   ]
 }

@@ -27,10 +27,12 @@ from sklearn.metrics import average_precision_score, roc_auc_score
 from common import PROCESSED, ROOT, load_partition, toyota_split
 
 from ai.isolation_forest_baseline import IFModel
-from ai.moment_inference import MODEL_DIR, MomentScorer
+from ai.normal_behavior import NormalBehaviorModel
+from ai.moment_inference import ADAPTED_MODEL_DIR, BASE_MODEL_DIR, MomentScorer
+from ai.consistency import run_consistency
 from ai.rules_baseline import run_rules
 from ai.thresholds import scores_to_alerts
-from core.analytics.injection import InjectedEvent, inject, label_vector
+from core.analytics.injection import InjectedEvent, changes_data, inject, label_vector
 from core.schema import TIME_COL
 
 SEED = 7
@@ -39,7 +41,12 @@ INJECTIONS = [  # kind, signal, duration_s
     ("voltage_drop", "battery_voltage", 60),
     ("flatline", "rpm", 60),
     ("spike_noise", "speed_kmh", 30),
+    # sensor faults (targets of the sensor-consistency check)
+    ("step_jump", "coolant_temp_c", 60),       # +25 C offset: an impossible 1-second jump in and out
+    ("dropout", "intake_air_temp_c", 60),      # one sensor stops reporting
 ]
+MAGNITUDE = {"step_jump": 25.0}
+APP_DETECTORS = ("rules", "consistency", "expected_vs_actual")
 
 
 def wilson(k: int, n: int, z: float = 1.96) -> list[float] | None:
@@ -52,19 +59,26 @@ def wilson(k: int, n: int, z: float = 1.96) -> list[float] | None:
     return [round(c - h, 3), round(c + h, 3)]
 
 
-def detect_all(df, ifm, mom, origin="recorded"):
+def detect_all(df, ifm, moments: dict, nbm=None, origin="recorded"):
+    """Returns {detector: (per-second scores or None, alerts, seconds)}."""
     out = {}
     t0 = time.perf_counter()
     out["rules"] = (None, run_rules(df, origin=origin), time.perf_counter() - t0)
     t0 = time.perf_counter()
+    out["consistency"] = (None, run_consistency(df, origin=origin), time.perf_counter() - t0)
+    t0 = time.perf_counter()
     s, c = ifm.score(df)
     out["isolation_forest"] = (s, scores_to_alerts(df, s, ifm.threshold, "if", ifm.version, c),
                                time.perf_counter() - t0)
-    if mom is not None:
+    for key, mom in moments.items():
         t0 = time.perf_counter()
         s, c, _ = mom.score(df)
-        out["moment"] = (s, scores_to_alerts(df, s, mom.threshold, "moment", mom.version, c),
-                         time.perf_counter() - t0)
+        out[key] = (s, scores_to_alerts(df, s, mom.threshold, key, mom.version, c), time.perf_counter() - t0)
+    if nbm is not None:
+        t0 = time.perf_counter()
+        pred = nbm.predict(df)
+        s, _ = nbm.score(df, pred)
+        out["expected_vs_actual"] = (s, nbm.alerts(df, origin, pred=pred), time.perf_counter() - t0)
     return out
 
 
@@ -75,24 +89,32 @@ def main() -> None:
     split = toyota_split()
     test = load_partition(split["test"])
     ifm = IFModel.load(ROOT / "models" / "iforest")
+    moments = {}
+    for key, mdir in (("moment", BASE_MODEL_DIR), ("moment_adapted", ADAPTED_MODEL_DIR)):
+        try:
+            moments[key] = MomentScorer.load(mdir, args.device)
+        except Exception as e:
+            print(f"{key} unavailable:", e)
     try:
-        mom = MomentScorer.load(MODEL_DIR, args.device)
-    except Exception as e:
-        print("MOMENT unavailable:", e)
-        mom = None
-    dets = ["rules", "isolation_forest"] + (["moment"] if mom else [])
+        nbm = NormalBehaviorModel.load(ROOT / "models" / "normal_behavior")
+    except FileNotFoundError:
+        nbm = None
+    dets = ["rules", "consistency", "isolation_forest", *moments] + (["expected_vs_actual"] if nbm else [])
+    scorers = {"isolation_forest": ifm, **moments, "expected_vs_actual": nbm}
     res = {"test_trips": split["test"], "n_test_trips": len(test),
            "test_seconds": int(sum(len(f) for f in test.values())),
-           "versions": {"isolation_forest": ifm.version, "moment": mom.version if mom else None},
-           "moment_device": mom.device if mom else None}
+           "versions": {d: getattr(scorers.get(d), "version", {"rules": "rules-v1", "consistency": "consistency-v1"}.get(d)) for d in dets},
+           "moment_device": next(iter(moments.values())).device if moments else None}
 
     # ---- A: unmodified test trips --------------------------------------
     a = {d: {"alerts": 0, "alert_seconds": 0, "above_thr_seconds": 0, "scored_seconds": 0,
              "by_category": {}} for d in dets}
     timing = {d: [] for d in dets}
+    clean_alerts: dict[str, dict] = {}       # trip -> detector -> alerts on the UNMODIFIED trip
     for name, df in test.items():
         cat = name.rstrip(".csv").rstrip("0123456789")
-        out = detect_all(df, ifm, mom)
+        out = detect_all(df, ifm, moments, nbm)
+        clean_alerts[name] = {d: out[d][1] for d in dets}
         for d in dets:
             sc, alerts, sec = out[d]
             timing[d].append((len(df), sec))
@@ -102,7 +124,7 @@ def main() -> None:
             bc["alerts"] += len(alerts)
             bc["seconds"] += len(df)
             if sc is not None:
-                thr = (ifm if d == "isolation_forest" else mom).threshold.attention
+                thr = scorers[d].threshold.attention
                 ok = np.isfinite(sc)
                 a[d]["scored_seconds"] += int(ok.sum())
                 a[d]["above_thr_seconds"] += int((sc[ok] > thr).sum())
@@ -118,41 +140,68 @@ def main() -> None:
 
     # ---- B: synthetic injection stress test ----------------------------
     rng = np.random.default_rng(SEED)
-    b = {k: {d: {"injected": 0, "detected": 0, "delays_s": [], "auroc": [], "ap": []} for d in dets}
+    # lenient = any alert overlapping the injected interval (original metric, kept for comparison)
+    # strict  = overlapping alert that (1) names the injected signal and (2) is NEW, i.e. no alert
+    #           of the same detector on that signal overlapped this interval in the unmodified trip
+    b = {k: {d: {"injected": 0, "detected": 0, "detected_strict": 0, "delays_s": [], "delays_strict_s": [],
+                 "auroc": [], "ap": []} for d in dets}
          for k, _, _ in INJECTIONS}
+    invalid = {k: 0 for k, _, _ in INJECTIONS}
+    app = {k: [0, 0] for k, _, _ in INJECTIONS}     # what the app's verdict uses: rules OR consistency OR model
     for name, df in test.items():
         t = df[TIME_COL].to_numpy()
         for kind, sig, dur in INJECTIONS:
             if len(df) < dur + 240:
                 continue
             start = float(t[0] + rng.integers(120, len(df) - dur - 60))
-            ev = InjectedEvent(kind, sig, start, start + dur, f"stress test {kind}")
+            ev = InjectedEvent(kind, sig, start, start + dur, f"stress test {kind}", MAGNITUDE.get(kind))
             dfi = inject(df, [ev])
+            if not changes_data(df, dfi, ev):          # not a valid fault label (see changes_data)
+                invalid[kind] += 1
+                continue
             y = label_vector(dfi[TIME_COL].to_numpy(), [ev])
-            out = detect_all(dfi, ifm, mom, origin="synthetic")
+            out = detect_all(dfi, ifm, moments, nbm, origin="synthetic")
+            app_hit = False
             for d in dets:
                 sc, alerts, _ = out[d]
                 r = b[kind][d]
                 r["injected"] += 1
-                hits = [x for x in alerts if x.t_end_s >= ev.start_s and x.t_start_s < ev.end_s]
+                def overlaps(x):
+                    return x.t_end_s >= ev.start_s and x.t_start_s < ev.end_s
+
+                hits = [x for x in alerts if overlaps(x)]
                 if hits:
                     r["detected"] += 1
                     r["delays_s"].append(max(0.0, min(x.t_start_s for x in hits) - ev.start_s))
+                pre_existing = any(overlaps(x) and sig in x.signals for x in clean_alerts[name][d])
+                strict = [x for x in hits if sig in x.signals] if not pre_existing else []
+                if strict:
+                    r["detected_strict"] += 1
+                    r["delays_strict_s"].append(max(0.0, min(x.t_start_s for x in strict) - ev.start_s))
+                    app_hit |= d in APP_DETECTORS
                 if sc is not None:
                     ok = np.isfinite(sc)
                     if y[ok].any() and (~y[ok]).any():
                         r["auroc"].append(roc_auc_score(y[ok], sc[ok]))
                         r["ap"].append(average_precision_score(y[ok], sc[ok]))
+            app[kind][0] += int(app_hit)
+            app[kind][1] += 1
     for kind in b:
         for d, r in b[kind].items():
             r["event_detection_rate"] = round(r["detected"] / r["injected"], 3) if r["injected"] else None
             r["wilson95"] = wilson(r["detected"], r["injected"])
             r["median_delay_s"] = float(np.median(r["delays_s"])) if r["delays_s"] else None
+            r["strict_detection_rate"] = round(r["detected_strict"] / r["injected"], 3) if r["injected"] else None
+            r["strict_wilson95"] = wilson(r["detected_strict"], r["injected"])
+            r["strict_median_delay_s"] = float(np.median(r["delays_strict_s"])) if r["delays_strict_s"] else None
             r["mean_auroc"] = round(float(np.mean(r["auroc"])), 3) if r["auroc"] else None
             r["mean_average_precision"] = round(float(np.mean(r["ap"])), 3) if r["ap"] else None
-            for k in ("delays_s", "auroc", "ap"):
+            for k in ("delays_s", "delays_strict_s", "auroc", "ap"):
                 r.pop(k)
     res["B_synthetic_injection_stress_test"] = b
+    res["B_invalid_labels_skipped"] = dict(invalid)
+    res["B_app_combined_strict"] = {k: {"detected": h, "injected": n, "rate": round(h / n, 3) if n else None,
+                                        "wilson95": wilson(h, n)} for k, (h, n) in app.items()}
 
     # ---- C: latency / memory -------------------------------------------
     c = {}
@@ -160,21 +209,25 @@ def main() -> None:
         n = sum(x for x, _ in timing[d])
         s = sum(y for _, y in timing[d])
         c[d] = {"seconds_total": round(s, 3), "ms_per_hour_of_data": round(1000 * s / (n / 3600), 1)}
-    if mom is not None:
+    big = max(test.values(), key=len)
+    for key, mom in moments.items():
         import torch
-        big = max(test.values(), key=len)
         if mom.device == "cuda":
             torch.cuda.reset_peak_memory_stats()
             mom.score(big)
-            c["moment"]["cuda_peak_mb_longest_trip"] = round(torch.cuda.max_memory_allocated() / 2**20, 1)
-        cpu = MomentScorer.load(MODEL_DIR, "cpu")
+            c[key]["cuda_peak_mb_longest_trip"] = round(torch.cuda.max_memory_allocated() / 2**20, 1)
+        cpu = MomentScorer.load(BASE_MODEL_DIR if key == "moment" else ADAPTED_MODEL_DIR, "cpu")
         tracemalloc.start()
         t0 = time.perf_counter()
         cpu.score(big)
-        c["moment"]["cpu_seconds_longest_trip"] = round(time.perf_counter() - t0, 2)
-        c["moment"]["cpu_python_heap_peak_mb"] = round(tracemalloc.get_traced_memory()[1] / 2**20, 1)
+        c[key]["cpu_seconds_longest_trip"] = round(time.perf_counter() - t0, 2)
+        c[key]["cpu_python_heap_peak_mb"] = round(tracemalloc.get_traced_memory()[1] / 2**20, 1)
         tracemalloc.stop()
-        c["moment"]["longest_trip_seconds"] = len(big)
+        c[key]["longest_trip_seconds"] = len(big)
+    if nbm is not None:
+        t0 = time.perf_counter()
+        nbm.score(big)
+        c["expected_vs_actual"]["cpu_seconds_longest_trip"] = round(time.perf_counter() - t0, 2)
     c["cpu_count"] = os.cpu_count()
     res["C_latency"] = c
     PROCESSED.mkdir(parents=True, exist_ok=True)

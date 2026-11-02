@@ -1,0 +1,26 @@
+{
+  "mapping_id": "apmonitor_ford_carscanner_v1",
+  "dataset_id": "apmonitor_ford",
+  "description": "APMonitor Automotive Monitoring data, 2014 Ford Focus (manual), logged with an ELM327 + Car Scanner app (and OBDLink MX+ for automotive.txt). One PID per row (asynchronous); the 1 Hz grid takes the last value per second. Time is a clock time WITHOUT a date: used as relative time, no date is invented. Imperial units (degF, mph) converted. 'Absolute load value' (PID 0x43) is NOT mapped: it differs from calculated engine load (PID 0x04).",
+  "detect_columns": ["time", "Engine RPM (rpm)", "Vehicle speed (mph)"],
+  "time": {"column": "time", "basis": "relative_recorded", "unit": "time_of_day"},
+  "columns": {
+    "Engine RPM (rpm)": {"to": "rpm", "unit": "rpm"},
+    "Vehicle speed (mph)": {"to": "speed_kmh", "unit": "mph"},
+    "Engine coolant temperature (℉)": {"to": "coolant_temp_c", "unit": "degF"},
+    "Calculated engine load value (%)": {"to": "engine_load_pct", "unit": "%"},
+    "Throttle position (%)": {"to": "throttle_pct", "unit": "%"},
+    "Intake air temperature (℉)": {"to": "intake_air_temp_c", "unit": "degF"},
+    "Ambient air temperature (℉)": {"to": "ambient_air_temp_c", "unit": "degF"},
+    "Control module voltage (V)": {"to": "battery_voltage", "unit": "V"},
+    "MAF air flow rate (g/sec)": {"to": "mass_air_flow_g_per_s", "unit": "g/s"},
+    "Barometric pressure (kPa)": {"to": "baro_pressure_kpa", "unit": "kPa"},
+    "Fuel level input (%) (%)": {"to": "fuel_level_pct", "unit": "%"},
+    "Timing advance (°)": {"to": "timing_advance_deg", "unit": "deg"},
+    "Long term fuel % trim - Bank 1 (%)": {"to": "long_fuel_trim_pct", "unit": "%"},
+    "Short term fuel % trim - Bank 1 (%)": {"to": "short_fuel_trim_pct", "unit": "%"},
+    "Catalyst temperature Bank 1 Sensor 1 (℉)": {"to": "catalyst_temp_c", "unit": "degF"},
+    "Latitude": {"to": "latitude", "unit": "deg"},
+    "Longitude": {"to": "longitude", "unit": "deg"}
+  }
+}

@@ -1,3 +1,3 @@
-# OPTIONAL future hardware support - NOT required for the current project and NOT tested on a vehicle.
-# Read-only use with an ELM327-type adapter; see docs/FUTURE_OBD_INTEGRATION.md.
+# python-OBD is now part of requirements.txt (the app ships the read-only connector).
+# Kept for compatibility with older setup instructions.
 obd==0.7.3

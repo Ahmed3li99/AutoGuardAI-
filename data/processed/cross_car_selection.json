@@ -1,0 +1,122 @@
+{
+  "candidates": [
+    {
+      "noise_up_to": "base",
+      "dev_hours": 307.3,
+      "pooled_false_alerts_per_hour": 22.59,
+      "median_car_false_alerts_per_hour": 23.94,
+      "strict_detection_with_consistency": {
+        "flatline": 0.319,
+        "step_jump": 0.419,
+        "spike_noise": 0.997
+      }
+    },
+    {
+      "noise_up_to": null,
+      "dev_hours": 307.3,
+      "pooled_false_alerts_per_hour": 20.49,
+      "median_car_false_alerts_per_hour": 21.61,
+      "strict_detection_with_consistency": {
+        "flatline": 0.29,
+        "step_jump": 0.45,
+        "spike_noise": 0.997
+      },
+      "toyota_calibration_same_car": {
+        "false_alerts_per_hour": 0.52,
+        "strict_detection_with_rules": {
+          "coolant_overheat": 1.0,
+          "voltage_drop": 1.0,
+          "flatline": 0.485,
+          "spike_noise": 0.515
+        }
+      }
+    },
+    {
+      "noise_up_to": 1.5,
+      "dev_hours": 307.3,
+      "pooled_false_alerts_per_hour": 6.99,
+      "median_car_false_alerts_per_hour": 6.07,
+      "strict_detection_with_consistency": {
+        "flatline": 0.125,
+        "step_jump": 0.181,
+        "spike_noise": 0.997
+      },
+      "toyota_calibration_same_car": {
+        "false_alerts_per_hour": 0.29,
+        "strict_detection_with_rules": {
+          "coolant_overheat": 1.0,
+          "voltage_drop": 1.0,
+          "flatline": 0.47,
+          "spike_noise": 0.364
+        }
+      }
+    },
+    {
+      "noise_up_to": 2.0,
+      "dev_hours": 307.3,
+      "pooled_false_alerts_per_hour": 2.73,
+      "median_car_false_alerts_per_hour": 1.65,
+      "strict_detection_with_consistency": {
+        "flatline": 0.059,
+        "step_jump": 0.087,
+        "spike_noise": 0.997
+      },
+      "toyota_calibration_same_car": {
+        "false_alerts_per_hour": 0.29,
+        "strict_detection_with_rules": {
+          "coolant_overheat": 1.0,
+          "voltage_drop": 1.0,
+          "flatline": 0.47,
+          "spike_noise": 0.318
+        }
+      }
+    },
+    {
+      "noise_up_to": 3.0,
+      "dev_hours": 307.3,
+      "pooled_false_alerts_per_hour": 1.37,
+      "median_car_false_alerts_per_hour": 0.0,
+      "strict_detection_with_consistency": {
+        "flatline": 0.052,
+        "step_jump": 0.081,
+        "spike_noise": 0.996
+      },
+      "toyota_calibration_same_car": {
+        "false_alerts_per_hour": 0.29,
+        "strict_detection_with_rules": {
+          "coolant_overheat": 1.0,
+          "voltage_drop": 1.0,
+          "flatline": 0.47,
+          "spike_noise": 0.318
+        }
+      }
+    },
+    {
+      "noise_up_to": 5.0,
+      "dev_hours": 307.3,
+      "pooled_false_alerts_per_hour": 1.34,
+      "median_car_false_alerts_per_hour": 0.0,
+      "strict_detection_with_consistency": {
+        "flatline": 0.052,
+        "step_jump": 0.081,
+        "spike_noise": 0.996
+      },
+      "toyota_calibration_same_car": {
+        "false_alerts_per_hour": 0.29,
+        "strict_detection_with_rules": {
+          "coolant_overheat": 1.0,
+          "voltage_drop": 1.0,
+          "flatline": 0.47,
+          "spike_noise": 0.318
+        }
+      }
+    }
+  ],
+  "dev_cars": 109,
+  "skipped": {
+    "not_ready": 15,
+    "less_than_30_min_after_reference": 8
+  },
+  "rule": ", fixed before running: take the SMALLEST candidate whose pooled false-alert rate on the dev\ncars' later trips is <= 2 per hour (smaller = keeps more sensitivity); if none reaches it, the one\nwith the fewest false alerts. Toyota calibration (same car) is repor",
+  "chosen": 3.0
+}

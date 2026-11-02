@@ -13,7 +13,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -29,6 +28,8 @@ TOYOTA_MIRROR = RAW / "willkn_odb2" / "obdiidata"
 DIESEL_DIR = RAW / "AbouAbdallah-Lounis_OBD-Dataset"
 SCANIA_DIR = RAW / "scania_aps"
 KIT_DIR = RAW / "kit_obd"
+VED_DIR = RAW / "ved"
+APM_DIR = RAW / "apmonitor"
 
 
 def git_commit(path: Path) -> str | None:
@@ -180,6 +181,59 @@ def audit_kit() -> dict:
     return {**base, "obtained": True, "files": files, "inventory": file_inventory(csvs)}
 
 
+def audit_ved() -> dict:
+    """VED: inventory of the archives + static tables; per-vehicle numbers come from the
+    1 Hz per-vehicle files written by experiments/prepare_ved.py (run that first)."""
+    if not (VED_DIR / "VED_Static_Data_ICE_HEV.xlsx").exists():
+        return {"dataset_id": "ved", "obtained": False}
+    res = {"dataset_id": "ved", "obtained": True, "source_url": "https://github.com/gsoh/VED",
+           "inventory": file_inventory([p for p in VED_DIR.iterdir() if p.is_file()])}
+    weeks = sorted((VED_DIR / "extracted").glob("VED_*_week.csv"))
+    res["weekly_csv_files"] = len(weeks)
+    res["weekly_csv_bytes"] = sum(p.stat().st_size for p in weeks)
+    if weeks:
+        res["columns"] = list(pd.read_csv(weeks[0], nrows=0).columns)
+    static = pd.concat([pd.read_excel(p) for p in VED_DIR.glob("VED_Static_Data_*.xlsx")], ignore_index=True)
+    res["vehicles_in_static_tables"] = int(len(static))
+    vt = static["Vehicle Type"].fillna(static.get("EngineType")) if "EngineType" in static else static["Vehicle Type"]
+    res["vehicle_types"] = vt.astype(str).str.strip().value_counts().to_dict()
+    idx = VED_DIR / "by_vehicle" / "index.json"
+    if idx.exists():
+        ix = json.loads(idx.read_text(encoding="utf-8"))
+        res["vehicles_with_dynamic_data"] = len(ix)
+        res["trips"] = sum(v["trips"] for v in ix.values())
+        res["hours_1hz"] = round(sum(v["hours"] for v in ix.values()), 1)
+        by = {}
+        for v in ix.values():
+            b = by.setdefault(v.get("type", "unknown"), {"vehicles": 0, "trips": 0, "hours": 0.0})
+            b["vehicles"] += 1
+            b["trips"] += v["trips"]
+            b["hours"] = round(b["hours"] + v["hours"], 2)
+        res["by_type"] = by
+        res["vehicles_with_rpm"] = sum(1 for v in ix.values() if v["trips_with_rpm"])
+    res["no_coolant_voltage_throttle_map"] = True
+    res["time_column"] = "Timestamp(ms) relative to trip start; DayNum = days since 2017-11-01 (fractional)"
+    return res
+
+
+def audit_apmonitor() -> dict:
+    files = {"auto_warmup.txt": "ford", "automotive.txt": "ford", "auto_trip/auto_trip.csv": "ford",
+             "auto_iowa.txt": "chrysler"}
+    if not (APM_DIR / "auto_iowa.txt").exists():
+        return {"dataset_id": "apmonitor_automotive", "obtained": False}
+    res = {"dataset_id": "apmonitor_automotive", "obtained": True,
+           "source_url": "https://apmonitor.com/pds/index.php/Main/AutomotiveMonitoring",
+           "inventory": file_inventory([APM_DIR / f for f in files] + [APM_DIR / "auto_trip.zip"]), "files": {}}
+    for f, car in files.items():
+        s = RecordedFileSource(APM_DIR / f).read_session()
+        d = s.data
+        cover = {c: round(float(d[c].notna().mean()), 3) for c in s.signals}
+        res["files"][f] = {"car": car, "mapping_id": s.meta.mapping_id, "rows": int(len(d)),
+                           "duration_s": round(s.duration_s, 1), "signals": s.signals, "row_coverage": cover,
+                           "max": {c: round(float(d[c].max()), 1) for c in s.signals}}
+    return res
+
+
 STATIC = {
     "toyota_carobd": {
         "name": "carOBD (Toyota Etios 2014)", "provider": "GitHub user eron93br (master-thesis dataset)",
@@ -201,6 +255,26 @@ STATIC = {
         "decision": "RESTRICTED USE",
         "uses": ["import/mapping test of unit-inferred XLSX", "replay with synthetic playback clock",
                  "optional leave-one-signature-out experiment only - no fault-classifier enabled in app"],
+    },
+    "ved": {
+        "name": "Vehicle Energy Dataset (VED)", "provider": "G. Oh, D. J. LeBlanc, H. Peng (University of Michigan)",
+        "citation": "G. Oh, D. J. LeBlanc, H. Peng. Vehicle Energy Dataset (VED), A Large-scale Dataset for Vehicle "
+                    "Energy Consumption Research. IEEE T-ITS, 2020. doi:10.1109/TITS.2020.3035596",
+        "license": "Apache License 2.0 (LICENSE file in the repository)",
+        "ground_truth": "none (no fault labels); vehicle type / class / engine from the static tables",
+        "decision": "ACCEPT (cross-car validation only)",
+        "uses": ["cross-car validation of the drivetrain model and 'learn your car' (RPM + speed only)",
+                 "consistency-check behaviour on ICE / HEV / PHEV / EV"],
+    },
+    "apmonitor_automotive": {
+        "name": "APMonitor Automotive Monitoring (2014 Ford Focus, 2021 Chrysler Pacifica)",
+        "provider": "APMonitor / BYU PRISM course material (J. Hedengren)",
+        "citation": "APMonitor, Automotive Monitoring, https://apmonitor.com/pds/index.php/Main/AutomotiveMonitoring",
+        "license": "No license stated on the page: used locally for evaluation only, NOT bundled or redistributed.",
+        "ground_truth": "none; the long Ford file contains real glitch values (e.g. RPM 11,596, coolant 190 C)",
+        "decision": "RESTRICTED USE (local evaluation only)",
+        "uses": ["cross-car validation (full + drivetrain models)", "real sensor glitches vs the consistency check",
+                 "import tests for Car Scanner / OBD Fusion style logs"],
     },
     "scania_aps": {
         "name": "APS Failure at Scania Trucks", "provider": "Scania CV AB via UCI ML Repository",
@@ -227,7 +301,8 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     today = dt.date.today().isoformat()
     results = {"toyota_carobd": audit_toyota(), "dieselobd": audit_diesel(),
-               "scania_aps": audit_scania(), "kit_obd": audit_kit()}
+               "scania_aps": audit_scania(), "kit_obd": audit_kit(), "ved": audit_ved(),
+               "apmonitor_automotive": audit_apmonitor()}
     for k, v in results.items():
         (OUT / f"{k}.json").write_text(json.dumps(v, indent=2, default=str), encoding="utf-8")
     manifest = {"generated": today, "generator": "experiments/audit_datasets.py", "datasets": []}
@@ -257,6 +332,14 @@ def main() -> None:
     if s.get("obtained"):
         print(f"scania: train={s['train']['class_counts']} test={s['test']['class_counts']}")
     print(f"kit: obtained={results['kit_obd']['obtained']}")
+    v = results["ved"]
+    if v.get("obtained"):
+        print(f"ved: {v.get('vehicles_with_dynamic_data')} vehicles, {v.get('trips')} trips, {v.get('hours_1hz')} h, "
+              f"types={v.get('by_type')}")
+    a = results["apmonitor_automotive"]
+    if a.get("obtained"):
+        for f, x in a["files"].items():
+            print(f"apmonitor {f}: {x['car']} {x['duration_s']} s, {len(x['signals'])} signals")
     print(f"wrote {OUT} and datasets/datasets_manifest.json")
 
 

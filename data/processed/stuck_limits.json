@@ -1,0 +1,28 @@
+{
+  "rpm": {
+    "toyota_train_calibration": {
+      "runs": 7,
+      "max_s": 6,
+      "q99.99_s": 5.9994
+    },
+    "ved_dev_ice": {
+      "runs": 135587,
+      "max_s": 105,
+      "q99.99_s": 8.0
+    },
+    "limit_s": 132
+  },
+  "speed_kmh": {
+    "toyota_train_calibration": {
+      "runs": 182,
+      "max_s": 15,
+      "q99.99_s": 14.945699999999988
+    },
+    "ved_dev_ice": {
+      "runs": 131545,
+      "max_s": 97,
+      "q99.99_s": 27.0
+    },
+    "limit_s": 122
+  }
+}

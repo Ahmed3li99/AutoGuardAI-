@@ -1,0 +1,20 @@
+{
+  "mapping_id": "apmonitor_chrysler_v1",
+  "dataset_id": "apmonitor_chrysler",
+  "description": "APMonitor Automotive Monitoring data, 2021 Chrysler Pacifica, Des Moines to Pella (Iowa), ~1 Hz with 'Time (sec)' as recorded relative time. Header names start with a space (stripped on import). Imperial units converted (degF, mph, inHg, lb/min). Voltage is the voltage measured by the scan tool, close to but not identical with the control-module voltage PID.",
+  "detect_columns": ["Time (sec)", "Engine RPM (RPM)", "Vehicle speed (MPH)"],
+  "time": {"column": "Time (sec)", "basis": "relative_recorded", "unit": "s"},
+  "columns": {
+    "Engine RPM (RPM)": {"to": "rpm", "unit": "rpm"},
+    "Vehicle speed (MPH)": {"to": "speed_kmh", "unit": "mph"},
+    "Engine coolant temperature (°F)": {"to": "coolant_temp_c", "unit": "degF"},
+    "Calculated load value (%)": {"to": "engine_load_pct", "unit": "%"},
+    "Absolute throttle position (%)": {"to": "throttle_pct", "unit": "%"},
+    "Intake air temperature (°F)": {"to": "intake_air_temp_c", "unit": "degF"},
+    "Intake manifold absolute pressure (inHg)": {"to": "manifold_pressure_kpa", "unit": "inHg"},
+    "Input voltage read by the scan tool (V)": {"to": "battery_voltage", "unit": "V"},
+    "Mass air flow rate (lb/min)": {"to": "mass_air_flow_g_per_s", "unit": "lb/min"},
+    "Latitude (deg)": {"to": "latitude", "unit": "deg"},
+    "Longitude (deg)": {"to": "longitude", "unit": "deg"}
+  }
+}

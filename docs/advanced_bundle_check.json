@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "verified_modules": [
+    "ai.federated_transport",
+    "ai.active_diagnosis",
+    "ai.advanced_service",
+    "ai.graph_network",
+    "ai.federation",
+    "ai.multimodal",
+    "ai.probabilistic",
+    "ai.telemetry_learning",
+    "ai.scenarios",
+    "ai.consistency",
+    "ai.pipeline",
+    "app.state",
+    "app.main_window",
+    "app.pages.advanced_dialog",
+    "app.pages.live_dialog",
+    "app.pages.results_page",
+    "database.repositories",
+    "core.data_sources.obd_optional"
+  ],
+  "model_sha256": {
+    "graph.npz": "de7fccd463e946127268fcb7eb9ba2766cfd2d7ce37740d7a4294d41a88cd512",
+    "forecast.npz": "718d15307dabcbbedf97471d5b1bbc8238a17dc1ff33d7eaf3ebe79d18bd44dc",
+    "drivetrain/graph.npz": "9c02be59bc8bd2afe2b5458778bf07cf0ff9c2600b5412422060910ddcacb6fe",
+    "drivetrain/forecast.npz": "91047f12b4b5c3aedc2b69313ebaf95fb0a774affbfe63bb19b750b2259a7bc7"
+  }
+}
