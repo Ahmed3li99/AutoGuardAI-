@@ -10,6 +10,37 @@ do. It runs fully offline, and all data stays on the PC.
 
 **Explaining the project (Arabic, for the defence):** [docs/PROJECT_EXPLAINED_AR.md](docs/PROJECT_EXPLAINED_AR.md)
 
+## Quick start
+
+1. On Windows, install Python 3.11 and clone this repository.
+2. Run the setup script once (internet is required to install dependencies and download model weights):
+
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File setup.ps1
+   ```
+
+   For a CPU-only install, use `setup.ps1 -Cpu`.
+3. Start the app:
+
+   ```powershell
+   .venv\Scripts\python run.py
+   ```
+
+   Or launch the packaged build with `dist\AutoGuardAI\AutoGuardAI.exe`.
+
+The app itself works offline after setup. Try a bundled real sample or the clearly-labelled fault
+demo from the Home screen; no external dataset is needed for normal use.
+
+## Requirements
+
+- Windows 10/11 (the tested environment was Windows 11)
+- Python 3.11 for running from source
+- About 8 GB RAM recommended; the packaged application is large because it includes PyTorch
+- NVIDIA GPU with CUDA 12.6 is recommended for the fastest setup and analysis, but a CPU-only
+  setup is available with `setup.ps1 -Cpu`
+- Internet access is needed once for dependencies and the pinned MOMENT model weights; trips remain
+  local and the application does not require an online service
+
 ## The app (4 screens, Arabic/English, "Black Box" identity)
 
 **Advanced analysis:** Results → Advanced analysis opens sensor-graph analysis, multi-horizon
@@ -31,6 +62,8 @@ Brand and UI: the logo, colours, icons and components are documented in
 [docs/DESIGN.md](docs/DESIGN.md), with the matching Figma file. The same logo is used for the EXE icon,
 the window and the PDF header.
 
+![AutoGuard AI Home screen](docs/screenshots/home_en.png)
+
 ## How a trip is checked (4 methods)
 | Method | Role | Trained here? |
 |---|---|---|
@@ -41,25 +74,30 @@ the window and the PDF header.
 
 Alerts from all methods are merged into **findings** with a confidence level (`ai/explain.py`).
 
-## Key results (executed; see [docs/EVALUATION.md](docs/EVALUATION.md))
-26 held-out trips (8.8 h) of a Toyota Etios, never used for training or threshold setting:
+## Results snapshot
 
-| | rules | sensor consistency | **expected vs actual** | Isolation Forest | MOMENT |
-|---|---|---|---|---|---|
-| false alerts / hour on normal trips | 0 | 0 | **0.57** | 0.80 | 1.37 |
-| injected overheat (synthetic test) | 25/25 | 0/25 | **25/25** | 2/25 | 0/25 |
-| injected voltage drop | 26/26 | 0/26 | **26/26** | 6/26 | 26/26 |
-| injected frozen RPM | 15/26 | 0/26 | **7/26** | 0/26 | 0/26 |
-| injected speed noise | 0/26 | 17/26 | **12/26** | 3/26 | 1/26 |
-| sensor fault: +25 °C step | 22/26 | **26/26** | **26/26** | 3/26 | 0/26 |
-| sensor fault: sensor silent | 0/26 | **26/26** | 0/26 | 0/26 | 0/26 |
+The full methodology, partitions, confidence intervals and detector-by-detector results are in
+[docs/EVALUATION.md](docs/EVALUATION.md). The headline results are:
 
-Injected faults are a software stress test, **not** real-fault accuracy. MOMENT used zero-shot
-reconstructs no better than the mean. Adapting it (fine-tuning 12 epochs) cut that error from 1.37 to
-0.49 but *reduced* detection, so the adapted version is a documented experiment only
-([MODEL_CARD](docs/MODEL_CARD.md)).
+- On 26 held-out Toyota Etios trips (8.8 h), the primary expected-vs-actual model produced
+  **0.57 false alerts/hour** on assumed-normal data.
+- In the synthetic stress test, it detected **25/25 overheat**, **26/26 voltage-drop**, and
+  **26/26 coolant sensor-step** injections. These are software injections, not real-fault accuracy.
+- The consistency checks detected **26/26 sensor-step** and **26/26 silent-sensor** injections while
+  remaining silent on the clean held-out trips.
+- On 132 unseen VED cars, learning each car reduced false alerts from **1.1 to 0.2/hour**; an
+  unlearned car is intentionally kept out of the primary verdict.
 
-## Latest results (2026-11-02, held-out data; see [EVALUATION §H](docs/EVALUATION.md))
+MOMENT is retained as a second opinion. Its zero-shot reconstruction is useful for some voltage
+changes but misses slow drifts and frozen values; the adapted experiment is documented in
+[MODEL_CARD](docs/MODEL_CARD.md), not used in the app.
+
+## Latest results (updated 2026-11-02; see [EVALUATION §H](docs/EVALUATION.md))
+
+The original Toyota benchmark was executed on 2026-10-22/23. Section H contains the later
+multi-car and frozen-sensor evaluation executed on 2026-11-02; dates are kept explicit so results
+from different runs are not mixed.
+
 - **Toyota test trips:** the app catches 100 % of injected overheat, voltage drop, frozen RPM (was 58 %),
   sensor step and silent sensor. Noisy speed: 65 %. False alerts on normal trips: 0 from rules and
   checks, 0.57/h from the model.
